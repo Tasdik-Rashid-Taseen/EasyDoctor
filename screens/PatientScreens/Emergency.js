@@ -1,21 +1,20 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button,Pressable, ScrollView, Modal, } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, ScrollView, Modal, } from 'react-native'
 import Icon from '../Icon'
 import call from 'react-native-phone-call'
-class Emergency extends React.Component{
-    constructor()
-    {   
+class Emergency extends React.Component {
+    constructor() {
         super();
-        this.state={
-            show:false
+        this.state = {
+            show: false
         }
     }
-   
-    render(){
-        function presssedOption(){
+
+    render() {
+        function presssedOption() {
             console.log('Pressed')
-          }
-        function triggerCall(){
+        }
+        function triggerCall() {
             const args = {
                 number: '911',
                 prompt: true,
@@ -30,56 +29,56 @@ class Emergency extends React.Component{
                         <Text style={styles.h1}>What is emergency service</Text>
                         <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id auctor mauris, iscing elit. In consectetur  m ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id ur  m ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. orper. Curabitur id auctor mauris, iscing elit. In consectetur  m ipsum dolor sit amet, consectetur adipis amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. orper. Curabitur id auctor mauris, iscing elit. In consectetur  m ipsum dol</Text>
                     </View>
-                    <Text style={styles.callBtn} onPress={()=>{this.setState({show:true})}}>Call Emergency Service</Text>
+                    <Text style={styles.callBtn} onPress={() => { this.setState({ show: true }) }}>Call Emergency Service</Text>
                 </View>
                 <Modal transparent={true} visible={this.state.show}>
-                    <View style={{backgroundColor:"#000000aa", flex:1}}>
-                        <View style={{backgroundColor:"#ffffff", margin:50, padding:20, borderRadius:10, flex:1}}>
-                             <Text style={styles.service} onPress={triggerCall}>Ambulence</Text>
-                             <Text style={styles.service}  onPress={triggerCall}>Fire Service</Text>
-                             <Text style={styles.service}  onPress={()=>{this.setState({show:false})}}>Close</Text>
-                        </View> 
-                        
+                    <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
+                        <View style={{ backgroundColor: "#ffffff", margin: 50, padding: 20, borderRadius: 10, flex: 1 }}>
+                            <Text style={styles.service} onPress={triggerCall}>Ambulence</Text>
+                            <Text style={styles.service} onPress={triggerCall}>Fire Service</Text>
+                            <Text style={styles.service} onPress={() => { this.setState({ show: false }) }}>Close</Text>
+                        </View>
+
                     </View>
                 </Modal>
                 <Pressable style={styles.footer} onPress={presssedOption}>
 
-        <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="setting" ></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="user" ></Icon>
+                    <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('')}></Icon>
+                    <Icon style={styles.optionIcon} type="ant" name="setting" ></Icon>
+                    <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
+                    <Icon style={styles.optionIcon} type="ant" name="user" ></Icon>
 
-      </Pressable>
+                </Pressable>
             </View>
         )
     }
 
-    
+
 }
 
 export default Emergency
 
 
 const styles = StyleSheet.create({
-    contents:{
-        flex: 1, 
+    contents: {
+        flex: 1,
         justifyContent: 'center',
         // marginVertical: 23,
         // marginHorizontal: 20,
-        height:'100%',
-       
-      },
-    container:{
-        flex: 1, 
+        height: '100%',
+
+    },
+    container: {
+        flex: 1,
         justifyContent: 'center',
         marginVertical: 23,
         marginHorizontal: 30,
     },
     h1: {
-        fontSize: 30, 
-        
+        fontSize: 30,
+
     },
-    callBtn:{
+    callBtn: {
         padding: 30,
         backgroundColor: '#7895B2',
         textAlign: 'center',
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         fontWeight: 'bold'
     },
-    service:{
+    service: {
         padding: 10,
         backgroundColor: '#7895B2',
         textAlign: 'center',
@@ -101,8 +100,8 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         fontSize: 30,
         color: '#7895B2',
-      },
-      footer: {
+    },
+    footer: {
         position: 'absolute',
         // left: '45%',
         bottom: 0,
@@ -114,8 +113,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         padding: 5,
         height: '6%',
-        borderWidth: 2,
-        borderColor: "#AEBDCA",
-      },
+        borderTopColor: "#AEBDCA",
+        borderTopWidth: 2
+    },
 
 })

@@ -18,7 +18,11 @@ const PatientHome = ({ navigation, route }) => {
     <View style={styles.contents}>
       <View style={styles.container}>
         <ScrollView>
-          <TextInput placeholder='Search Doctors' style={styles.textInput} />
+          <View style={styles.searchBoxContainer}>
+            <Icon style={styles.filterIcon} type="ant" name="search1" ></Icon>
+            <TextInput placeholder='Search Doctors' />
+          </View>
+
           <View style={styles.category}>
             <Text style={styles.title}>Category</Text>
             <Pressable onPress={presssedCategory}>
@@ -157,12 +161,12 @@ const PatientHome = ({ navigation, route }) => {
       </View>
       <Pressable style={styles.footer} onPress={presssedOption}>
 
-<Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('')}></Icon>
-<Icon style={styles.optionIcon} type="ant" name="setting" ></Icon>
-<Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
-<Icon style={styles.optionIcon} type="ant" name="user" ></Icon>
+        <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('')}></Icon>
+        <Icon style={styles.optionIcon} type="ant" name="setting" ></Icon>
+        <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
+        <Icon style={styles.optionIcon} type="ant" name="user" ></Icon>
 
-</Pressable>
+      </Pressable>
     </View>
 
 
@@ -193,7 +197,15 @@ const styles = StyleSheet.create({
     fontSize: 30,
 
   },
-  textInput: {
+  filterIcon: {
+    marginRight: 5,
+    fontSize: 20,
+    color: '#7895B2',
+    alignSelf: 'center'
+  },
+  searchBoxContainer: {
+    flexDirection: 'row',
+    alignSelf: 'center',
     borderWidth: 2,
     borderColor: "#AEBDCA",
     width: "100%",
@@ -201,6 +213,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     marginVertical: 8,
   },
+
   title: {
     fontSize: 20
   },
@@ -211,17 +224,20 @@ const styles = StyleSheet.create({
   listCategories: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginVertical: 12,
+    // marginVertical: 20,
+    // marginBottom: 20,
     width: '100%',
-    // backgroundColor: "red",
+    paddingVertical: 15,
     justifyContent: 'space-around',
+    borderBottomColor: '#AEBDCA',
+    borderBottomWidth: 1
   },
   listCategory: {
     backgroundColor: '#F5EFE6',
     // marginHorizontal: 5,
     marginVertical: 10,
     width: '45%',
-    height: '25%',
+    height: 40,
     textAlign: 'center',
     // padding: 5,
     paddingHorizontal: 10,
@@ -258,7 +274,7 @@ const styles = StyleSheet.create({
   },
   docInfo: {
     textAlign: 'left',
-    margin: 5
+    padding: 5
   },
   textBold: {
     fontWeight
@@ -280,7 +296,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     padding: 5,
     height: '6%',
-    borderWidth: 2,
-    borderColor: "#AEBDCA",
+    borderTopColor: "#AEBDCA",
+    borderTopWidth: 2
   },
 })

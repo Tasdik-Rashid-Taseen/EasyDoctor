@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     padding: 5,
     height: '6%',
-    borderWidth: 2,
-    borderColor: "#AEBDCA",
+    borderTopColor: "#AEBDCA",
+    borderTopWidth: 2
   },
 })

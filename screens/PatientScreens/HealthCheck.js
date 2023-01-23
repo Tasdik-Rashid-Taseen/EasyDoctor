@@ -16,7 +16,10 @@ const HealthCheck = ({ navigation, route }) => {
           <TextInput placeholder='Temparature' style={styles.textInput} />
         </View>
 
-        <Button title='Show Result' color={"#7895B2"} />
+        <TouchableOpacity style={styles.buttonBoxContainer} onPress={() => navigation.navigate('')}>
+          <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
+          <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
+        </TouchableOpacity>
       </View>
       <Pressable style={styles.footer} onPress={presssedOption}>
 
@@ -66,6 +69,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'white'
   },
+  buttonBoxContainer: {
+    backgroundColor: '#7895B2',
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: "#AEBDCA",
+    width: "100%",
+    padding: 6,
+    paddingLeft: 16,
+    marginVertical: 8,
+    justifyContent: 'center',
+    alignSelf: 'center'
+  },
   optionIcon: {
     marginLeft: 5,
     fontSize: 30,
@@ -83,8 +99,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     padding: 5,
     height: '6%',
-    borderWidth: 2,
-    borderColor: "#AEBDCA",
+    borderTopColor: "#AEBDCA",
+    borderTopWidth: 2
   },
 
 

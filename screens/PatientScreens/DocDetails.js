@@ -15,10 +15,10 @@ const DocDetails = ({ navigation, route }) => {
             <View style={styles.container}>
                 <ScrollView>
                     <Image style={styles.docImageB} source={require('../images/doctors/doc4.jpg')}></Image>
-                    <View style={styles.docInfo}>
+                    <View style={styles.docBio}>
                         <Text style={{ textAlign: 'center', fontSize: 25 }}>Fazle Rabbi Tuhin</Text>
                         <Text style={{ textAlign: 'center', fontSize: 16, color: '#827D7D' }}>Medicine & Cardiology</Text>
-                        <Text style={{ textAlign: 'center', fontSize: 16, color: '#827D7D' }}>Sylhet Medical College</Text>
+                        <Text style={{ textAlign: 'center', fontSize: 16, color: '#827D7D', marginBottom: 5 }}>Sylhet Medical College</Text>
                     </View>
                     <View style={styles.docAbout}>
                         <Text style={styles.title}>About</Text>
@@ -197,22 +197,35 @@ const styles = StyleSheet.create({
         height: 200,
         padding: 5,
         alignSelf: 'center',
-        marginVertical: 15
+        marginVertical: 15,
+
+    },
+    docBio: {
+        margin: 5,
+        alignSelf: 'center',
+        borderTopColor: '#AEBDCA',
+        borderTopWidth: 1,
+        borderBottomColor: '#AEBDCA',
+        borderBottomWidth: 1,
+        width: '100%',
+        padding: 5,
+        // backgroundColor: 'red'
     },
     docInfo: {
-        margin: 5,
-        alignSelf: 'center'
+        textAlign: 'left',
+        padding: 5,
     },
     docAbout: {
         marginTop: 10,
-        marginBottom: 30
+        marginBottom: 30,
+
     },
     optionIcon: {
         marginLeft: 5,
         fontSize: 30,
         color: '#7895B2',
-      },
-      footer: {
+    },
+    footer: {
         position: 'absolute',
         // left: '45%',
         bottom: 0,
@@ -224,8 +237,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         padding: 5,
         height: '6%',
-        borderWidth: 2,
-        borderColor: "#AEBDCA",
-      },
+        borderTopColor: "#AEBDCA",
+        borderTopWidth: 2
+    },
 
 })
