@@ -23,7 +23,7 @@ const HealthCheck = ({ navigation, route }) => {
       </View>
       <Pressable style={styles.footer} onPress={presssedOption}>
 
-        <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('')}></Icon>
+        <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
         <Icon style={styles.optionIcon} type="ant" name="setting" ></Icon>
         <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
         <Icon style={styles.optionIcon} type="ant" name="user" ></Icon>

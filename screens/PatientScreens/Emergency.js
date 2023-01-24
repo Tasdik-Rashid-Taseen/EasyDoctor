@@ -36,14 +36,14 @@ class Emergency extends React.Component {
                         <View style={{ backgroundColor: "#ffffff", margin: 50, padding: 20, borderRadius: 10, flex: 1 }}>
                             <Text style={styles.service} onPress={triggerCall}>Ambulence</Text>
                             <Text style={styles.service} onPress={triggerCall}>Fire Service</Text>
-                            <Text style={styles.service} onPress={() => { this.setState({ show: false }) }}>Close</Text>
+                            <Text style={styles.close} onPress={() => { this.setState({ show: false }) }}>Close</Text>
                         </View>
 
                     </View>
                 </Modal>
                 <Pressable style={styles.footer} onPress={presssedOption}>
-
-                    <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('')}></Icon>
+                    {/* Fix the navigation funciton not working */}
+                    <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
                     <Icon style={styles.optionIcon} type="ant" name="setting" ></Icon>
                     <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
                     <Icon style={styles.optionIcon} type="ant" name="user" ></Icon>
@@ -94,7 +94,20 @@ const styles = StyleSheet.create({
         color: 'white',
         alignSelf: 'center',
         marginTop: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold', 
+        width: "80%", 
+        height: "7%", 
+    },
+    close:{
+        padding: 10,
+        backgroundColor: 'red',
+        textAlign: 'center',
+        color: 'white',
+        alignSelf: 'center',
+        marginTop: 20,
+        fontWeight: 'bold', 
+        width: "80%", 
+        height: "7%",
     },
     optionIcon: {
         marginLeft: 5,

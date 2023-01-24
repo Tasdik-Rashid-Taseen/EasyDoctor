@@ -9,52 +9,6 @@ const Reminder = ({ navigation, route }) => {
         <View style={styles.contents}>
             <View style={styles.container}>
                 <ScrollView>
-                    <Text style={styles.h2}>Appointments</Text>
-                    <View style={styles.reminders}>
-                        <View style={styles.reminder}>
-                            <Text style={styles.h3}>Fazle Rabbi Tuhin</Text>
-                            <View style={styles.date_time}>
-                                <Text style={styles.date}>17-11-22</Text>
-                                <Text style={styles.time}>12:00 PM</Text>
-                            </View>
-                            <Text style={styles.place}>Sylhet Medical College</Text>
-                        </View>
-                        <View style={styles.opts}>
-                            <Icon style={styles.cancelButton} type="ant" name="closecircle" ></Icon>
-                            <Icon style={styles.editlButton} type="ant" name="edit" ></Icon>
-                        </View>
-                    </View>
-
-                    <View style={styles.reminders}>
-                        <View style={styles.reminder}>
-                            <Text style={styles.h3}>Fazle Rabbi Tuhin</Text>
-                            <View style={styles.date_time}>
-                                <Text style={styles.date}>17-11-22</Text>
-                                <Text style={styles.time}>12:00 PM</Text>
-                            </View>
-                            <Text style={styles.place}>Sylhet Medical College</Text>
-                        </View>
-                        <View style={styles.opts}>
-                            <Icon style={styles.cancelButton} type="ant" name="closecircle" ></Icon>
-                            <Icon style={styles.editlButton} type="ant" name="edit" ></Icon>
-                        </View>
-                    </View>
-
-                    <View style={styles.reminders}>
-                        <View style={styles.reminder}>
-                            <Text style={styles.h3}>Fazle Rabbi Tuhin</Text>
-                            <View style={styles.date_time}>
-                                <Text style={styles.date}>17-11-22</Text>
-                                <Text style={styles.time}>12:00 PM</Text>
-                            </View>
-                            <Text style={styles.place}>Sylhet Medical College</Text>
-                        </View>
-                        <View style={styles.opts}>
-                            <Icon style={styles.cancelButton} type="ant" name="closecircle" ></Icon>
-                            <Icon style={styles.editlButton} type="ant" name="edit" ></Icon>
-                        </View>
-                    </View>
-
                     <View style={styles.drinkWater}>
                         <Text style={styles.h2}>Drink Water</Text>
                         <View style={styles.hours}>
@@ -83,7 +37,7 @@ const Reminder = ({ navigation, route }) => {
             </View>
             <Pressable style={styles.footer} onPress={presssedOption}>
 
-                <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('')}></Icon>
+                <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
                 <Icon style={styles.optionIcon} type="ant" name="setting" ></Icon>
                 <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
                 <Icon style={styles.optionIcon} type="ant" name="user" ></Icon>
@@ -122,67 +76,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: 'bold',
     },
-    reminder: {
-        // backgroundColor: 'green',
-        width: '70%'
-    },
-    opts: {
-        // backgroundColor: 'red'
-    },
-    cancelButton: {
-        marginBottom: 20,
-        fontSize: 20,
-        color: 'red'
-    },
-    editlButton: {
-        // margin: 5,
-        fontSize: 20,
-        color: 'orange'
-    },
-    reminders: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        marginVertical: 12,
-        width: '100%',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: "#AEBDCA",
-        paddingVertical: 6
-    },
-    date_time: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        marginVertical: 5
-    },
-    date: {
-        marginRight: 8,
-        color: '#827D7D',
-        fontWeight: 'bold',
-    },
-    time: {
-        color: '#827D7D',
-        fontWeight: 'bold',
-    },
-    place: {
-        color: '#827D7D',
-        fontWeight: 'bold',
-    },
-    opt: {
-        textAlign: 'right'
-    },
-    cancel: {
-        textAlign: 'right',
-        color: 'red',
-        fontWeight: 'bold',
-        fontSize: 15
-    },
-    edit: {
-        textAlign: 'right',
-        color: 'orange',
-        fontWeight: 'bold',
-        fontSize: 15
-    },
+    
     hours: {
         flexDirection: 'row',
         flexWrap: 'wrap',

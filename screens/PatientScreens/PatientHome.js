@@ -28,7 +28,7 @@ const PatientHome = ({ navigation, route }) => {
             <Pressable onPress={presssedCategory}>
               <View style={styles.listCategories}>
                 <Text style={styles.listCategory} onPress={() => navigation.navigate('DoctorsList')}>Doctors List</Text>
-                <Text style={styles.listCategory} onPress={() => navigation.navigate('BookApp')}>Book Appointment</Text>
+                <Text style={styles.listCategory} onPress={() => navigation.navigate('DoctorsList')}>Make Appointment</Text>
                 <Text style={styles.listCategory} onPress={() => navigation.navigate('HealthCheck')}>Health Checkup</Text>
                 <Text style={styles.listCategory} onPress={() => navigation.navigate('Reminder')}>Reminder</Text>
                 <Text style={styles.listCategory} onPress={() => navigation.navigate('HealthTips')}>Health Tips</Text>
@@ -37,125 +37,51 @@ const PatientHome = ({ navigation, route }) => {
             </Pressable>
 
           </View>
-          <View style={styles.doctor}>
-            <Text style={styles.title}>Suggested Doctors</Text>
-            <Pressable style={styles.listDoctors} onPress={pressedDoctor}>
-              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
-                <Image style={styles.docImageS} source={require('../images/doctors/doc1.jpg')}></Image>
-                <View style={styles.docInfo}>
-                  <Text style={styles.textBold}>Fazle Rabbi Tuhin</Text>
-                  <Text style={styles.textThin}>Medicine & Cardiology</Text>
-                  <Text>Ratings: 5</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
-                <Image style={styles.docImageS} source={require('../images/doctors/doc2.jpg')}></Image>
-                <View style={styles.docInfo}>
-                  <Text style={styles.textBold}>Fazle Rabbi Tuhin</Text>
-                  <Text style={styles.textThin}>Medicine & Cardiology</Text>
-                  <Text>Ratings: 5</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
-                <Image style={styles.docImageS} source={require('../images/doctors/doc3.jpg')}></Image>
-                <View style={styles.docInfo}>
-                  <Text style={styles.textBold}>Fazle Rabbi Tuhin</Text>
-                  <Text style={styles.textThin}>Medicine & Cardiology</Text>
-                  <Text>Ratings: 5</Text>
-                </View>
-              </TouchableOpacity>
+          <Text style={styles.title}>Appointments</Text>
+                    <View style={styles.reminders}>
+                        <View style={styles.reminder}>
+                            <Text style={styles.h3}>Fazle Rabbi Tuhin</Text>
+                            <View style={styles.date_time}>
+                                <Text style={styles.date}>17-11-22</Text>
+                                <Text style={styles.time}>12:00 PM</Text>
+                            </View>
+                            <Text style={styles.place}>Sylhet Medical College</Text>
+                        </View>
+                        <View style={styles.opts}>
+                            <Icon style={styles.cancelButton} type="ant" name="closecircle" ></Icon>
+                            <Icon style={styles.editlButton} type="ant" name="edit" ></Icon>
+                        </View>
+                    </View>
 
-              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
-                <Image style={styles.docImageS} source={require('../images/doctors/doc4.jpg')}></Image>
-                <View style={styles.docInfo}>
-                  <Text style={styles.textBold}>Fazle Rabbi Tuhin</Text>
-                  <Text style={styles.textThin}>Medicine & Cardiology</Text>
-                  <Text>Ratings: 5</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
-                <Image style={styles.docImageS} source={require('../images/doctors/doc5.jpg')}></Image>
-                <View style={styles.docInfo}>
-                  <Text style={styles.textBold}>Fazle Rabbi Tuhin</Text>
-                  <Text style={styles.textThin}>Medicine & Cardiology</Text>
-                  <Text>Ratings: 5</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
-                <Image style={styles.docImageS} source={require('../images/doctors/doc6.jpg')}></Image>
-                <View style={styles.docInfo}>
-                  <Text style={styles.textBold}>Fazle Rabbi Tuhin</Text>
-                  <Text style={styles.textThin}>Medicine & Cardiology</Text>
-                  <Text>Ratings: 4.9</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
-                <Image style={styles.docImageS} source={require('../images/doctors/doc7.jpg')}></Image>
-                <View style={styles.docInfo}>
-                  <Text style={styles.textBold}>Fazle Rabbi Tuhin</Text>
-                  <Text style={styles.textThin}>Medicine & Cardiology</Text>
-                  <Text>Ratings: 4.9</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
-                <Image style={styles.docImageS} source={require('../images/doctors/doc8.jpg')}></Image>
-                <View style={styles.docInfo}>
-                  <Text style={styles.textBold}>Fazle Rabbi Tuhin</Text>
-                  <Text style={styles.textThin}>Medicine & Cardiology</Text>
-                  <Text>Ratings: 4.8</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
-                <Image style={styles.docImageS} source={require('../images/doctors/doc9.jpg')}></Image>
-                <View style={styles.docInfo}>
-                  <Text style={styles.textBold}>Fazle Rabbi Tuhin</Text>
-                  <Text style={styles.textThin}>Medicine & Cardiology</Text>
-                  <Text>Ratings: 4.8</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
-                <Image style={styles.docImageS} source={require('../images/doctors/doc10.jpg')}></Image>
-                <View style={styles.docInfo}>
-                  <Text style={styles.textBold}>Fazle Rabbi Tuhin</Text>
-                  <Text style={styles.textThin}>Medicine & Cardiology</Text>
-                  <Text>Ratings: 4.8</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
-                <Image style={styles.docImageS} source={require('../images/doctors/doc11.jpg')}></Image>
-                <View style={styles.docInfo}>
-                  <Text style={styles.textBold}>Fazle Rabbi Tuhin</Text>
-                  <Text style={styles.textThin}>Medicine & Cardiology</Text>
-                  <Text>Ratings: 4.8</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
-                <Image style={styles.docImageS} source={require('../images/doctors/doc12.jpg')}></Image>
-                <View style={styles.docInfo}>
-                  <Text style={styles.textBold}>Fazle Rabbi Tuhin</Text>
-                  <Text style={styles.textThin}>Medicine & Cardiology</Text>
-                  <Text>Ratings: 4.7</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
-                <Image style={styles.docImageS} source={require('../images/doctors/doc13.jpg')}></Image>
-                <View style={styles.docInfo}>
-                  <Text style={styles.textBold}>Fazle Rabbi Tuhin</Text>
-                  <Text style={styles.textThin}>Medicine & Cardiology</Text>
-                  <Text>Ratings: 4.7</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
-                <Image style={styles.docImageS} source={require('../images/doctors/doc14.jpg')}></Image>
-                <View style={styles.docInfo}>
-                  <Text style={styles.textBold}>Fazle Rabbi Tuhin</Text>
-                  <Text style={styles.textThin}>Medicine & Cardiology</Text>
-                  <Text>Ratings: 4.7</Text>
-                </View>
-              </TouchableOpacity>
+                    <View style={styles.reminders}>
+                        <View style={styles.reminder}>
+                            <Text style={styles.h3}>Fazle Rabbi Tuhin</Text>
+                            <View style={styles.date_time}>
+                                <Text style={styles.date}>17-11-22</Text>
+                                <Text style={styles.time}>12:00 PM</Text>
+                            </View>
+                            <Text style={styles.place}>Sylhet Medical College</Text>
+                        </View>
+                        <View style={styles.opts}>
+                            <Icon style={styles.cancelButton} type="ant" name="closecircle" ></Icon>
+                            <Icon style={styles.editlButton} type="ant" name="edit" ></Icon>
+                        </View>
+                    </View>
 
-            </Pressable>
-          </View>
+                    <View style={styles.reminders}>
+                        <View style={styles.reminder}>
+                            <Text style={styles.h3}>Fazle Rabbi Tuhin</Text>
+                            <View style={styles.date_time}>
+                                <Text style={styles.date}>17-11-22</Text>
+                                <Text style={styles.time}>12:00 PM</Text>
+                            </View>
+                            <Text style={styles.place}>Sylhet Medical College</Text>
+                        </View>
+                        <View style={styles.opts}>
+                            <Icon style={styles.cancelButton} type="ant" name="closecircle" ></Icon>
+                            <Icon style={styles.editlButton} type="ant" name="edit" ></Icon>
+                        </View>
+                    </View>
         </ScrollView>
 
       </View>
@@ -197,6 +123,14 @@ const styles = StyleSheet.create({
     fontSize: 30,
 
   },
+  h2: {
+    fontSize: 20,
+    fontWeight: 'bold',
+},
+h3: {
+    fontSize: 17,
+    fontWeight: 'bold',
+},
   filterIcon: {
     marginRight: 5,
     fontSize: 20,
@@ -244,38 +178,70 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
 
   },
-  doctor: {
-    flex: 1,
 
-  },
-  listDoctors: {
+  reminder: {
+    // backgroundColor: 'green',
+    width: '70%'
+},
+opts: {
+    // backgroundColor: 'red'
+},
+reminders: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginVertical: 12,
     width: '100%',
-    // backgroundColor: "red",
-    justifyContent: 'space-around'
-  },
-  listDoctor: {
-    backgroundColor: 'white',
-    marginHorizontal: 0,
-    marginVertical: 10,
-    width: '48%',
-    height: 220,
+    justifyContent: 'space-around',
+    alignItems: 'center',
     borderWidth: 1,
-    borderColor: "#F2F2F2",
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  docImageS: {
-    width: 130,
-    height: 130,
-    padding: 5,
-  },
-  docInfo: {
-    textAlign: 'left',
-    padding: 5
-  },
+    borderColor: "#AEBDCA",
+    paddingVertical: 6
+},
+cancelButton: {
+    marginBottom: 20,
+    fontSize: 20,
+    color: 'red'
+},
+editlButton: {
+    // margin: 5,
+    fontSize: 20,
+    color: 'orange'
+},
+
+date_time: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginVertical: 5
+},
+date: {
+    marginRight: 8,
+    color: '#827D7D',
+    fontWeight: 'bold',
+},
+time: {
+    color: '#827D7D',
+    fontWeight: 'bold',
+},
+place: {
+    color: '#827D7D',
+    fontWeight: 'bold',
+},
+opt: {
+    textAlign: 'right'
+},
+cancel: {
+    textAlign: 'right',
+    color: 'red',
+    fontWeight: 'bold',
+    fontSize: 15
+},
+edit: {
+    textAlign: 'right',
+    color: 'orange',
+    fontWeight: 'bold',
+    fontSize: 15
+},
+  
   textBold: {
     fontWeight
   },

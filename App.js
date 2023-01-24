@@ -44,7 +44,7 @@ import PatientSignUp from './screens/PatientScreens/PatientSignUp';
 import SignIn from './screens/CommonScreens/SignIn';
 import PatientHome from './screens/PatientScreens/PatientHome';
 import DoctorsList from './screens/PatientScreens/DoctorsList';
-import BookApp from './screens/PatientScreens/BookApp';
+import MakeApp from './screens/PatientScreens/MakeApp';
 import HealthCheck from './screens/PatientScreens/HealthCheck';
 import Reminder from './screens/PatientScreens/Reminder';
 import HealthTips from './screens/PatientScreens/HealthTips';
@@ -104,8 +104,8 @@ const App = () => {
               backgroundColor: '#7895B2',
             }, headerTintColor: '#fff'
           }} />
-          <Stack.Screen name="BookApp" component={BookApp} options={{
-            title: 'Book Appointment', headerTitleAlign: 'center', headerStyle: {
+          <Stack.Screen name="MakeApp" component={MakeApp} options={{
+            title: 'Make Appointment', headerTitleAlign: 'center', headerStyle: {
               backgroundColor: '#7895B2',
             }, headerTintColor: '#fff'
           }} />

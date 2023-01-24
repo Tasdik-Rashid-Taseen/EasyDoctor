@@ -19,6 +19,10 @@ const DocDetails = ({ navigation, route }) => {
                         <Text style={{ textAlign: 'center', fontSize: 25 }}>Fazle Rabbi Tuhin</Text>
                         <Text style={{ textAlign: 'center', fontSize: 16, color: '#827D7D' }}>Medicine & Cardiology</Text>
                         <Text style={{ textAlign: 'center', fontSize: 16, color: '#827D7D', marginBottom: 5 }}>Sylhet Medical College</Text>
+                        <TouchableOpacity style={styles.buttonBoxContainer} onPress={() => navigation.navigate('MakeApp')}>
+                            <Text style={{ color: 'white', fontSize: 16 }} >Make Appointment</Text>
+                            <Icon style={styles.buttonIcon} type="ant" name="calendar" ></Icon>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.docAbout}>
                         <Text style={styles.title}>About</Text>
@@ -101,7 +105,7 @@ const DocDetails = ({ navigation, route }) => {
             </View>
             <Pressable style={styles.footer} onPress={presssedOption}>
 
-                <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('')}></Icon>
+                <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
                 <Icon style={styles.optionIcon} type="ant" name="setting" ></Icon>
                 <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
                 <Icon style={styles.optionIcon} type="ant" name="user" ></Icon>
@@ -135,6 +139,24 @@ const styles = StyleSheet.create({
     h1: {
         fontSize: 30,
 
+    },
+    buttonIcon: {
+        marginLeft: 5,
+        fontSize: 20,
+        color: 'white'
+    },
+    buttonBoxContainer: {
+        backgroundColor: '#7895B2',
+        alignItems: 'center',
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: "#AEBDCA",
+        width: "80%",
+        padding: 6,
+        paddingLeft: 16,
+        marginVertical: 8,
+        justifyContent: 'center',
+        alignSelf: 'center'
     },
 
     title: {

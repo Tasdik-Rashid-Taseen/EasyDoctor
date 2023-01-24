@@ -8,7 +8,7 @@ const BookApp = ({ navigation, route }) => {
   return (
     <View style={styles.contents}>
       <View style={styles.container}>
-        <Text style={styles.h1}>Doctor</Text>
+        {/* <Text style={styles.h1}>Doctor</Text> */}
         <View>
           <TextInput placeholder='Catergory' style={styles.textInput} />
           <TextInput placeholder='Doctor' style={styles.textInput} />
@@ -25,7 +25,7 @@ const BookApp = ({ navigation, route }) => {
       </View>
       <Pressable style={styles.footer} onPress={presssedOption}>
 
-        <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('')}></Icon>
+        <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
         <Icon style={styles.optionIcon} type="ant" name="setting" ></Icon>
         <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
         <Icon style={styles.optionIcon} type="ant" name="user" ></Icon>
