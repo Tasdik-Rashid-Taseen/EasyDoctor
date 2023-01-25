@@ -21,9 +21,8 @@ const PatientSignUp = ({ navigation, route }) => {
                 <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
             </TouchableOpacity>
             <View style={styles.SignInMessage}>
-                <Text style={{ fontSize: 16 }}>Already have an account?  </Text>
-                <Text style={{ color: 'blue', fontSize: 16 }}
-                    onPress={() => navigation.navigate('SignIn')}>Sign In
+                <Text style={{color: 'blue', fontSize: 17}}
+                    onPress={() => navigation.navigate('SignIn')}>Already have an account? Sign In
                 </Text>
             </View>
         </View>

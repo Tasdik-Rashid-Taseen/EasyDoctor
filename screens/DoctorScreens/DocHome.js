@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image, fontWeight } from 'react-native'
 import { ScrollView } from 'react-native'
 import Icon from '../Icon'
-const PatientHome = ({ navigation, route }) => {
+const DocHome = ({ navigation, route }) => {
   function presssedCategory() {
     console.log('Pressed')
   }
@@ -100,7 +100,7 @@ const PatientHome = ({ navigation, route }) => {
   )
 }
 
-export default PatientHome
+export default DocHome
 
 const styles = StyleSheet.create({
   contents: {

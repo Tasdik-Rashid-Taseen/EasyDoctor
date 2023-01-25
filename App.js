@@ -50,6 +50,7 @@ import Reminder from './screens/PatientScreens/Reminder';
 import HealthTips from './screens/PatientScreens/HealthTips';
 import Emergency from './screens/PatientScreens/Emergency';
 import DocDetails from './screens/PatientScreens/DocDetails';
+import DocHome from './screens/DoctorScreens/DocHome';
 import { Button } from 'react-native-web';
 
 
@@ -136,6 +137,11 @@ const App = () => {
             }, headerTintColor: '#fff'
           }} />
 
+          <Stack.Screen name="DocHome" component={DocHome} options={{
+            title: 'Home-Doctor', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#7895B2',
+            }, headerTintColor: '#fff'
+          }} />
 
         </Stack.Navigator>
       </NavigationContainer>
