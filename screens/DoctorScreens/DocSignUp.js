@@ -25,7 +25,7 @@ const DocSignUp = ({ navigation, route }) => {
             <View style={styles.SignInMessage}>
                 {/* <Text style={{ fontSize: 16 }}></Text> */}
                 <Text style={{ color: 'blue', fontSize: 17 }}
-                    onPress={() => navigation.navigate('SignIn')}>Already have an account? Sign In
+                    onPress={() => navigation.navigate('DocSignIn')}>Already have an account? Sign In
                 </Text>
             </View>
         </View>

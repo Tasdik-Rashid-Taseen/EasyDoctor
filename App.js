@@ -41,7 +41,7 @@ import Home from './screens/CommonScreens/Home';
 import SignUp1 from './screens/CommonScreens/SignUp1'
 import DocSignUp from './screens/DoctorScreens/DocSignUp';
 import PatientSignUp from './screens/PatientScreens/PatientSignUp';
-import SignIn from './screens/CommonScreens/SignIn';
+// import SignIn from './screens/CommonScreens/SignIn';
 import PatientHome from './screens/PatientScreens/PatientHome';
 import DoctorsList from './screens/PatientScreens/DoctorsList';
 import MakeApp from './screens/PatientScreens/MakeApp';
@@ -51,6 +51,8 @@ import HealthTips from './screens/PatientScreens/HealthTips';
 import Emergency from './screens/PatientScreens/Emergency';
 import DocDetails from './screens/PatientScreens/DocDetails';
 import DocHome from './screens/DoctorScreens/DocHome';
+import DocSignIn from './screens/DoctorScreens/DocSignIn';
+import PatientSignIn from './screens/PatientScreens/PatientSignIn';
 import { Button } from 'react-native-web';
 
 
@@ -87,8 +89,18 @@ const App = () => {
               backgroundColor: '#7895B2',
             }, headerTintColor: '#fff'
           }} />
-          <Stack.Screen name="SignIn" component={SignIn} options={{
+          {/* <Stack.Screen name="SignIn" component={SignIn} options={{
             title: 'Sign In', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#7895B2',
+            }, headerTintColor: '#fff'
+          }} /> */}
+          <Stack.Screen name="DocSignIn" component={DocSignIn} options={{
+            title: 'Doctor Sign In', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#7895B2',
+            }, headerTintColor: '#fff'
+          }} />
+          <Stack.Screen name="PatientSignIn" component={PatientSignIn} options={{
+            title: 'Patient Sign In', headerTitleAlign: 'center', headerStyle: {
               backgroundColor: '#7895B2',
             }, headerTintColor: '#fff'
           }} />

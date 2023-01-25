@@ -2,11 +2,11 @@ import React from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button } from 'react-native'
 import Icon from '../Icon'
 
-const SignIn = ({ navigation, route }) => {
+const DocSignIn = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.h1}>Sign In</Text>
+            <Text style={styles.h1}>Doctor Sign In</Text>
             <View>
                 <View style={styles.inputBoxContainer}>
                     <Icon style={styles.inputIcon} type="ionicon" name="person-circle-outline"></Icon>
@@ -18,20 +18,20 @@ const SignIn = ({ navigation, route }) => {
                 </View>
             </View>
 
-            <TouchableOpacity style={styles.buttonBoxContainer} onPress={() => navigation.navigate('PatientHome')}>
+            <TouchableOpacity style={styles.buttonBoxContainer} onPress={() => navigation.navigate('DocHome')}>
                 <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
                 <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
             </TouchableOpacity>
             <View style={styles.SignUpMessage}>
                 <Text style={{color: 'blue', fontSize: 17}}
-                    onPress={() => navigation.navigate('PatientSignUp')}>Don't have an account? Sign Up
+                    onPress={() => navigation.navigate('DocSignUp')}>Don't have an account? Sign Up
                 </Text>
             </View>
         </View>
     )
 }
 
-export default SignIn
+export default DocSignIn
 
 const styles = StyleSheet.create({
     container: {

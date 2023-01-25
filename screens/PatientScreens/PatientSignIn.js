@@ -1,35 +1,37 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button } from 'react-native'
 import Icon from '../Icon'
-const PatientSignUp = ({ navigation, route }) => {
+
+const PatientSignIn = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.h1}>SIGN UP</Text>
+            <Text style={styles.h1}>Patient Sign In</Text>
             <View>
-                <TextInput placeholder='First Name' style={styles.textInput} />
-                <TextInput placeholder='Last Name' style={styles.textInput} />
-                <TextInput placeholder='Username' style={styles.textInput} />
-                <TextInput placeholder='Mail' style={styles.textInput} />
-                <TextInput placeholder='Number' style={styles.textInput} />
-                <TextInput placeholder='Password' style={styles.textInput} />
-                <TextInput placeholder='Confirm Password' style={styles.textInput} />
+                <View style={styles.inputBoxContainer}>
+                    <Icon style={styles.inputIcon} type="ionicon" name="person-circle-outline"></Icon>
+                    <TextInput placeholder='Username' style={styles.textInput} />
+                </View>
+                <View style={styles.inputBoxContainer}>
+                    <Icon style={styles.inputIcon} type="ionicon" name="key-outline"></Icon>
+                    <TextInput placeholder='Password' style={styles.textInput} />
+                </View>
             </View>
 
             <TouchableOpacity style={styles.buttonBoxContainer} onPress={() => navigation.navigate('PatientHome')}>
                 <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
                 <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
             </TouchableOpacity>
-            <View style={styles.SignInMessage}>
+            <View style={styles.SignUpMessage}>
                 <Text style={{color: 'blue', fontSize: 17}}
-                    onPress={() => navigation.navigate('PatientSignIn')}>Already have an account? Sign In
+                    onPress={() => navigation.navigate('PatientSignUp')}>Don't have an account? Sign Up
                 </Text>
             </View>
         </View>
     )
 }
 
-export default PatientSignUp
+export default PatientSignIn
 
 const styles = StyleSheet.create({
     container: {
@@ -41,6 +43,21 @@ const styles = StyleSheet.create({
     h1: {
         fontSize: 30,
 
+    },
+    inputIcon: {
+        marginRight: 5,
+        fontSize: 22
+    },
+    inputBoxContainer: {
+        // backgroundColor: 'red',
+        alignItems: 'center',
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: "#AEBDCA",
+        width: "100%",
+        padding: 6,
+        paddingLeft: 16,
+        marginVertical: 8,
     },
     buttonIcon: {
         marginLeft: 5,
@@ -61,16 +78,13 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     textInput: {
-        borderWidth: 1,
-        borderColor: "#AEBDCA",
-        width: "100%",
-        padding: 6,
-        paddingLeft: 16,
-        marginVertical: 8,
+
+
     },
-    SignInMessage: {
+    SignUpMessage: {
         flexDirection: 'row',
         marginVertical: 12,
         alignSelf: 'center'
-    }
+    },
+
 })
