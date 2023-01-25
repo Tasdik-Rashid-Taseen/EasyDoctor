@@ -37,57 +37,83 @@ const PatientHome = ({ navigation, route }) => {
             </Pressable>
 
           </View>
-          <Text style={styles.title}>Upcomming Appointments</Text>
-                    <View style={styles.reminders}>
-                        <View style={styles.reminder}>
-                            <Text style={styles.h3}>Fazle Rabbi Tuhin</Text>
-                            <View style={styles.date_time}>
-                                <Text style={styles.date}>17-11-22</Text>
-                                <Text style={styles.time}>12:00 PM</Text>
-                            </View>
-                            <Text style={styles.place}>Sylhet Medical College</Text>
-                        </View>
-                        <View style={styles.opts}>
-                            <Icon style={styles.cancelButton} type="ant" name="closecircle" ></Icon>
-                            <Icon style={styles.editlButton} type="ant" name="edit" ></Icon>
-                        </View>
-                    </View>
+          <View style={styles.appointments}>
+            <Text style={styles.title}>Upcomming Appointments</Text>
+            <TouchableOpacity style={styles.appointment} onPress={() => navigation.navigate('DocAppointmentInfo')}>
+              <Text style={styles.tap}>Tap the card to see more details</Text>
+              <View style={styles.appointmentDetails}>
+                <Text style={styles.h2}>Fazle Rabbi Tuhin</Text>
+                <View style={styles.date_time}>
+                  <Text style={styles.date}>17-11-22</Text>
+                  <Text style={styles.time}>12:00 PM</Text>
+                </View>
+                <Text style={styles.place}>Sylhet Medical College</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.appointment} onPress={() => navigation.navigate('DocAppointmentInfo')}>
+              <Text style={styles.tap}>Tap the card to see more details</Text>
+              <View style={styles.appointmentDetails}>
+                <Text style={styles.h2}>Fazle Rabbi Tuhin</Text>
+                <View style={styles.date_time}>
+                  <Text style={styles.date}>17-11-22</Text>
+                  <Text style={styles.time}>12:00 PM</Text>
+                </View>
+                <Text style={styles.place}>Sylhet Medical College</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.appointment} onPress={() => navigation.navigate('DocAppointmentInfo')}>
+              <Text style={styles.tap}>Tap the card to see more details</Text>
+              <View style={styles.appointmentDetails}>
+                <Text style={styles.h2}>Fazle Rabbi Tuhin</Text>
+                <View style={styles.date_time}>
+                  <Text style={styles.date}>17-11-22</Text>
+                  <Text style={styles.time}>12:00 PM</Text>
+                </View>
+                <Text style={styles.place}>Sylhet Medical College</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.appointment} onPress={() => navigation.navigate('DocAppointmentInfo')}>
+              <Text style={styles.tap}>Tap the card to see more details</Text>
+              <View style={styles.appointmentDetails}>
+                <Text style={styles.h2}>Fazle Rabbi Tuhin</Text>
+                <View style={styles.date_time}>
+                  <Text style={styles.date}>17-11-22</Text>
+                  <Text style={styles.time}>12:00 PM</Text>
+                </View>
+                <Text style={styles.place}>Sylhet Medical College</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.appointment} onPress={() => navigation.navigate('DocAppointmentInfo')}>
+              <Text style={styles.tap}>Tap the card to see more details</Text>
+              <View style={styles.appointmentDetails}>
+                <Text style={styles.h2}>Fazle Rabbi Tuhin</Text>
+                <View style={styles.date_time}>
+                  <Text style={styles.date}>17-11-22</Text>
+                  <Text style={styles.time}>12:00 PM</Text>
+                </View>
+                <Text style={styles.place}>Sylhet Medical College</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.appointment} onPress={() => navigation.navigate('DocAppointmentInfo')}>
+              <Text style={styles.tap}>Tap the card to see more details</Text>
+              <View style={styles.appointmentDetails}>
+                <Text style={styles.h2}>Fazle Rabbi Tuhin</Text>
+                <View style={styles.date_time}>
+                  <Text style={styles.date}>17-11-22</Text>
+                  <Text style={styles.time}>12:00 PM</Text>
+                </View>
+                <Text style={styles.place}>Sylhet Medical College</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
 
-                    <View style={styles.reminders}>
-                        <View style={styles.reminder}>
-                            <Text style={styles.h3}>Fazle Rabbi Tuhin</Text>
-                            <View style={styles.date_time}>
-                                <Text style={styles.date}>17-11-22</Text>
-                                <Text style={styles.time}>12:00 PM</Text>
-                            </View>
-                            <Text style={styles.place}>Sylhet Medical College</Text>
-                        </View>
-                        <View style={styles.opts}>
-                            <Icon style={styles.cancelButton} type="ant" name="closecircle" ></Icon>
-                            <Icon style={styles.editlButton} type="ant" name="edit" ></Icon>
-                        </View>
-                    </View>
 
-                    <View style={styles.reminders}>
-                        <View style={styles.reminder}>
-                            <Text style={styles.h3}>Fazle Rabbi Tuhin</Text>
-                            <View style={styles.date_time}>
-                                <Text style={styles.date}>17-11-22</Text>
-                                <Text style={styles.time}>12:00 PM</Text>
-                            </View>
-                            <Text style={styles.place}>Sylhet Medical College</Text>
-                        </View>
-                        <View style={styles.opts}>
-                            <Icon style={styles.cancelButton} type="ant" name="closecircle" ></Icon>
-                            <Icon style={styles.editlButton} type="ant" name="edit" ></Icon>
-                        </View>
-                    </View>
         </ScrollView>
 
       </View>
       <Pressable style={styles.footer} onPress={presssedOption}>
 
-        <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('')}></Icon>
+        <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
         <Icon style={styles.optionIcon} type="ant" name="setting" ></Icon>
         <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
         <Icon style={styles.optionIcon} type="ant" name="user" ></Icon>
@@ -117,7 +143,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     marginHorizontal: 15,
     height: '100%',
-
+    marginBottom: '14%',
   },
   h1: {
     fontSize: 30,
@@ -126,11 +152,11 @@ const styles = StyleSheet.create({
   h2: {
     fontSize: 20,
     fontWeight: 'bold',
-},
-h3: {
+  },
+  h3: {
     fontSize: 17,
     fontWeight: 'bold',
-},
+  },
   filterIcon: {
     marginRight: 5,
     fontSize: 20,
@@ -179,76 +205,96 @@ h3: {
 
   },
 
-  reminder: {
+  appointments: {
+
+  },
+
+  appointmentDetails: {
     // backgroundColor: 'green',
-    width: '70%'
-},
-opts: {
+    width: '90%',
+
+  },
+  opts: {
     // backgroundColor: 'red'
-},
-reminders: {
+  },
+  appointment: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginVertical: 12,
     width: '100%',
+    height: 150,
     justifyContent: 'space-around',
     alignItems: 'center',
     borderWidth: 1,
     borderColor: "#AEBDCA",
-    paddingVertical: 6
-},
-cancelButton: {
+    paddingVertical: 6,
+    alignContent: 'center',
+
+  },
+  tap: {
+    fontSize: 16,
+    backgroundColor: '#AEBDCA',
+    width: '90%',
+    textAlign: 'center',
+    color: 'white',
+    marginBottom: 3
+  },
+  cancelButton: {
     marginBottom: 20,
     fontSize: 20,
     color: 'red'
-},
-editlButton: {
+  },
+  editlButton: {
     // margin: 5,
     fontSize: 20,
     color: 'orange'
-},
+  },
 
-date_time: {
+  date_time: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginVertical: 5
-},
-date: {
+  },
+  date: {
     marginRight: 8,
     color: '#827D7D',
     fontWeight: 'bold',
-},
-time: {
+  },
+  time: {
     color: '#827D7D',
     fontWeight: 'bold',
-},
-place: {
+  },
+  place: {
     color: '#827D7D',
     fontWeight: 'bold',
-},
-opt: {
+  },
+  opt: {
     textAlign: 'right'
-},
-cancel: {
+  },
+  cancel: {
     textAlign: 'right',
     color: 'red',
     fontWeight: 'bold',
     fontSize: 15
-},
-edit: {
+  },
+  edit: {
     textAlign: 'right',
     color: 'orange',
     fontWeight: 'bold',
     fontSize: 15
-},
-  
+  },
+
   textBold: {
     fontWeight
   },
   optionIcon: {
-    marginLeft: 5,
-    fontSize: 30,
+    // marginLeft: 5,
+    fontSize: 25,
     color: '#7895B2',
+    // backgroundColor: 'red',
+    paddingHorizontal: 30,
+    paddingVertical: 6,
+    alignSelf: 'center'
   },
   footer: {
     position: 'absolute',
@@ -259,10 +305,12 @@ edit: {
     // marginVertical: 12,
     width: '100%',
     backgroundColor: "white",
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
     padding: 5,
-    height: '6%',
+    height: '7%',
     borderTopColor: "#AEBDCA",
-    borderTopWidth: 2
+    borderTopWidth: 2,
+    // backgroundColor: 'green'
+    
   },
 })

@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
         flex: 1,
         marginVertical: 23,
         marginHorizontal: 30,
+        marginBottom: '14%',
     },
     h1: {
         fontSize: 30,

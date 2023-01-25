@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     marginHorizontal: 15,
     height: '100%',
+    marginBottom: '14%',
   },
   h1: {
     fontSize: 30,

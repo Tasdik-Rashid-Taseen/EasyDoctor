@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginVertical: 23,
         marginHorizontal: 30,
+
     },
     h1: {
         fontSize: 30,

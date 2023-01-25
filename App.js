@@ -41,7 +41,8 @@ import Home from './screens/CommonScreens/Home';
 import SignUp1 from './screens/CommonScreens/SignUp1'
 import DocSignUp from './screens/DoctorScreens/DocSignUp';
 import PatientSignUp from './screens/PatientScreens/PatientSignUp';
-// import SignIn from './screens/CommonScreens/SignIn';
+import DocSignIn from './screens/DoctorScreens/DocSignIn';
+import PatientSignIn from './screens/PatientScreens/PatientSignIn';
 import PatientHome from './screens/PatientScreens/PatientHome';
 import DoctorsList from './screens/PatientScreens/DoctorsList';
 import MakeApp from './screens/PatientScreens/MakeApp';
@@ -51,8 +52,11 @@ import HealthTips from './screens/PatientScreens/HealthTips';
 import Emergency from './screens/PatientScreens/Emergency';
 import DocDetails from './screens/PatientScreens/DocDetails';
 import DocHome from './screens/DoctorScreens/DocHome';
-import DocSignIn from './screens/DoctorScreens/DocSignIn';
-import PatientSignIn from './screens/PatientScreens/PatientSignIn';
+import PatientAppointmentInfo from './screens/DoctorScreens/PatientAppointmentInfo';
+import DocAppointmentInfo from './screens/PatientScreens/DocAppointmentInfo';
+
+
+
 import { Button } from 'react-native-web';
 
 
@@ -89,11 +93,6 @@ const App = () => {
               backgroundColor: '#7895B2',
             }, headerTintColor: '#fff'
           }} />
-          {/* <Stack.Screen name="SignIn" component={SignIn} options={{
-            title: 'Sign In', headerTitleAlign: 'center', headerStyle: {
-              backgroundColor: '#7895B2',
-            }, headerTintColor: '#fff'
-          }} /> */}
           <Stack.Screen name="DocSignIn" component={DocSignIn} options={{
             title: 'Doctor Sign In', headerTitleAlign: 'center', headerStyle: {
               backgroundColor: '#7895B2',
@@ -154,7 +153,16 @@ const App = () => {
               backgroundColor: '#7895B2',
             }, headerTintColor: '#fff'
           }} />
-
+          <Stack.Screen name="PatientAppointmentInfo" component={PatientAppointmentInfo} options={{
+            title: 'Patient Appointment Info', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#7895B2',
+            }, headerTintColor: '#fff'
+          }} />
+<Stack.Screen name="DocAppointmentInfo" component={DocAppointmentInfo} options={{
+            title: 'Doctor Appointment Info', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#7895B2',
+            }, headerTintColor: '#fff'
+          }} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
