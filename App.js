@@ -54,8 +54,9 @@ import DocDetails from './screens/PatientScreens/DocDetails';
 import DocHome from './screens/DoctorScreens/DocHome';
 import PatientAppointmentInfo from './screens/DoctorScreens/PatientAppointmentInfo';
 import DocAppointmentInfo from './screens/PatientScreens/DocAppointmentInfo';
-
-
+import PatientProfile from './screens/PatientScreens/PatientProfile';
+import ProfileDetails from './screens/PatientScreens/ProfileDetails';
+import Settings from './screens/PatientScreens/Settings';
 
 import { Button } from 'react-native-web';
 
@@ -158,8 +159,23 @@ const App = () => {
               backgroundColor: '#7895B2',
             }, headerTintColor: '#fff'
           }} />
-<Stack.Screen name="DocAppointmentInfo" component={DocAppointmentInfo} options={{
+          <Stack.Screen name="DocAppointmentInfo" component={DocAppointmentInfo} options={{
             title: 'Doctor Appointment Info', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#7895B2',
+            }, headerTintColor: '#fff'
+          }} />
+          <Stack.Screen name="PatientProfile" component={PatientProfile} options={{
+            title: 'Profile', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#7895B2',
+            }, headerTintColor: '#fff'
+          }} />
+          <Stack.Screen name="ProfileDetails" component={ProfileDetails} options={{
+            title: 'Edit Profile', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#7895B2',
+            }, headerTintColor: '#fff'
+          }} />
+          <Stack.Screen name="Settings" component={Settings} options={{
+            title: 'Settings', headerTitleAlign: 'center', headerStyle: {
               backgroundColor: '#7895B2',
             }, headerTintColor: '#fff'
           }} />

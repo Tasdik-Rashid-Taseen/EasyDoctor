@@ -5,7 +5,7 @@ const PatientSignUp = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.h1}>SIGN UP</Text>
+            <Text style={styles.h1}>Create new account</Text>
             <View>
                 <TextInput placeholder='First Name' style={styles.textInput} />
                 <TextInput placeholder='Last Name' style={styles.textInput} />
@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
     },
     h1: {
         fontSize: 30,
-
+        color: '#7895B2',
+        fontWeight: 'bold'
     },
     buttonIcon: {
         marginLeft: 5,

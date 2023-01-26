@@ -11,8 +11,8 @@ const HealthTips = ({ navigation, route }) => {
             <View style={styles.container}>
                 <ScrollView>
                     <View style={styles.searchBoxContainer}>
-                        <Icon style={styles.filterIcon} type="ant" name="filter" ></Icon>
-                        <TextInput placeholder='Filter' />
+                        <Icon style={styles.filterIcon} type="ant" name="search1" ></Icon>
+                        <TextInput placeholder='Search' />
                     </View>
                     <View style={styles.tip}>
                         <Text style={styles.h3}>Corona Virus</Text>
@@ -60,10 +60,10 @@ const HealthTips = ({ navigation, route }) => {
             </View>
             <Pressable style={styles.footer} onPress={presssedOption}>
 
-                <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
-                <Icon style={styles.optionIcon} type="ant" name="setting" ></Icon>
-                <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
-                <Icon style={styles.optionIcon} type="ant" name="user" ></Icon>
+            <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
+        <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
+        <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
+        <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('PatientProfile')}></Icon>
 
             </Pressable>
         </View>

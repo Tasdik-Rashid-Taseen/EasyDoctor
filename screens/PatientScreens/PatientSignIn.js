@@ -6,7 +6,7 @@ const PatientSignIn = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.h1}>Patient Sign In</Text>
+            <Text style={styles.h1}>Sign In</Text>
             <View>
                 <View style={styles.inputBoxContainer}>
                     <Icon style={styles.inputIcon} type="ionicon" name="person-circle-outline"></Icon>
@@ -16,6 +16,7 @@ const PatientSignIn = ({ navigation, route }) => {
                     <Icon style={styles.inputIcon} type="ionicon" name="key-outline"></Icon>
                     <TextInput placeholder='Password' style={styles.textInput} />
                 </View>
+                <Text style={{textAlign: 'right', color: '#017AFF', fontSize: 16}}>Forgot Password?</Text>
             </View>
 
             <TouchableOpacity style={styles.buttonBoxContainer} onPress={() => navigation.navigate('PatientHome')}>
@@ -42,7 +43,8 @@ const styles = StyleSheet.create({
     },
     h1: {
         fontSize: 30,
-
+        color: '#7895B2',
+        fontWeight: 'bold'
     },
     inputIcon: {
         marginRight: 5,
