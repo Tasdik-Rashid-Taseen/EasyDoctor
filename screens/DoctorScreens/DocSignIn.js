@@ -1,24 +1,44 @@
-import React from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button } from 'react-native'
+import {React, useState} from 'react'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, KeyboardAvoidingView, Alert } from 'react-native'
+import { getAuth, signInWithEmailAndPassword} from 'firebase/auth'
+import {initializeApp} from 'firebase/app'
+import { firebaseConfig } from '../../firebase'
 import Icon from '../Icon'
 
 const DocSignIn = ({ navigation, route }) => {
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const app = initializeApp(firebaseConfig)
+    const auth = getAuth(app)
+
+    const handleSignIn = () => {
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) =>  {
+            console.log('Signed In')
+            const user = userCredential.user
+            console.log(user)
+            navigation.navigate('DocHome')
+        }) 
+        .catch(error => {
+            Alert.alert(error.message)
+            console.log(error)
+        }
+           
+            )
+    }
 
     return (
         <View style={styles.container}>
             <Text style={styles.h1}>Doctor Sign In</Text>
             <View>
-                <View style={styles.inputBoxContainer}>
-                    <Icon style={styles.inputIcon} type="ionicon" name="person-circle-outline"></Icon>
-                    <TextInput placeholder='Username' style={styles.textInput} />
-                </View>
-                <View style={styles.inputBoxContainer}>
-                    <Icon style={styles.inputIcon} type="ionicon" name="key-outline"></Icon>
-                    <TextInput placeholder='Password' style={styles.textInput} />
-                </View>
+            <KeyboardAvoidingView>        
+                    <TextInput placeholder='Email'  onChangeText={(text) => setEmail(text)} style={styles.textInput} />
+                    <TextInput placeholder='Password' onChangeText={text => setPassword(text)} secureTextEntry style={styles.textInput} />
+            </KeyboardAvoidingView>
             </View>
 
-            <TouchableOpacity style={styles.buttonBoxContainer} onPress={() => navigation.navigate('DocHome')}>
+            <TouchableOpacity style={styles.buttonBoxContainer} onPress={handleSignIn}>
                 <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
                 <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
             </TouchableOpacity>
@@ -79,8 +99,12 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     textInput: {
-
-
+        borderWidth: 1,
+        borderColor: "#AEBDCA",
+        width: "100%",
+        padding: 6,
+        paddingLeft: 16,
+        marginVertical: 8,
     },
     SignUpMessage: {
         flexDirection: 'row',

@@ -1,14 +1,39 @@
-import React from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button } from 'react-native'
+import {React, useState} from 'react'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, KeyboardAvoidingView, Alert } from 'react-native'
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
+import {initializeApp} from 'firebase/app'
+import { firebaseConfig } from '../../firebase'
+
 import Icon from '../Icon'
+
+    
 
 
 const DocSignUp = ({ navigation, route }) => {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const app = initializeApp(firebaseConfig)
+    const auth = getAuth(app)
 
+    const handleSignUp = () => {
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((doctorCredential) =>  {
+            console.log('Account Created')
+            const user = doctorCredential.user
+            console.log(user)
+            navigation.navigate('DocHome')
+        }) 
+        .catch(error => {
+            Alert.alert(error.message)
+            console.log(error)
+        }
+           
+            )
+    }
     return (
         <View style={styles.container}>
             <Text style={styles.h1}>Doctor</Text>
-            <View>
+            {/* <View>
                 <TextInput placeholder='Username' style={styles.textInput} />
                 <TextInput placeholder='Email' style={styles.textInput} />
                 <TextInput placeholder='Number' style={styles.textInput} />
@@ -16,9 +41,15 @@ const DocSignUp = ({ navigation, route }) => {
                 <TextInput placeholder='Dictor Licence Number' style={styles.textInput} />
                 <TextInput placeholder='Password' style={styles.textInput} />
                 <TextInput placeholder='Confirm Password' style={styles.textInput} />
-            </View>
-           
-            <TouchableOpacity style={styles.buttonBoxContainer} onPress={() => navigation.navigate('DocHome')}>
+            </View> */}
+
+
+            <KeyboardAvoidingView>        
+                    <TextInput placeholder='Email'  onChangeText={(text) => setEmail(text)} style={styles.textInput} />
+                    <TextInput placeholder='Password' onChangeText={text => setPassword(text)} secureTextEntry style={styles.textInput} />
+            </KeyboardAvoidingView>
+
+            <TouchableOpacity style={styles.buttonBoxContainer} onPress={handleSignUp}>
                 <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
                 <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
             </TouchableOpacity>
@@ -45,10 +76,25 @@ const styles = StyleSheet.create({
         fontSize: 30,
 
     },
+    inputIcon: {
+        marginRight: 5,
+        fontSize: 22
+    },
     buttonIcon: {
         marginLeft: 5,
         fontSize: 20,
         color: 'white'
+    },
+    inputBoxContainer: {
+        // backgroundColor: 'red',
+        alignItems: 'center',
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: "#AEBDCA",
+        width: "100%",
+        padding: 6,
+        paddingLeft: 16,
+        marginVertical: 8,
     },
     buttonBoxContainer: {
         backgroundColor: '#7895B2',

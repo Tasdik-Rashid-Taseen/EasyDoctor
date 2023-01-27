@@ -23,7 +23,6 @@ import {
   Text,
   View,
 } from 'react-native';
-
 import {
   Colors,
   DebugInstructions,
@@ -63,6 +62,7 @@ import { Button } from 'react-native-web';
 
 import Icon from './screens/Icon';
 const App = () => {
+
 
 
   return (
