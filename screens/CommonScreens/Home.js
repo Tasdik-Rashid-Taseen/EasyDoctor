@@ -1,10 +1,11 @@
 import React from 'react'
-import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, Image } from 'react-native';
 import Icon from '../Icon'
 const Home = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Image source={require('../images/app_icon/AppIconS.png')} style={{}}/>
       <Text style={styles.moto}>Your Health, Our Responsibility</Text>
       <TouchableOpacity style={styles.buttonBoxContainer} onPress={() => navigation.navigate('SignUp1')}>
         <Text style={{ color: 'white', fontSize: 18 }} >Get Started</Text>

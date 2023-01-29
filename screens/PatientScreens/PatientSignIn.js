@@ -21,7 +21,22 @@ const PatientSignIn = ({ navigation, route }) => {
             navigation.navigate('PatientHome')
         }) 
         .catch(error => {
-            Alert.alert(error.message)      
+            
+            if(error.code === 'auth/invalid-email'){
+                console.log('This email address is invalid!')
+                Alert.alert('This email address is invalid!')
+
+            }
+            if(error.code === 'auth/user-not-found'){
+                console.log('Not a registered email! Please create an account.')
+                Alert.alert('Not a registered email! Please create an account.')
+
+            }
+            if(error.code === 'auth/wrong-password'){
+                console.log('Wrong Password!')
+                Alert.alert('Wrong Password!')
+            }
+            console.error(error)
             console.log(error)
         }
            

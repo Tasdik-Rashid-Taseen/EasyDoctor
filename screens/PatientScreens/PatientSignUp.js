@@ -24,7 +24,16 @@ const PatientSignUp = ({ navigation, route }) => {
             navigation.navigate('PatientHome')
         }) 
         .catch(error => {
-            Alert.alert(error.message)
+            if(error.code === 'auth/email-already-in-use'){
+                console.log('This email address is already in user!')
+                Alert.alert('This email address is already in user!')
+            }
+            if(error.code === 'auth/invalid-email'){
+                console.log('This email address is invalid!')
+                Alert.alert('This email address is invalid!')
+
+            }
+            console.error(error)
             console.log(error)
         }
            
