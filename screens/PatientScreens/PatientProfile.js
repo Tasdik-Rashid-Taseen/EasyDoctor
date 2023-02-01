@@ -1,10 +1,19 @@
+import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image, Alert } from 'react-native'
+import { getAuth } from 'firebase/auth'
+import {initializeApp} from 'firebase/app'
+import { firebaseConfig } from '../../firebase'
 import Icon from '../Icon'
 const PatientProfile = ({ navigation, route }) => {
+    
+
     function presssedOption() {
         console.log('Pressed')
     }
+    
+
+    
     return (
         <View style={styles.contents}>
             <View style={styles.container}>
@@ -42,7 +51,7 @@ const PatientProfile = ({ navigation, route }) => {
                         </View>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.buttonBoxContainer} onPress={() => navigation.navigate('')}>
+                <TouchableOpacity style={styles.buttonBoxContainer} onPress="">
                     <Text style={{ color: 'white', fontSize: 16 }} >Logout</Text>
                     <Icon style={styles.buttonIcon} type="ant" name="logout" ></Icon>
                 </TouchableOpacity>

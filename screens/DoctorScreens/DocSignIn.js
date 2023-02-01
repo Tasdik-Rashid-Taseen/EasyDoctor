@@ -1,49 +1,89 @@
-import {React, useState} from 'react'
+import { React, useState } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, KeyboardAvoidingView, Alert } from 'react-native'
-import { getAuth, signInWithEmailAndPassword} from 'firebase/auth'
-import {initializeApp} from 'firebase/app'
-import { firebaseConfig } from '../../firebase'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { authentication } from '../../firebase'
+import { db } from '../../firebase'
+import {collection, getDocs, doc, setDoc} from 'firebase/firestore/lite'
+
 import Icon from '../Icon'
+import { async } from '@firebase/util'
 
 const DocSignIn = ({ navigation, route }) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const app = initializeApp(firebaseConfig)
-    const auth = getAuth(app)
+    // const app = initializeApp(firebaseConfig)
+    // const auth = getAuth(app)
 
-    const handleSignIn = () => {
-        signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) =>  {
-            console.log('Signed In')
-            const user = userCredential.user
-            console.log(user)
-            navigation.navigate('DocHome')
-        }) 
-        .catch(error => {
-            Alert.alert(error.message)
-            console.log(error)
-        }
-           
+    // const addData = async()=>{
+    //     const city = "Khulna";
+    //     // const citiesCol = collection(db, 'cities')
+    //     // const citySnapshot = await getDocs(citiesCol)
+    //     // const cityList = citySnapshot.docs.map(doc => doc.data())
+    //     // console.log(cityList)
+    //     await setDoc(doc(db, 'cities', 'Random_doc'), {
+    //         city_name: city,
+    //     })
+    // }
+
+
+    const handleDocSignIn = async() => {
+        signInWithEmailAndPassword(authentication, email, password)
+            .then((docCredential) => {
+                console.log('Signed In')
+                const user = docCredential.user
+                console.log(user)
+                // setIsSignedIn(true)
+                
+                navigation.navigate('DocHome')
+            },
+            await setDoc(doc(db, 'doctorList', 'Random_doc'), {
+                doc_name: 'Rony',
+            }))
+            .catch(error => {
+                Alert.alert(error.message)
+                console.log(error)
+            }
             )
     }
+
+
+
+    // const handleSignIn = () => {
+    //     signInWithEmailAndPassword(auth, email, password)
+    //     .then((userCredential) =>  {
+    //         console.log('Signed In')
+    //         const user = userCredential.user
+    //         console.log(user)
+    //         navigation.navigate('DocHome')
+    //     }) 
+    //     .catch(error => {
+    //         Alert.alert(error.message)
+    //         console.log(error)
+    //     }
+
+    //         )
+    // }
 
     return (
         <View style={styles.container}>
             <Text style={styles.h1}>Doctor Sign In</Text>
             <View>
-            <KeyboardAvoidingView>        
-                    <TextInput placeholder='Email'  onChangeText={(text) => setEmail(text)} style={styles.textInput} />
+                <KeyboardAvoidingView>
+                    <TextInput placeholder='Email' onChangeText={(text) => setEmail(text)} style={styles.textInput} />
                     <TextInput placeholder='Password' onChangeText={text => setPassword(text)} secureTextEntry style={styles.textInput} />
-            </KeyboardAvoidingView>
+                </KeyboardAvoidingView>
             </View>
+            {/* <Button title='Get Data' onPress={addData}></Button> */}
+     
+                <TouchableOpacity style={styles.buttonBoxContainer} onPress={handleDocSignIn}>
+                    <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
+                    <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
+                </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonBoxContainer} onPress={handleSignIn}>
-                <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
-                <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
-            </TouchableOpacity>
+
             <View style={styles.SignUpMessage}>
-                <Text style={{color: 'blue', fontSize: 17}}
+                <Text style={{ color: 'blue', fontSize: 17 }}
                     onPress={() => navigation.navigate('DocSignUp')}>Don't have an account? Sign Up
                 </Text>
             </View>

@@ -1,35 +1,42 @@
-import {React, useState} from 'react'
+import { React, useState } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, KeyboardAvoidingView, Alert } from 'react-native'
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
-import {initializeApp} from 'firebase/app'
-import { firebaseConfig } from '../../firebase'
-
+import {  createUserWithEmailAndPassword } from 'firebase/auth'
+// import { initializeApp } from 'firebase/app'
+import firebaseConfig from '../../firebase'
 import Icon from '../Icon'
-
-    
-
-
+import { authentication } from '../../firebase'
+import SignUp1 from '../CommonScreens/SignUp1'
+import { db } from '../../firebase'
+import {collection, getDocs, doc, setDoc} from 'firebase/firestore/lite'
 const DocSignUp = ({ navigation, route }) => {
+    // const { role } = route.params;
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const app = initializeApp(firebaseConfig)
-    const auth = getAuth(app)
+    // const app = initializeApp(firebaseConfig)
+    // const auth = getAuth(app)
 
-    const handleSignUp = () => {
-        createUserWithEmailAndPassword(auth, email, password)
-        .then((doctorCredential) =>  {
-            console.log('Account Created')
-            const user = doctorCredential.user
-            console.log(user)
-            navigation.navigate('DocHome')
-        }) 
-        .catch(error => {
-            Alert.alert(error.message)
-            console.log(error)
-        }
-           
+    const handleDocSignUp = async() => {
+        createUserWithEmailAndPassword(authentication, email, password)
+            .then((docCredential) => {
+                console.log('Account Created')
+
+                const user = docCredential.user
+                console.log(user)
+                navigation.navigate('DocHome')
+            },
+            await setDoc(doc(db, 'doctorList', 'Random_doc'), {
+                doc_name: 'Jelly',
+                doc_gender: 'Female'
+            }))
+            .catch(error => {
+                Alert.alert(error.message)
+                console.log(error)
+            }
+
             )
     }
+
+
     return (
         <View style={styles.container}>
             <Text style={styles.h1}>Doctor</Text>
@@ -44,12 +51,11 @@ const DocSignUp = ({ navigation, route }) => {
             </View> */}
 
 
-            <KeyboardAvoidingView>        
-                    <TextInput placeholder='Email'  onChangeText={(text) => setEmail(text)} style={styles.textInput} />
-                    <TextInput placeholder='Password' onChangeText={text => setPassword(text)} secureTextEntry style={styles.textInput} />
-            </KeyboardAvoidingView>
-
-            <TouchableOpacity style={styles.buttonBoxContainer} onPress={handleSignUp}>
+            <KeyboardAvoidingView>
+                <TextInput placeholder='Email' onChangeText={(text) => setEmail(text)} style={styles.textInput} />
+                <TextInput placeholder='Password' onChangeText={text => setPassword(text)} secureTextEntry style={styles.textInput} />
+            </KeyboardAvoidingView>  
+            <TouchableOpacity style={styles.buttonBoxContainer} onPress={handleDocSignUp}>
                 <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
                 <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
             </TouchableOpacity>
