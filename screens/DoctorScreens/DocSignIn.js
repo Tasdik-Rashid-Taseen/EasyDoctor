@@ -1,12 +1,13 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, KeyboardAvoidingView, Alert } from 'react-native'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 import { authentication } from '../../firebase'
 import { db } from '../../firebase'
-import {collection, getDocs, doc, setDoc} from 'firebase/firestore/lite'
 
 import Icon from '../Icon'
 import { async } from '@firebase/util'
+import { collection, getDocs, doc } from 'firebase/firestore/lite'
+
 
 const DocSignIn = ({ navigation, route }) => {
 
@@ -25,43 +26,57 @@ const DocSignIn = ({ navigation, route }) => {
     //         city_name: city,
     //     })
     // }
+    const [currentUser, setCurrentUser] = useState('')
+    useEffect(()=> {
+        onAuthStateChanged(authentication, (user) => {
+            if(user) {
+                setCurrentUser(user)
+                // console.log(user.uid)
+            }else {
+                console.log("no user available")
+            }
+        })
+    })
 
-
-    const handleDocSignIn = async() => {
-        signInWithEmailAndPassword(authentication, email, password)
-            .then((docCredential) => {
-                console.log('Signed In')
-                const user = docCredential.user
-                console.log(user)
-                // setIsSignedIn(true)
-                
+    const handleDocSignIn =  () => {
+        
+            signInWithEmailAndPassword(authentication, email, password)
+            .then(async (result) => {
+                const doctorCollection = collection(db, 'doctorList')
+                const doctorSnapshot = await getDocs(doctorCollection)
+                const doctorList = doctorSnapshot.docs.map(doc => doc.data())
+                console.log(doctorList)
+            //   console.log( result.user.role) 
                 navigation.navigate('DocHome')
+               
             },
-            await setDoc(doc(db, 'doctorList', 'Random_doc'), {
-                doc_name: 'Rony',
-            }))
+                )
             .catch(error => {
                 Alert.alert(error.message)
                 console.log(error)
             }
+
             )
+        
+        
     }
 
 
 
-    // const handleSignIn = () => {
-    //     signInWithEmailAndPassword(auth, email, password)
-    //     .then((userCredential) =>  {
-    //         console.log('Signed In')
-    //         const user = userCredential.user
-    //         console.log(user)
-    //         navigation.navigate('DocHome')
-    //     }) 
-    //     .catch(error => {
-    //         Alert.alert(error.message)
-    //         console.log(error)
-    //     }
-
+    // const handleDocSignIn = async() => {
+    //     signInWithEmailAndPassword(authentication, email, password)
+    //         .then((docCredential) => {
+    //             console.log('Signed In')
+    //             const user = docCredential.user
+    //             console.log(user)
+    //             // setIsSignedIn(true)
+                
+    //             navigation.navigate('DocHome')
+    //         })
+    //         .catch(error => {
+    //             Alert.alert(error.message)
+    //             console.log(error)
+    //         }
     //         )
     // }
 
