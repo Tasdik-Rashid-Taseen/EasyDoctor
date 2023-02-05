@@ -1,10 +1,35 @@
 import React, { useState } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable } from 'react-native'
-
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Platform } from 'react-native'
+// import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
+import RNDateTimePicker from '@react-native-community/datetimepicker'
 import Icon from '../Icon'
 const BookApp = ({ navigation, route }) => {
   function presssedOption() {
     console.log('Pressed')
+  }
+
+  const [date, setDate] = useState(new Date())
+  const [mode, setMode] = useState('date')
+  const [show, setShow] = useState(false)
+  const [text, setText]= useState('Empty')
+  const [dateText, setDateText] = useState('Day/Month/Year')
+  const [timeText, setTimeText] = useState('24 Hours Format')
+  const onChange = (e, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(false)
+    setDate(currentDate)
+
+    let temDate = new Date(currentDate)
+    let fDate = temDate.getDate() + '/' + (temDate.getMonth() + 1) + '/' + temDate.getFullYear();
+    let fTime = 'Hours ' + temDate.getHours() + ' | Minutes ' + temDate.getMinutes();
+    setText(fDate + '\n' + fTime)
+    setDateText(fDate)
+    setTimeText(fTime)
+    console.log(fDate + '\n' + fTime)
+  }
+  const showMode = (currentMode) => {
+    setShow(true)
+    setMode(currentMode)
   }
   return (
     <View style={styles.contents}>
@@ -13,11 +38,33 @@ const BookApp = ({ navigation, route }) => {
         <View>
           <TextInput placeholder='Catergory' style={styles.textInput} />
           <TextInput placeholder='Doctor' style={styles.textInput} />
-          <TextInput placeholder='Date' style={styles.textInput} />
-          <TextInput placeholder='Time' style={styles.textInput} />
+          <View style={styles.picker}>
+            <Text style={styles.displayedText}>{dateText}</Text>
+            <Pressable >
+              <Text style={styles.pickButton} onPress={()=> showMode('date')}>Date</Text>
+            </Pressable>
+          </View>
+          <View style={styles.picker}>
+            <Text style={styles.displayedText}>{timeText}</Text>
+            <Pressable >
+              <Text style={styles.pickButton} onPress={()=> showMode('time')}>Date</Text>
+            </Pressable>
+          </View>
           <TextInput placeholder='Payment mathod' style={styles.textInput} />
           <TextInput multiline numberOfLines={4} maxLength={40} placeholder='Write your problem' style={styles.textInput} />
         </View>
+
+     
+      {show && (
+        <RNDateTimePicker 
+        testID='dateTimePicker'
+        value={date}
+         mode={mode}
+        is24Hour={false}
+        // display='default'
+        onChange={onChange}
+        />
+      )}
 
         <TouchableOpacity style={styles.buttonBoxContainer} onPress={() => navigation.navigate('PatientHome')}>
           <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
@@ -87,6 +134,26 @@ const styles = StyleSheet.create({
 
 
   },
+  picker:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10, 
+    borderWidth: 1,
+    borderColor: "#AEBDCA",
+    marginVertical: 8,
+  },
+  displayedText:{
+    fontSize: 14,
+    color: '#827D7D',
+    marginLeft: 8
+  },
+  pickButton:{
+    backgroundColor: '#7895B2',
+    // height: 30,
+    color: 'white',
+    fontSize: 15,
+    paddingVertical: 3
+  },  
   optionIcon: {
     marginLeft: 5,
     fontSize: 30,

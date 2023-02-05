@@ -1,65 +1,104 @@
-import {React, useState} from 'react'
+import { React, useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, KeyboardAvoidingView, Alert } from 'react-native'
-import { getAuth, signInWithEmailAndPassword} from 'firebase/auth'
-import {initializeApp} from 'firebase/app'
-import { firebaseConfig } from '../../firebase'
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
+import { authentication } from '../../firebase'
+import { db } from '../../firebase'
+
 import Icon from '../Icon'
+import { async } from '@firebase/util'
+import { collection, getDocs, doc } from 'firebase/firestore/lite'
 
 const PatientSignIn = ({ navigation, route }) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const app = initializeApp(firebaseConfig)
-    const auth = getAuth(app)
+    // const app = initializeApp(firebaseConfig)
+    // const auth = getAuth(app)
 
-    const handleSignIn = () => {
-        signInWithEmailAndPassword(auth, email, password)
-        .then((patientCredential) =>  {
-            console.log('Signed In')
-            const user = patientCredential.user
-            console.log(user)
-            navigation.navigate('PatientHome')
-        }) 
-        .catch(error => {
-            
-            if(error.code === 'auth/invalid-email'){
-                console.log('This email address is invalid!')
-                Alert.alert('This email address is invalid!')
+    // const addData = async()=>{
+    //     const city = "Khulna";
+    //     // const citiesCol = collection(db, 'cities')
+    //     // const citySnapshot = await getDocs(citiesCol)
+    //     // const cityList = citySnapshot.docs.map(doc => doc.data())
+    //     // console.log(cityList)
+    //     await setDoc(doc(db, 'cities', 'Random_doc'), {
+    //         city_name: city,
+    //     })
+    // }
+    const [currentUser, setCurrentUser] = useState('')
+    useEffect(()=> {
+        onAuthStateChanged(authentication, (user) => {
+            if(user) {
+                setCurrentUser(user)
+                // console.log(user.uid)
+            }else {
+                console.log("no user available")
+            }
+        })
+    })
 
+    const handlePatientSignIn =  () => {
+        
+            signInWithEmailAndPassword(authentication, email, password)
+            .then(async (result) => {
+                const patientCollection = collection(db, 'patientList')
+                const patientSnapshot = await getDocs(patientCollection)
+                const patientList = patientSnapshot.docs.map(doc => doc.data())
+                console.log(patientList)
+            //   console.log( result.user.role) 
+                navigation.navigate('PatientHome')
+               
+            },
+                )
+            .catch(error => {
+                Alert.alert(error.message)
+                console.log(error)
             }
-            if(error.code === 'auth/user-not-found'){
-                console.log('Not a registered email! Please create an account.')
-                Alert.alert('Not a registered email! Please create an account.')
 
-            }
-            if(error.code === 'auth/wrong-password'){
-                console.log('Wrong Password!')
-                Alert.alert('Wrong Password!')
-            }
-            console.error(error)
-            console.log(error)
-        }
-           
             )
+        
+        
     }
+
+
+
+    // const handleDocSignIn = async() => {
+    //     signInWithEmailAndPassword(authentication, email, password)
+    //         .then((docCredential) => {
+    //             console.log('Signed In')
+    //             const user = docCredential.user
+    //             console.log(user)
+    //             // setIsSignedIn(true)
+                
+    //             navigation.navigate('DocHome')
+    //         })
+    //         .catch(error => {
+    //             Alert.alert(error.message)
+    //             console.log(error)
+    //         }
+    //         )
+    // }
 
     return (
         <View style={styles.container}>
-            <Text style={styles.h1}>Patient Sign In</Text>
+            <Text style={styles.h1}>Doctor Sign In</Text>
             <View>
-            <KeyboardAvoidingView>        
-                    <TextInput placeholder='Email'  onChangeText={(text) => setEmail(text)} style={styles.textInput} />
+                <KeyboardAvoidingView>
+                    <TextInput placeholder='Email' onChangeText={(text) => setEmail(text)} style={styles.textInput} />
                     <TextInput placeholder='Password' onChangeText={text => setPassword(text)} secureTextEntry style={styles.textInput} />
-            </KeyboardAvoidingView>
+                </KeyboardAvoidingView>
             </View>
+            {/* <Button title='Get Data' onPress={addData}></Button> */}
+     
+                <TouchableOpacity style={styles.buttonBoxContainer} onPress={handlePatientSignIn}>
+                    <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
+                    <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
+                </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonBoxContainer} onPress={handleSignIn}>
-                <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
-                <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
-            </TouchableOpacity>
+
             <View style={styles.SignUpMessage}>
-                <Text style={{color: 'blue', fontSize: 17}}
-                    onPress={() => navigation.navigate('DocSignUp')}>Don't have an account? Sign Up
+                <Text style={{ color: 'blue', fontSize: 17 }}
+                    onPress={() => navigation.navigate('PatientSignUp')}>Don't have an account? Sign Up
                 </Text>
             </View>
         </View>

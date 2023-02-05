@@ -43,7 +43,7 @@ const DocSignUp = ({ navigation, route }) => {
             .then(async (result) => {
                 console.log('Account Created')
                 navigation.navigate('DocHome')
-                await setDoc(doc(db, 'doctorList', result.user.uid), {
+                await setDoc(doc(db, 'doctorList', result.user.uid), {          
                     doc_username: userName,
                     doc_gender: gender,
                     doc_email: email,

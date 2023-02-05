@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable,
 import { getAuth } from 'firebase/auth'
 import {initializeApp} from 'firebase/app'
 import { firebaseConfig } from '../../firebase'
+import { authentication } from '../../firebase'
 import Icon from '../Icon'
 const PatientProfile = ({ navigation, route }) => {
     
@@ -12,6 +13,14 @@ const PatientProfile = ({ navigation, route }) => {
         console.log('Pressed')
     }
     
+    function patientLogOut(){
+        authentication
+        .signOut()
+        .then(() => {
+            navigation.navigate('PatientSignIn')
+        })
+
+    }
 
     
     return (
@@ -51,7 +60,7 @@ const PatientProfile = ({ navigation, route }) => {
                         </View>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.buttonBoxContainer} onPress="">
+                <TouchableOpacity style={styles.buttonBoxContainer} onPress={patientLogOut}>
                     <Text style={{ color: 'white', fontSize: 16 }} >Logout</Text>
                     <Icon style={styles.buttonIcon} type="ant" name="logout" ></Icon>
                 </TouchableOpacity>
