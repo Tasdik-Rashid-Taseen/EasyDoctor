@@ -57,8 +57,6 @@ import PatientProfile from './screens/PatientScreens/PatientProfile';
 import ProfileDetails from './screens/PatientScreens/ProfileDetails';
 import Settings from './screens/PatientScreens/Settings';
 
-import { Button } from 'react-native-web';
-
 
 import Icon from './screens/Icon';
 const App = () => {

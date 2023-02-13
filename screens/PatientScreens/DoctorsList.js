@@ -1,6 +1,14 @@
-import React from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, ScrollView, Pressable, Image } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, ScrollView, Pressable, Image, FlatList, ActivityIndicator } from 'react-native'
+import firebaseConfig from '../../firebase'
 import Icon from '../Icon'
+import { authentication } from '../../firebase'
+import SignUp1 from '../CommonScreens/SignUp1'
+import { db } from '../../firebase'
+import { collection, getDocs, doc, setDoc, QuerySnapshot, getDoc } from 'firebase/firestore/lite'
+import { async } from '@firebase/util';
+import Doctor from './Doctor'
+
 const DoctorsList = ({ navigation, route }) => {
   function presssedCategory() {
     console.log('Pressed')
@@ -10,13 +18,155 @@ const DoctorsList = ({ navigation, route }) => {
     console.log('Pressed')
   }
 
-  function pressedDoctor() {
-    console.log('Pressed')
-  }
+  // const [docList, setDocList] = useState([])
+
+  // useEffect(() => {
+  //   const getUsers =  async () => {
+  //     const querySnapshot = await getDocs(collection(db, 'doctorList', email))
+  //     setDocList(querySnapshot.docs.map((doc)=> ({
+  //      ...doc.data(), 
+  //      id: doc.id
+  //     })))
+  //     getUsers()
+  //    }
+  // }, []) 
+
+  const email = authentication.currentUser.email
+  const userDocRef = doc(db,"doctorList", email)
+  const [users, setUsers] = useState([])
+  
+  // useEffect(() => {
+  //   const getUser = async () => {
+  //     const snap = await getDoc(userDocRef)
+  //     setUser({email, ...snap.data()})
+  //     console.log(email)
+  //     console.log(user)
+  //   }
+  //   getUser()
+  //   console.log(user)
+  // },[])
+
+  // useEffect(() => {
+  //   const getDocInfo = async () => {
+  //     const doctorCollection = collection(db, 'doctorList')
+  //     const doctorSnapshot = await getDocs(doctorCollection)
+  //     // const doctorList = doctorSnapshot.docs.map(doc => doc.data().doc_username)
+  //     // console.log(doctorList)
+  //     const doctorList = doctorSnapshot.docs.forEach(doc => {
+  //       setUsers({
+  //         ...doc.data(),
+  //         id: doc.id,
+  //       })
+  //       // This one works
+  //       // doc.data().doc_username
+  //       // console.log('Doctor - ', doc.id, doc.data().doc_username)
+  //     })
+  //   }
+  //   getDocInfo();
+    
+  // })
+
+//  console.log(user)
+
+
+  // useEffect(() => {
+  //   const getUser = async () => {
+  //     const snap = await getDoc(userDocRef)
+  //     setUser({email, ...snap.data()})
+  //     console.log(email)
+  //     console.log(user)
+  //   }
+  //   getUser()
+  //   console.log(user)
+  // },[])
+
+  useEffect(() => {
+    const getDocInfo = async () => {
+      const doctorCollection = collection(db, 'doctorList')
+      const doctorSnapshot = await getDocs(doctorCollection)
+      setUsers(doctorSnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id
+      })))
+       
+    }
+    getDocInfo();
+    
+  }, [])
+
+
+
+
+//  const getData = async () => {
+//   const querySnapshot = await getDocs(collection(db, 'doctorList'))
+//   querySnapshot.forEach((doc) => {
+//     console.log(doc.id , doc.data());
+//     setDocList({
+//       ...doc.data(),
+//       id: doc.id,
+//     })
+//   })
+//  }
+//  useEffect(() => {
+//   getData();
+//  }, [])
+
+  
   return (
+  
+
+        
     <View style={styles.contents}>
       <View style={styles.container}>
-        <ScrollView>
+
+     {
+      users.map((user) => {
+        return (
+          <View>
+            {/* <Text>Name: {user.doc_username}</Text>
+            <Text>Speciality: {user.doc_speciality}</Text> */}
+            <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
+                <Image style={styles.docImageS} source={require('../images/doctors/doc1.jpg')}></Image>
+                <View style={styles.docInfo} >
+                  <Text style={styles.textBold} >{user.doc_username}</Text>
+                  <Text style={styles.textThin}>{user.doc_speciality}</Text>
+                  <Text>Ratings: 5</Text>
+                </View>
+                <Text style={styles.book} onPress={() => navigation.navigate('MakeApp')}>Book Appontment</Text>
+              </TouchableOpacity>
+          </View>
+        )
+      })
+     }
+      
+      {/* {
+        user.length > 0 ?
+        <FlatList
+        data={user}
+        renderItem = {({item}) =><Doctor title={item.id}></Doctor>}
+        keyExtractor={item=>item.id}
+        
+        />:
+        // <ActivityIndicator/>
+        <Text>NOthing</Text>
+      }
+     */}
+
+
+        {/* {docList.length > 0 ? (
+          <FlatList 
+        data={docList}
+        renderItem={({item}) => 
+        <Text>{doc_username}</Text>
+        }
+        keyExtractor={item=>item.id}
+        /> 
+        ) : (
+          console.log('error')
+        )} */}
+        
+        
+        {/* <ScrollView>
           <View style={styles.searchBoxContainer}>
             <Icon style={styles.filterIcon} type="ant" name="search1" ></Icon>
             <TextInput placeholder='Search Doctors' />
@@ -36,12 +186,12 @@ const DoctorsList = ({ navigation, route }) => {
 
           </View>
           <View style={styles.doctor}>
-            <Text style={styles.title}>Suggested Doctors</Text>
-            <Pressable style={styles.listDoctors} onPress={pressedDoctor}>
+            <Text style={styles.title}>Suggested Doctors</Text>      
+            <Pressable style={styles.listDoctors} >
               <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
                 <Image style={styles.docImageS} source={require('../images/doctors/doc1.jpg')}></Image>
-                <View style={styles.docInfo}>
-                  <Text style={styles.textBold}>Fazle Rabbi Tuhin</Text>
+                <View style={styles.docInfo} >
+                  <Text style={styles.textBold} onPress={pressedDoctor}>Fazle Rabbi Tuhin</Text>
                   <Text style={styles.textThin}>Medicine & Cardiology</Text>
                   <Text>Ratings: 5</Text>
                 </View>
@@ -148,7 +298,12 @@ const DoctorsList = ({ navigation, route }) => {
               </TouchableOpacity>
             </Pressable>
           </View>
-        </ScrollView>
+        </ScrollView> */}
+        <Button title='click'></Button>
+        {/* <View key={docList.email}>
+        <Text>{docList.num}</Text>
+        </View> */}
+       
       </View>
       <Pressable style={styles.footer} onPress={presssedOption}>
 

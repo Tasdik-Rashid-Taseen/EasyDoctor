@@ -47,7 +47,7 @@ const BookApp = ({ navigation, route }) => {
           <View style={styles.picker}>
             <Text style={styles.displayedText}>{timeText}</Text>
             <Pressable >
-              <Text style={styles.pickButton} onPress={()=> showMode('time')}>Date</Text>
+              <Text style={styles.pickButton} onPress={()=> showMode('time')}>Time</Text>
             </Pressable>
           </View>
           <TextInput placeholder='Payment mathod' style={styles.textInput} />

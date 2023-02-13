@@ -46,6 +46,7 @@ const DocSignIn = ({ navigation, route }) => {
                 const doctorSnapshot = await getDocs(doctorCollection)
                 const doctorList = doctorSnapshot.docs.map(doc => doc.data())
                 console.log(doctorList)
+                
             //   console.log( result.user.role) 
                 navigation.navigate('DocHome')
                
@@ -82,6 +83,7 @@ const DocSignIn = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
+        
             <Text style={styles.h1}>Doctor Sign In</Text>
             <View>
                 <KeyboardAvoidingView>
