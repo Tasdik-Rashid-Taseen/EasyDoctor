@@ -9,7 +9,7 @@ const HealthTips = ({ navigation, route }) => {
     return (
         <View style={styles.contents}>
             <View style={styles.container}>
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.searchBoxContainer}>
                         <Icon style={styles.filterIcon} type="ant" name="search1" ></Icon>
                         <TextInput placeholder='Search' />

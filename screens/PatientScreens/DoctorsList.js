@@ -87,14 +87,18 @@ const DoctorsList = ({ navigation, route }) => {
       setUsers(doctorSnapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id
-      })))
+      }
+     
+      )))
        
     }
     getDocInfo();
     
   }, [])
 
-
+  for(let i=0; i<=users.length; i++){
+    console.log(users[i])
+  }
 
 
 //  const getData = async () => {
@@ -111,33 +115,62 @@ const DoctorsList = ({ navigation, route }) => {
 //   getData();
 //  }, [])
 
-  
+  const clickedMakeApp = () => {
+    navigation.navigate('MakeApp')
+   
+  }
   return (
   
-
+    
         
     <View style={styles.contents}>
       <View style={styles.container}>
+    <ScrollView showsVerticalScrollIndicator={false}>
+    <View style={styles.searchBoxContainer}>
+            <Icon style={styles.filterIcon} type="ant" name="search1" ></Icon>
+            <TextInput placeholder='Search Doctors' />
+          </View>
+          <View style={styles.category}>
+            <Text style={styles.title}>Category</Text>
+            <Pressable onPress={presssedCategory}>
+              <View style={styles.listCategories}>
+                <Text style={styles.listCategory}>All</Text>
+                <Text style={styles.listCategory}>Neuro & Spine Surgery</Text>
+                <Text style={styles.listCategory}>Medicine & Cardiology</Text>
+                <Text style={styles.listCategory}>ENT</Text>
+                <Text style={styles.listCategory}>General Surgery</Text>
+                <Text style={styles.listCategory}>Medicine</Text>
+              </View>
+            </Pressable>
 
-     {
+          </View>
+          <Text style={styles.title}>Suggested Doctors</Text>  
+          {
       users.map((user) => {
         return (
-          <View>
-            {/* <Text>Name: {user.doc_username}</Text>
+          <View style={styles.docContents}>
+            
+{/* <Text>Name: {user.doc_username}</Text>
             <Text>Speciality: {user.doc_speciality}</Text> */}
-            <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
+            <View style={styles.doctor}>
+            <Pressable style={styles.listDoctors} >
+              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
                 <Image style={styles.docImageS} source={require('../images/doctors/doc1.jpg')}></Image>
                 <View style={styles.docInfo} >
-                  <Text style={styles.textBold} >{user.doc_username}</Text>
+                <Text style={styles.textBold} >{user.doc_username}</Text>
                   <Text style={styles.textThin}>{user.doc_speciality}</Text>
-                  <Text>Ratings: 5</Text>
+                  <Text style={styles.textThin}>{user.doc_location}</Text>
                 </View>
-                <Text style={styles.book} onPress={() => navigation.navigate('MakeApp')}>Book Appontment</Text>
+                <Text style={styles.book} onPress={clickedMakeApp}>Book Appontment</Text>
               </TouchableOpacity>
+              </Pressable>
+              </View>                 
           </View>
         )
       })
      }
+    </ScrollView>
+     
       
       {/* {
         user.length > 0 ?
@@ -388,6 +421,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
 
+  },
+
+  docContents:{
+    flexDirection: 'row'
   },
   doctor: {
     flex: 1,

@@ -7,7 +7,7 @@ const BookApp = ({ navigation, route }) => {
   function presssedOption() {
     console.log('Pressed')
   }
-
+  // const doc_username = route.params?.doc_username
   const [date, setDate] = useState(new Date())
   const [mode, setMode] = useState('date')
   const [show, setShow] = useState(false)
@@ -37,7 +37,7 @@ const BookApp = ({ navigation, route }) => {
         {/* <Text style={styles.h1}>Doctor</Text> */}
         <View>
           <TextInput placeholder='Catergory' style={styles.textInput} />
-          <TextInput placeholder='Doctor' style={styles.textInput} />
+          <TextInput placeholder='Doctor' style={styles.textInput}/>
           <View style={styles.picker}>
             <Text style={styles.displayedText}>{dateText}</Text>
             <Pressable >
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   },
   displayedText:{
     fontSize: 14,
-    color: '#827D7D',
+    color: 'black',
     marginLeft: 8
   },
   pickButton:{

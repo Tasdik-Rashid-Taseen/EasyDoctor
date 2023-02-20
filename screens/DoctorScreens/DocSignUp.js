@@ -13,6 +13,25 @@ import { db } from '../../firebase'
 import { collection, getDocs, doc, setDoc } from 'firebase/firestore/lite'
 import { async } from '@firebase/util';
 
+
+
+
+
+import SelectDropdown from 'react-native-select-dropdown'
+
+const selGender = ["Male", "Female", "Others"]
+
+
+
+
+
+
+
+
+
+
+
+
 const DocSignUp = ({ navigation, route }) => {
     // const { role } = route.params;
     const [userName, setUserName] = useState('')
@@ -20,6 +39,7 @@ const DocSignUp = ({ navigation, route }) => {
     const [email, setEmail] = useState('')
     const [number, setNumber] = useState('')
     const [speciality, setSpeciality] = useState('')
+    const [location, setLocation] = useState('')
     const [licenceNum, setLicenceNum] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -50,6 +70,7 @@ const DocSignUp = ({ navigation, route }) => {
                     doc_num: number,
                     doc_speciality: speciality,
                     doc_licenceNum: licenceNum,
+                    doc_location: location,
                     role: 'Doctor'
                 })
             },
@@ -88,13 +109,32 @@ const DocSignUp = ({ navigation, route }) => {
                     <TextInput placeholder='Number' onChangeText={(text) => setNumber(text)} style={styles.textInput} />
                     <Text style={styles.label}>Speciality</Text>
                     <TextInput placeholder='Speciality' onChangeText={(text) => setSpeciality(text)} style={styles.textInput} />
+                    <Text style={styles.label}>Location</Text>
+                    <TextInput placeholder='Location' onChangeText={(text) => setLocation(text)} style={styles.textInput} />
                     <Text style={styles.label}>Licence Number</Text>
                     <TextInput placeholder='Licence Number' onChangeText={(text) => setLicenceNum(text)} style={styles.textInput} />
                     <Text style={styles.label}>Password</Text>
                     <TextInput placeholder='Password' onChangeText={text => setPassword(text)} secureTextEntry style={styles.textInput} />
                     <Text style={styles.label}>Confirm Password</Text>
                     <TextInput placeholder='Password' onChangeText={text => setConfirmPassword(text)} secureTextEntry style={styles.textInput} />
-
+                    <Text style={styles.label}>Gender</Text>
+                    <SelectDropdown
+	data={selGender}
+    
+	onSelect={(selectedItem, index) => {
+		console.log(selectedItem, index)
+	}}
+	buttonTextAfterSelection={(selectedItem, index) => {
+		// text represented after item is selected
+		// if data array is an array of objects then return selectedItem.property to render after item is selected
+		return selectedItem
+	}}
+	rowTextForSelection={(item, index) => {
+		// text represented for each item in dropdown
+		// if data array is an array of objects then return item.property to represent item in dropdown
+		return item
+	}}
+/>
                 </KeyboardAvoidingView>
 
 

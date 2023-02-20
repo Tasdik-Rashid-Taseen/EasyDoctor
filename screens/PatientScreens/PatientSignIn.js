@@ -30,7 +30,7 @@ const PatientSignIn = ({ navigation, route }) => {
         onAuthStateChanged(authentication, (user) => {
             if(user) {
                 setCurrentUser(user)
-                // console.log(user.uid)
+                console.log(user)     
             }else {
                 console.log("no user available")
             }
@@ -81,7 +81,7 @@ const PatientSignIn = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.h1}>Doctor Sign In</Text>
+            <Text style={styles.h1}>Patient Sign In</Text>
             <View>
                 <KeyboardAvoidingView>
                     <TextInput placeholder='Email' onChangeText={(text) => setEmail(text)} style={styles.textInput} />
