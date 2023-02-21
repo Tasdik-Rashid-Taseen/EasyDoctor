@@ -8,6 +8,7 @@ import { initializeAuth, getReactNativePersistence} from 'firebase/auth/react-na
 import { initializeApp } from 'firebase/app'
 import { getAuth} from 'firebase/auth'
 import {getFirestore} from 'firebase/firestore/lite'
+
 const firebaseConfig = {
   apiKey: "AIzaSyDUxhrbGr3o2vZVVeBEih6X5mh4pgicUN4",
   authDomain: "easydoctor-firebase.firebaseapp.com",

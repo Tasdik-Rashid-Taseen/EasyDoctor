@@ -1,22 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable } from 'react-native'
 import Icon from '../Icon'
 const HealthCheck = ({ navigation, route }) => {
+  const [age, setAge] = useState('');
+  const [height, setHeight] = useState('');
+  const [bp, setBP] = useState('');
+  const [temp, setTemp] = useState('');
+
+  function checkHealthBtn() {
+    console.log(age)
+    
+    if(age < 18){
+      console.log('Under age')
+    }
+    else{
+      console.log('Adult')
+    }
+  }
+  
   function presssedOption() {
     console.log('Pressed')
   }
   return (
     <View style={styles.contents}>
       <View style={styles.container}>
-        <Text style={styles.h1}>Doctor</Text>
+        <Text style={styles.h1}>Check your health</Text>
         <View>
-          <TextInput placeholder='Age' style={styles.textInput} />
-          <TextInput placeholder='Height' style={styles.textInput} />
-          <TextInput placeholder='BP' style={styles.textInput} />
-          <TextInput placeholder='Temparature' style={styles.textInput} />
+          <TextInput placeholder='Age' style={styles.textInput} onChangeText={(text) => setAge(text)} />
+          <TextInput placeholder='Height' style={styles.textInput} onChangeText={(text) => setHeight(text)} />
+          <TextInput placeholder='BP' style={styles.textInput} onChangeText={(text) => setBP(text)} />
+          <TextInput placeholder='Temparature' style={styles.textInput} onChangeText={(text) => setTemp(text)} />
         </View>
 
-        <TouchableOpacity style={styles.buttonBoxContainer} onPress={() => navigation.navigate('')}>
+        <TouchableOpacity style={styles.buttonBoxContainer} onPress={checkHealthBtn}>
           <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
           <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
         </TouchableOpacity>

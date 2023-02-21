@@ -6,7 +6,7 @@ import { db } from '../../firebase'
 
 import Icon from '../Icon'
 import { async } from '@firebase/util'
-import { collection, getDocs, doc } from 'firebase/firestore/lite'
+import { collection, getDocs, getDoc, doc } from 'firebase/firestore/lite'
 
 const PatientSignIn = ({ navigation, route }) => {
 
@@ -30,22 +30,22 @@ const PatientSignIn = ({ navigation, route }) => {
         onAuthStateChanged(authentication, (user) => {
             if(user) {
                 setCurrentUser(user)
-                console.log(user)     
+                // console.log(user)     
             }else {
-                console.log("no user available")
+                // console.log("no user available")
             }
         })
+        console.log(currentUser.uid)
     })
 
     const handlePatientSignIn =  () => {
         
             signInWithEmailAndPassword(authentication, email, password)
             .then(async (result) => {
-                const patientCollection = collection(db, 'patientList')
-                const patientSnapshot = await getDocs(patientCollection)
-                const patientList = patientSnapshot.docs.map(doc => doc.data())
-                console.log(patientList)
-            //   console.log( result.user.role) 
+               
+                const patientCollection = await getDoc(doc(db, 'patientList', currentUser.uid))
+                
+                console.log(patientCollection.data())
                 navigation.navigate('PatientHome')
                
             },
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     buttonBoxContainer: {
-        backgroundColor: '#7895B2',
+        backgroundColor: '#698269',
         alignItems: 'center',
         flexDirection: 'row',
         borderWidth: 1,

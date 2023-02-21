@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
         marginVertical: 8,
     },
     buttonBoxContainer: {
-        backgroundColor: '#7895B2',
+        backgroundColor: '#698269',
         alignItems: 'center',
         flexDirection: 'row',
         borderWidth: 1,

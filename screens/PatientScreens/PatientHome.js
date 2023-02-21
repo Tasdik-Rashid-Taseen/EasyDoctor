@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1
   },
   listCategory: {
-    backgroundColor: '#F5EFE6',
+    backgroundColor: '#7895B2',
     // marginHorizontal: 5,
     marginVertical: 10,
     width: '45%',
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     // padding: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
-
+    color: 'white'
   },
 
   appointments: {
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
   },
   tap: {
     fontSize: 16,
-    backgroundColor: '#AEBDCA',
+    backgroundColor: '#698269',
     width: '90%',
     textAlign: 'center',
     color: 'white',

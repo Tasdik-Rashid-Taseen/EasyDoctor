@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, ScrollView, Pressable, Image } from 'react-native'
 import Icon from '../Icon'
 const DocDetails = ({ navigation, route }) => {
+    
     function pressedDoctor() {
         console.log('Pressed')
     }

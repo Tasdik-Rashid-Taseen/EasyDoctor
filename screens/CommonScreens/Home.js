@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   buttonBoxContainer: {
-    backgroundColor: '#7895B2',
+    backgroundColor: '#E96479',
     alignItems: 'center',
     flexDirection: 'row',
     borderWidth: 1,

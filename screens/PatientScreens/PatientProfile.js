@@ -8,11 +8,11 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { authentication } from '../../firebase'
 import Icon from '../Icon'
 import { db } from '../../firebase'
-import { collection, getDocs, doc, setDoc, QuerySnapshot, getDoc } from 'firebase/firestore/lite'
-import { where } from 'firebase/firestore/lite'
+import { doc, getDoc } from 'firebase/firestore/lite'
+import { useRoute } from '@react-navigation/native';
 
 const PatientProfile = ({ navigation, route }) => {
-    const [users, setUsers] = useState([])
+    const [patient, setPatient] = useState([])
     useEffect(() => {
         onAuthStateChanged(authentication, async (user) => {
             if(user) {
@@ -22,7 +22,7 @@ const PatientProfile = ({ navigation, route }) => {
                 
                 // const patientList = patientCollection.docs.map(doc => doc.data())
                 // console.log(patientCollection.data())
-                setUsers(patientCollection.data());
+                setPatient(patientCollection.data());
                 
             }else {
                 console.log("no user available")
@@ -30,28 +30,11 @@ const PatientProfile = ({ navigation, route }) => {
             
         })
        
-                // const getPatientInfo = async () => {
-                    
-                // //   console.log( result.user.role) 
-                
-                // }
-                
-                // getPatientInfo()
-               
-            
-        // firestore()
-        // .collection('patientList')
-        // .doc(userID)
-        // .get()
-        // .then(documentSnap => {
-        //     console.log('User exists', documentSnap.exists)
-        //     if(documentSnap.exists){
-        //         console.log('User data', documentSnap.data())
-        //     }
-        // })
+       
     })
     function presssedOption() {
         console.log('Pressed')
+        
     }
     
     function patientLogOut(){
@@ -63,6 +46,10 @@ const PatientProfile = ({ navigation, route }) => {
 
     }
 
+
+
+
+
     
     return (
         <View style={styles.contents}>
@@ -71,7 +58,7 @@ const PatientProfile = ({ navigation, route }) => {
                 <View style={styles.pic_name}>
                     <Image style={styles.docImageS} source={require('../images/doctors/doc4.jpg')}></Image>
                     {/* <Text style={styles.h2}>Md. Tasdik Rashid</Text> */}
-                    <Text style={styles.h2}>{users.patient_username}</Text>
+                    <Text style={styles.h2}>{patient.patient_username}</Text>
                 </View>
                 <View style={styles.profile_opts}>
                     <TouchableOpacity style={styles.profile_opt} onPress={() => navigation.navigate('ProfileDetails')}>

@@ -1,7 +1,50 @@
-import React from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image } from 'react-native'
+import { React, useState, useEffect } from 'react'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image, Modal } from 'react-native'
+import { db } from '../../firebase'
+import { doc, getDoc } from 'firebase/firestore/lite'
+import { authentication } from '../../firebase'
+import { onAuthStateChanged } from 'firebase/auth'
 import Icon from '../Icon'
+import { SafeAreaView } from 'react-native-safe-area-context'
 const ProfileDetails = ({ navigation, route }) => {
+    const [isModalVisible, setisModalVisible] = useState(false)
+    const [patient, setPatient] = useState([])
+    const [inputText, setinputText] = useState();
+    // const [editItem, seteditItem] = useState();
+    useEffect(() => {
+        onAuthStateChanged(authentication, async (user) => {
+            if (user) {
+                // console.log(user.uid)
+                const userID = user.uid;
+                const patientCollection = await getDoc(doc(db, 'patientList', userID))
+
+                // const patientList = patientCollection.docs.map(doc => doc.data())
+                // console.log(patientCollection.data())
+                setPatient(patientCollection.data());
+
+            } else {
+                console.log("no user available")
+            }
+
+        })
+
+
+    })
+    const onPressItem = () => {
+        setisModalVisible(true);
+        setinputText(patient.patient_username)
+       console.log("pressed")
+    }
+
+    const onPressSaveEdit = () => {
+
+    }
+
+    function profileOptChg(event) {
+        const id = event.currentTarget.id;
+        console.log(id);
+    }
+
     function presssedOption() {
         console.log('Pressed')
     }
@@ -9,33 +52,55 @@ const ProfileDetails = ({ navigation, route }) => {
         <View style={styles.contents}>
             <View style={styles.container}>
 
-
+            <SafeAreaView>
+                
+            </SafeAreaView>
                 <View style={styles.profile_opts}>
                     <TouchableOpacity style={styles.profile_opt} >
-                        <Text style={{ fontSize: 18, }}>First Name</Text>
-                        <Text style={{ fontSize: 18, }}>Tasdik</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.profile_opt} >
-                        <Text style={{ fontSize: 18, }}>Last Name</Text>
-                        <Text style={{ fontSize: 18, }}>Rashid</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.profile_opt}>
                         <Text style={{ fontSize: 18, }}>Username</Text>
-                        <Text style={{ fontSize: 18, }}>tasdikrashid</Text>
+                        <Text style={{ fontSize: 18, }}>{patient.patient_username}</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.profile_opt}>
+                        <Text style={{ fontSize: 18, }}>Gender</Text>
+                        <Text style={{ fontSize: 18, }}>{patient.patient_gender}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.profile_opt}>
                         <Text style={{ fontSize: 18, }}>Number</Text>
-                        <Text style={{ fontSize: 18, }}>01757744079</Text>
+                        <Text style={{ fontSize: 18, }}>{patient.patient_num}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.profile_opt}>
                         <Text style={{ fontSize: 18, }}>Mail</Text>
-                        <Text style={{ fontSize: 18, }}>tasdikrashid@gmail.com</Text>
+                        <Text style={{ fontSize: 18, }}>{patient.patient_email}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.profile_opt}>
+                    <TouchableOpacity style={styles.profile_opt} >
                         <Text style={{ fontSize: 18, }}>Password</Text>
                         <Text style={{ fontSize: 18, }}>**********</Text>
                     </TouchableOpacity>
+                    <Modal
+                        animationType='fade'
+                        visible={isModalVisible}
+                        onRequestClose={() => setisModalVisible(false)}
+                    >
+                        <View style={styles.modalView}>
+                            <Text style={{fontSize: 18}}>Change Details</Text>
+                            <TextInput style={styles.modalTextInput} onChangeText={(text) => setinputText(text)} defaultValue={patient.patient_username} editable={true} multiline={false} maxLength={200}></TextInput>
+                            <TextInput style={styles.modalTextInput} onChangeText={(text) => setinputText(text)} defaultValue={patient.patient_gender} editable={true} multiline={false} maxLength={200}></TextInput>
+                            <TextInput style={styles.modalTextInput} onChangeText={(text) => setinputText(text)} defaultValue={patient.patient_num} editable={true} multiline={false} maxLength={200}></TextInput>
+                            {/* <TextInput style={styles.modalTextInput} onChangeText={(text) => setinputText(text)} defaultValue={patient.patient_password} editable={true} multiline={false} maxLength={200}></TextInput> */}
+                            <TouchableOpacity>
+                                <TouchableOpacity style={styles.modalBoxContainer} onPress={() => onPressSaveEdit()}>
+                                    <Text style={{ color: 'white', fontSize: 16 }} >Save</Text>
+                                    <Icon style={styles.buttonIcon} type="ant" name="save" ></Icon>
+                                </TouchableOpacity>
+                            </TouchableOpacity>
+                        </View>
+                    </Modal>
                 </View>
+                <TouchableOpacity style={styles.buttonEditBoxContainer} onPress={onPressItem}>
+                    <Text style={{ color: 'white', fontSize: 16 }} >Edit Details</Text>
+                    <Icon style={styles.buttonIcon} type="ant" name="edit" ></Icon>
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.buttonBoxContainer} onPress={() => navigation.navigate('')}>
                     <Text style={{ color: 'white', fontSize: 16 }} >Delete Account</Text>
                     <Icon style={styles.buttonIcon} type="ant" name="delete" ></Icon>
@@ -43,10 +108,10 @@ const ProfileDetails = ({ navigation, route }) => {
             </View>
             <Pressable style={styles.footer} onPress={presssedOption}>
 
-            <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('PatientProfile')}></Icon>
+                <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
+                <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
+                <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
+                <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('PatientProfile')}></Icon>
 
             </Pressable>
         </View>
@@ -83,6 +148,21 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#AEBDCA",
         width: "100%",
+        padding: 6,
+        paddingLeft: 16,
+        marginVertical: 8,
+
+    },
+
+    modalView:{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    modalTextInput: {
+        borderWidth: 1,
+        borderColor: "#AEBDCA",
+        width: "80%",
         padding: 6,
         paddingLeft: 16,
         marginVertical: 8,
@@ -134,6 +214,28 @@ const styles = StyleSheet.create({
         paddingLeft: 16,
         marginVertical: 8,
         justifyContent: 'center',
+        alignSelf: 'center'
+    },
+    buttonEditBoxContainer:{
+        backgroundColor: '#7895B2',
+        alignItems: 'center',
+        flexDirection: 'row',
+        width: "100%",
+        padding: 6,
+        paddingLeft: 16,
+        marginVertical: 8,
+        justifyContent: 'center',
+        alignSelf: 'center'
+    },
+    modalBoxContainer:{
+        backgroundColor: 'black',
+        // alignItems: 'flex-start',
+        flexDirection: 'row',
+        width: "100%",
+        paddingVertical: 6,
+        paddingHorizontal: 20,
+        marginVertical: 8,
+        justifyContent: 'flex-start',
         alignSelf: 'center'
     },
     optionIcon: {
