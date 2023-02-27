@@ -30,10 +30,9 @@ const PatientSignUp = ({ navigation, route }) => {
     useEffect(()=> {
         onAuthStateChanged(authentication, (user) => {
             if(user) {
-                setCurrentUser(user)
-                // console.log(user.uid)
+                setCurrentUser(user.uid)    
             }else {
-                console.log("no user available")
+                // console.log("no user available")
             }
         })
     })
@@ -43,7 +42,9 @@ const PatientSignUp = ({ navigation, route }) => {
             createUserWithEmailAndPassword(authentication, email, password)
             .then(async (result) => {
                 console.log('Account Created')
-                navigation.navigate('PatientHome')
+                navigation.navigate('PatientHome', {
+                    userID: currentUser,
+                })
                 await setDoc(doc(db, 'patientList', result.user.uid), {
                     patient_username: userName,
                     patient_gender: gender,
@@ -87,7 +88,7 @@ const PatientSignUp = ({ navigation, route }) => {
                     <Text style={styles.label}>Number</Text>
                     <TextInput placeholder='Number' onChangeText={(text) => setNumber(text)} style={styles.textInput} />
                     <Text style={styles.label}>NID Number</Text>
-                    <TextInput placeholder='Licence Number' onChangeText={(text) => setNidNum(text)} style={styles.textInput} />
+                    <TextInput placeholder='NID Number' onChangeText={(text) => setNidNum(text)} style={styles.textInput} />
                     <Text style={styles.label}>Password</Text>
                     <TextInput placeholder='Password' onChangeText={text => setPassword(text)} secureTextEntry style={styles.textInput} />
                     <Text style={styles.label}>Confirm Password</Text>

@@ -1,48 +1,76 @@
 import { React, useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image, Modal } from 'react-native'
 import { db } from '../../firebase'
-import { doc, getDoc } from 'firebase/firestore/lite'
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore/lite'
 import { authentication } from '../../firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 import Icon from '../Icon'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useRoute } from '@react-navigation/native'
 const ProfileDetails = ({ navigation, route }) => {
+   
     const [isModalVisible, setisModalVisible] = useState(false)
     const [patient, setPatient] = useState([])
     const [inputText, setinputText] = useState();
+    const [newUsername, setnewUsername] = useState('')
+    const [newGender, setnewGender] = useState('')
+    const [newNumber, setnewNumber] = useState('')
     // const [editItem, seteditItem] = useState();
     useEffect(() => {
+        // onAuthStateChanged(authentication, async (user) => {
+        //     if (user) {
+        //         // console.log(user.uid)
+        //         const userID = user.uid; 
+        //         const patientCollection = await getDoc(doc(db, 'patientList', userID))
+
+        //         // const patientList = patientCollection.docs.map(doc => doc.data())
+        //         // console.log(patientCollection.data())
+        //         setPatient(patientCollection.data());
+
+        //     } else {
+        //         // console.log("no user available")
+        //     }
+
+        // })
+        const getData = async () => {
+            const patientCollection = await getDoc(doc(db, 'patientList', route.params.userID))
+            setPatient(patientCollection.data());
+        }
+        getData();
+    })
+    const onPressItem = () => {
+        setisModalVisible(true);
+        // setinputText(patient.patient_username)
+        console.log("pressed")
+        console.log(route.params.userID)
+    }
+
+    const onPressSaveEdit = () => {
+        setisModalVisible(false)
         onAuthStateChanged(authentication, async (user) => {
             if (user) {
                 // console.log(user.uid)
                 const userID = user.uid;
-                const patientCollection = await getDoc(doc(db, 'patientList', userID))
 
-                // const patientList = patientCollection.docs.map(doc => doc.data())
-                // console.log(patientCollection.data())
-                setPatient(patientCollection.data());
 
+                console.log("Update")
+                await updateDoc(doc(db, 'patientList', userID), {
+                    patient_username: newUsername,
+                    patient_gender: newGender,
+                    patient_num: newNumber,
+                })
+
+                
             } else {
-                console.log("no user available")
+                //console.log("no user available")
             }
 
         })
-
-
-    })
-    const onPressItem = () => {
-        setisModalVisible(true);
-        setinputText(patient.patient_username)
-       console.log("pressed")
-    }
-
-    const onPressSaveEdit = () => {
-
     }
 
     function profileOptChg(event) {
-        const id = event.currentTarget.id;
-        console.log(id);
+        // const id = event.currentTarget.id;
+        // console.log(id);
     }
 
     function presssedOption() {
@@ -52,9 +80,9 @@ const ProfileDetails = ({ navigation, route }) => {
         <View style={styles.contents}>
             <View style={styles.container}>
 
-            <SafeAreaView>
-                
-            </SafeAreaView>
+                <SafeAreaView>
+
+                </SafeAreaView>
                 <View style={styles.profile_opts}>
                     <TouchableOpacity style={styles.profile_opt} >
                         <Text style={{ fontSize: 18, }}>Username</Text>
@@ -83,10 +111,20 @@ const ProfileDetails = ({ navigation, route }) => {
                         onRequestClose={() => setisModalVisible(false)}
                     >
                         <View style={styles.modalView}>
-                            <Text style={{fontSize: 18}}>Change Details</Text>
-                            <TextInput style={styles.modalTextInput} onChangeText={(text) => setinputText(text)} defaultValue={patient.patient_username} editable={true} multiline={false} maxLength={200}></TextInput>
-                            <TextInput style={styles.modalTextInput} onChangeText={(text) => setinputText(text)} defaultValue={patient.patient_gender} editable={true} multiline={false} maxLength={200}></TextInput>
-                            <TextInput style={styles.modalTextInput} onChangeText={(text) => setinputText(text)} defaultValue={patient.patient_num} editable={true} multiline={false} maxLength={200}></TextInput>
+                            <Text style={{ fontSize: 18 }}>Change Details</Text>
+
+                            <TextInput style={styles.modalTextInput} onChangeText={(text) => {
+                                setinputText(text)
+                                setnewUsername(text)
+                            }} defaultValue={patient.patient_username} editable={true} multiline={false} maxLength={200}></TextInput>
+                            <TextInput style={styles.modalTextInput} onChangeText={(text) => {
+                                setinputText(text)
+                                setnewGender(text)
+                            }} defaultValue={patient.patient_gender} editable={true} multiline={false} maxLength={200}></TextInput>
+                            <TextInput style={styles.modalTextInput} onChangeText={(text) => {
+                                setinputText(text)
+                                setnewNumber(text)
+                            }} defaultValue={patient.patient_num} editable={true} multiline={false} maxLength={200}></TextInput>
                             {/* <TextInput style={styles.modalTextInput} onChangeText={(text) => setinputText(text)} defaultValue={patient.patient_password} editable={true} multiline={false} maxLength={200}></TextInput> */}
                             <TouchableOpacity>
                                 <TouchableOpacity style={styles.modalBoxContainer} onPress={() => onPressSaveEdit()}>
@@ -154,7 +192,7 @@ const styles = StyleSheet.create({
 
     },
 
-    modalView:{
+    modalView: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
@@ -216,7 +254,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'center'
     },
-    buttonEditBoxContainer:{
+    buttonEditBoxContainer: {
         backgroundColor: '#7895B2',
         alignItems: 'center',
         flexDirection: 'row',
@@ -227,7 +265,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'center'
     },
-    modalBoxContainer:{
+    modalBoxContainer: {
         backgroundColor: 'black',
         // alignItems: 'flex-start',
         flexDirection: 'row',

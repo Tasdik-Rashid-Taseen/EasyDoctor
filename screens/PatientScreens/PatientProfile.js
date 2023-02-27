@@ -9,20 +9,24 @@ import { authentication } from '../../firebase'
 import Icon from '../Icon'
 import { db } from '../../firebase'
 import { doc, getDoc } from 'firebase/firestore/lite'
-import { useRoute } from '@react-navigation/native';
 
 const PatientProfile = ({ navigation, route }) => {
+    const [currentUserID, setcurrentUserID] = useState('');
     const [patient, setPatient] = useState([])
     useEffect(() => {
         onAuthStateChanged(authentication, async (user) => {
             if(user) {
                 // console.log(user.uid)
-                const userID = user.uid;
-                const patientCollection = await getDoc(doc(db, 'patientList', userID))
+                // const userID = user.uid;
+                
+                setcurrentUserID(user.uid)
+                
+                const patientCollection = await getDoc(doc(db, 'patientList', currentUserID))
                 
                 // const patientList = patientCollection.docs.map(doc => doc.data())
                 // console.log(patientCollection.data())
                 setPatient(patientCollection.data());
+                // console.log(patientCollection)
                 
             }else {
                 console.log("no user available")
@@ -61,7 +65,13 @@ const PatientProfile = ({ navigation, route }) => {
                     <Text style={styles.h2}>{patient.patient_username}</Text>
                 </View>
                 <View style={styles.profile_opts}>
-                    <TouchableOpacity style={styles.profile_opt} onPress={() => navigation.navigate('ProfileDetails')}>
+                    <TouchableOpacity style={styles.profile_opt} onPress={() => { navigation.navigate('ProfileDetails', 
+                    {
+                        userID: currentUserID,
+                    })
+                            
+                    }
+                        }>
                         <View style={{flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10,}}>
                             <Icon style={styles.optIcon} type="ant" name="user" ></Icon>
                             <Text style={{ fontSize: 16, }}>Profile Details</Text>
@@ -70,7 +80,7 @@ const PatientProfile = ({ navigation, route }) => {
                             <Icon style={styles.optIcon} type="ant" name="right" ></Icon>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.profile_opt} onPress={() => navigation.navigate('Settings')}>
+                    <TouchableOpacity style={styles.profile_opt} onPress={() => navigation.navigate('Settings') }>
                         <View style={{flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10,}}>
                             <Icon style={styles.optIcon} type="ant" name="setting" ></Icon>
                             <Text style={{ fontSize: 16, }}>Settings</Text>

@@ -18,69 +18,16 @@ const DoctorsList = ({ navigation, route }) => {
     console.log('Pressed')
   }
 
-  // const [docList, setDocList] = useState([])
 
-  // useEffect(() => {
-  //   const getUsers =  async () => {
-  //     const querySnapshot = await getDocs(collection(db, 'doctorList', email))
-  //     setDocList(querySnapshot.docs.map((doc)=> ({
-  //      ...doc.data(), 
-  //      id: doc.id
-  //     })))
-  //     getUsers()
-  //    }
-  // }, []) 
 
-  const email = authentication.currentUser.email
-  const userDocRef = doc(db,"doctorList", email)
+
   const [users, setUsers] = useState([])
   
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     const snap = await getDoc(userDocRef)
-  //     setUser({email, ...snap.data()})
-  //     console.log(email)
-  //     console.log(user)
-  //   }
-  //   getUser()
-  //   console.log(user)
-  // },[])
 
-  // useEffect(() => {
-  //   const getDocInfo = async () => {
-  //     const doctorCollection = collection(db, 'doctorList')
-  //     const doctorSnapshot = await getDocs(doctorCollection)
-  //     // const doctorList = doctorSnapshot.docs.map(doc => doc.data().doc_username)
-  //     // console.log(doctorList)
-  //     const doctorList = doctorSnapshot.docs.forEach(doc => {
-  //       setUsers({
-  //         ...doc.data(),
-  //         id: doc.id,
-  //       })
-  //       // This one works
-  //       // doc.data().doc_username
-  //       // console.log('Doctor - ', doc.id, doc.data().doc_username)
-  //     })
-  //   }
-  //   getDocInfo();
-    
-  // })
-
-//  console.log(user)
-
-
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     const snap = await getDoc(userDocRef)
-  //     setUser({email, ...snap.data()})
-  //     console.log(email)
-  //     console.log(user)
-  //   }
-  //   getUser()
-  //   console.log(user)
-  // },[])
 
   useEffect(() => {
+  
+   
     const getDocInfo = async () => {
       const doctorCollection = collection(db, 'doctorList')
       const doctorSnapshot = await getDocs(doctorCollection)
@@ -92,33 +39,20 @@ const DoctorsList = ({ navigation, route }) => {
       )))
        
     }
+    
     getDocInfo();
     
   }, [])
 
-  for(let i=0; i<=users.length; i++){
-    console.log(users[i])
-  }
+  // for(let i=0; i<users.length; i++){
+  //   console.log(users[i])
+  // }
 
-
-//  const getData = async () => {
-//   const querySnapshot = await getDocs(collection(db, 'doctorList'))
-//   querySnapshot.forEach((doc) => {
-//     console.log(doc.id , doc.data());
-//     setDocList({
-//       ...doc.data(),
-//       id: doc.id,
-//     })
-//   })
-//  }
-//  useEffect(() => {
-//   getData();
-//  }, [])
-
-  const clickedMakeApp = () => {
-    navigation.navigate('MakeApp')
+  // const clickedMakeApp = () => {
+    
+    
    
-  }
+  // }
   return (
   
     
@@ -145,10 +79,12 @@ const DoctorsList = ({ navigation, route }) => {
 
           </View>
           <Text style={styles.title}>Suggested Doctors</Text>  
+        
           {
-      users.map((user) => {
+      users.map((user) => {   
+        console.log(user.doc_id)  
         return (
-          <View style={styles.docContents}>
+          <View key={user.id} style={styles.docContents}>
             
 {/* <Text>Name: {user.doc_username}</Text>
             <Text>Speciality: {user.doc_speciality}</Text> */}
@@ -157,11 +93,16 @@ const DoctorsList = ({ navigation, route }) => {
               <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
                 <Image style={styles.docImageS} source={require('../images/doctors/doc1.jpg')}></Image>
                 <View style={styles.docInfo} >
-                <Text style={styles.textBold} >{user.doc_username}</Text>
+                <Text style={styles.textBold}>{user.doc_username}</Text>
                   <Text style={styles.textThin}>{user.doc_speciality}</Text>
-                  <Text style={styles.textThin}>{user.doc_location}</Text>
+                  <Text style={styles.textThin}>{user.doc_location}</Text>  
+                  <Text style={styles.textThin}>{user.doc_id}</Text>  
                 </View>
-                <Text style={styles.book} onPress={clickedMakeApp}>Book Appontment</Text>
+                <Text style={styles.book} onPress={()=> {
+                  navigation.navigate('MakeApp', {
+                    doc_user_id: user.doc_id,
+                  })
+                }}>Book Appontment</Text>
               </TouchableOpacity>
               </Pressable>
               </View>                 

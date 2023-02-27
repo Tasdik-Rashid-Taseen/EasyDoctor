@@ -1,45 +1,74 @@
 import React, { useState } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Alert, KeyboardAvoidingView } from 'react-native'
 import Icon from '../Icon'
 const HealthCheck = ({ navigation, route }) => {
-  const [age, setAge] = useState('');
-  const [height, setHeight] = useState('');
-  const [bp, setBP] = useState('');
-  const [temp, setTemp] = useState('');
+  const [age, setAge] = useState('')
+  const [weight, setWeight] = useState('')
 
-  function checkHealthBtn() {
-    console.log(age)
+  const [height, setHeight] = useState('')
+  const [upperBP, setUpperBP] = useState('')
+  const [lowerBP, setLowerBP] = useState('')
+  const [temp, setTem] = useState('')
+  function presssedOption() {
+    console.log('Pressed')
+  }
+
+
+
+
+  function onConfirm() {
     
-    if(age < 18){
-      console.log('Under age')
+    const bmi = weight / (height * height);
+    let bmiCondition = 'Normal weight';
+    
+    if (bmi < 18.5) bmiCondition = "Under weight";
+    else if (bmi > 25.5) bmiCondition = "Over weight";
+    let bpConditon;
+    if (lowerBP <= 70 || upperBP <= 110) bpConditon = 'Low blood pressure';
+    else if (lowerBP >= 90 || upperBP >= 130) bpConditon = 'High blood pressure'
+    let temCondition;
+    if(temp>98.5){
+      if(temp>=103){
+        temCondition = "High Fever"
+      }
+      else{
+        temCondition = "Fever"
+      }
     }
     else{
-      console.log('Adult')
+      temCondition = "Normal"
     }
+    Alert.alert('BMI: ' + bmiCondition + '\tBP condition: ' + bpConditon + '\tTempareture: ' + temCondition)
   }
-  
+
+
   function presssedOption() {
     console.log('Pressed')
   }
   return (
     <View style={styles.contents}>
       <View style={styles.container}>
-        <Text style={styles.h1}>Check your health</Text>
+        <Text style={styles.h1}>Start General Test!</Text>
         <View>
-          <TextInput placeholder='Age' style={styles.textInput} onChangeText={(text) => setAge(text)} />
-          <TextInput placeholder='Height' style={styles.textInput} onChangeText={(text) => setHeight(text)} />
-          <TextInput placeholder='BP' style={styles.textInput} onChangeText={(text) => setBP(text)} />
-          <TextInput placeholder='Temparature' style={styles.textInput} onChangeText={(text) => setTemp(text)} />
-        </View>
+          <KeyboardAvoidingView>
+            <TextInput placeholder='Age' style={styles.textInput} onChangeText={(text) => setAge(text)} />
+            <TextInput placeholder='Weight in KG' style={styles.textInput} onChangeText={(text) => setWeight(text)} />
+            <TextInput placeholder='Height in meters ex. 1.73' style={styles.textInput} onChangeText={(text) => setHeight(text)} />
+            <TextInput placeholder='BP High ex. 120' style={styles.textInput} onChangeText={(text) => setUpperBP(text)} />
+            <TextInput placeholder='BP Low ex. 80' style={styles.textInput} onChangeText={(text) => setLowerBP(text)} />
+            <TextInput placeholder='Temparature in F' style={styles.textInput} onChangeText={(text) => setTem(text)} />
+          </KeyboardAvoidingView>
 
-        <TouchableOpacity style={styles.buttonBoxContainer} onPress={checkHealthBtn}>
+
+        </View>
+        <TouchableOpacity style={styles.buttonBoxContainer} onPress={onConfirm}>
           <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
           <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
         </TouchableOpacity>
       </View>
       <Pressable style={styles.footer} onPress={presssedOption}>
 
-      <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
+        <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
         <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
         <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
         <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('PatientProfile')}></Icon>
@@ -66,7 +95,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 23,
     marginHorizontal: 30,
-  
+
   },
   h1: {
     fontSize: 30,

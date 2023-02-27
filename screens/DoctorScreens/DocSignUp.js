@@ -49,7 +49,7 @@ const DocSignUp = ({ navigation, route }) => {
     useEffect(()=> {
         onAuthStateChanged(authentication, (user) => {
             if(user) {
-                setCurrentUser(user)
+                setCurrentUser(user.uid)
                 // console.log(user.uid)
             }else {
                 console.log("no user available")
@@ -71,6 +71,7 @@ const DocSignUp = ({ navigation, route }) => {
                     doc_speciality: speciality,
                     doc_licenceNum: licenceNum,
                     doc_location: location,
+                    doc_id: result.user.uid,
                     role: 'Doctor'
                 })
             },
@@ -118,7 +119,7 @@ const DocSignUp = ({ navigation, route }) => {
                     <Text style={styles.label}>Confirm Password</Text>
                     <TextInput placeholder='Password' onChangeText={text => setConfirmPassword(text)} secureTextEntry style={styles.textInput} />
                     <Text style={styles.label}>Gender</Text>
-                    <SelectDropdown
+                    {/* <SelectDropdown
 	data={selGender}
     
 	onSelect={(selectedItem, index) => {
@@ -134,7 +135,7 @@ const DocSignUp = ({ navigation, route }) => {
 		// if data array is an array of objects then return item.property to represent item in dropdown
 		return item
 	}}
-/>
+/> */}
                 </KeyboardAvoidingView>
 
 

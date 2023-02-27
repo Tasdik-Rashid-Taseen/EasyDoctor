@@ -1,8 +1,47 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image, fontWeight } from 'react-native'
 import { ScrollView } from 'react-native'
+import { db } from '../../firebase'
+import { collection, getDocs, doc, setDoc, QuerySnapshot, getDoc } from 'firebase/firestore/lite'
+import { onAuthStateChanged } from 'firebase/auth'
+import { authentication } from '../../firebase'
+import { where } from 'firebase/firestore/lite'
+import firebaseConfig from '../../firebase'
 import Icon from '../Icon'
 const PatientHome = ({ navigation, route }) => {
+  const [doctors, setDoctors] = useState([])
+  const [currentUser, setCurrentUser] = useState('')
+  useEffect(() => {
+    
+    onAuthStateChanged(authentication, (user) => {
+      if (user) {
+        setCurrentUser(user.uid)
+      } else {
+        // console.log("no user available")
+      }
+    })
+    const getDocsData = async () => {
+
+      const appointmentCollection = collection(db, 'appointmentList')
+      const appointmentSnapshot = await getDocs(appointmentCollection)
+      setDoctors(appointmentSnapshot.docs.map((doc) =>
+      ({
+        ...doc.data(),
+        id: doc.id
+      }
+
+      )
+
+      ))
+
+
+
+
+    }
+    getDocsData();
+
+  }, [])
+  // console.log(doctors);
   function presssedCategory() {
     console.log('Pressed')
   }
@@ -17,7 +56,7 @@ const PatientHome = ({ navigation, route }) => {
   return (
     <View style={styles.contents}>
       <View style={styles.container}>
-        <ScrollView  showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.searchBoxContainer}>
             <Icon style={styles.filterIcon} type="ant" name="search1" ></Icon>
             <TextInput placeholder='Search Doctors' />
@@ -38,113 +77,57 @@ const PatientHome = ({ navigation, route }) => {
 
           </View>
           <View style={styles.appointments}>
+
             <Text style={styles.title}>Upcomming Appointments</Text>
-            <TouchableOpacity style={styles.appointment} onPress={() => navigation.navigate('DocAppointmentInfo')}>
-              <Text style={styles.tap}>Tap the card to see more details</Text>
-              <View style={styles.appointmentDetails}>
-                <Text style={styles.h2}>Fazle Rabbi Tuhin</Text>
-                <View style={styles.date_time_status}>
-                  <View style={styles.info}>
-                    <Icon style={styles.infoIcon} type="ant" name="calendar" ></Icon>
-                    <Text style={styles.date}>17-11-22</Text>
-                  </View>
-                  <View style={styles.info}>
-                    <Icon style={styles.infoIcon} type="ant" name="clockcircleo" ></Icon>
-                    <Text style={styles.date}>12:00 PM</Text>
-                  </View>
-                  <View style={styles.info}>
-                    <Icon style={styles.infoIcon} type="ant" name="exclamationcircleo" ></Icon>
-                    <Text style={styles.date}>Uncomfirmed</Text>
-                  </View>
-                  <View style={styles.info}>
-                    <Icon style={styles.infoIcon} type="ant" name="enviromento" ></Icon>
-                    <Text style={styles.place}>Sylhet Medical College</Text>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.actions}>
-                <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('')}>
-                  <Text style={{ color: 'white', fontSize: 16, }}>Reschedule</Text>
-                  <Icon style={styles.buttonIcon} type="ant" name="edit" ></Icon>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate('')}>
-                  <Text style={{ color: 'white', fontSize: 16, }}>Cancel</Text>
-                  <Icon style={styles.buttonIcon} type="ant" name="closecircle" ></Icon>
-                </TouchableOpacity>
-              </View>
 
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.appointment} onPress={() => navigation.navigate('DocAppointmentInfo')}>
-              <Text style={styles.tap}>Tap the card to see more details</Text>
-              <View style={styles.appointmentDetails}>
-                <Text style={styles.h2}>Fazle Rabbi Tuhin</Text>
-                <View style={styles.date_time_status}>
-                  <View style={styles.info}>
-                    <Icon style={styles.infoIcon} type="ant" name="calendar" ></Icon>
-                    <Text style={styles.date}>17-11-22</Text>
-                  </View>
-                  <View style={styles.info}>
-                    <Icon style={styles.infoIcon} type="ant" name="clockcircleo" ></Icon>
-                    <Text style={styles.date}>12:00 PM</Text>
-                  </View>
-                  <View style={styles.info}>
-                    <Icon style={styles.infoIcon} type="ant" name="exclamationcircleo" ></Icon>
-                    <Text style={styles.date}>Uncomfirmed</Text>
-                  </View>
-                  <View style={styles.info}>
-                    <Icon style={styles.infoIcon} type="ant" name="enviromento" ></Icon>
-                    <Text style={styles.place}>Sylhet Medical College</Text>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.actions}>
-                <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('')}>
-                  <Text style={{ color: 'white', fontSize: 16, }}>Reschedule</Text>
-                  <Icon style={styles.buttonIcon} type="ant" name="edit" ></Icon>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate('')}>
-                  <Text style={{ color: 'white', fontSize: 16, }}>Cancel</Text>
-                  <Icon style={styles.buttonIcon} type="ant" name="closecircle" ></Icon>
-                </TouchableOpacity>
-              </View>
+            {
+              doctors.map((doc) => {
+                // console.log(doctor.doc_document_id)  
+                return doc.patient_document_id == currentUser ?
+                  <View key={doc.id} style={styles.docContents}>
+ 
+                    <TouchableOpacity style={styles.appointment} onPress={() => navigation.navigate('DocAppointmentInfo')}>
+                      <Text style={styles.tap}>Tap the card to see more details</Text>
+                      <View style={styles.appointmentDetails}>
+                        <Text style={styles.h2}>{doc.doc_username}</Text>
+                        <View style={styles.date_time_status}>
+                          <View style={styles.info}>
+                            <Icon style={styles.infoIcon} type="ant" name="calendar" ></Icon>
+                            <Text style={styles.date}>{doc.date}</Text>
+                          </View>
+                          <View style={styles.info}>
+                            <Icon style={styles.infoIcon} type="ant" name="clockcircleo" ></Icon>
+                            <Text style={styles.date}>{doc.time}</Text>
+                          </View>
+                          <View style={styles.info}>
+                            <Icon style={styles.infoIcon} type="ant" name="exclamationcircleo" ></Icon>
+                            <Text style={styles.date}>{doc.status}</Text>
+                          </View>
+                          <View style={styles.info}>
+                            <Icon style={styles.infoIcon} type="ant" name="enviromento" ></Icon>
+                            <Text style={styles.place}>Sylhet Medical College</Text>
+                          </View>
+                        </View>
+                      </View>
+                      <View style={styles.actions}>
+                        <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('')}>
+                          <Text style={{ color: 'white', fontSize: 16, }}>Reschedule</Text>
+                          <Icon style={styles.buttonIcon} type="ant" name="edit" ></Icon>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate('')}>
+                          <Text style={{ color: 'white', fontSize: 16, }}>Cancel</Text>
+                          <Icon style={styles.buttonIcon} type="ant" name="closecircle" ></Icon>
+                        </TouchableOpacity>
+                      </View>
 
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.appointment} onPress={() => navigation.navigate('DocAppointmentInfo')}>
-              <Text style={styles.tap}>Tap the card to see more details</Text>
-              <View style={styles.appointmentDetails}>
-                <Text style={styles.h2}>Fazle Rabbi Tuhin</Text>
-                <View style={styles.date_time_status}>
-                  <View style={styles.info}>
-                    <Icon style={styles.infoIcon} type="ant" name="calendar" ></Icon>
-                    <Text style={styles.date}>17-11-22</Text>
+                    </TouchableOpacity>
                   </View>
-                  <View style={styles.info}>
-                    <Icon style={styles.infoIcon} type="ant" name="clockcircleo" ></Icon>
-                    <Text style={styles.date}>12:00 PM</Text>
-                  </View>
-                  <View style={styles.info}>
-                    <Icon style={styles.infoIcon} type="ant" name="exclamationcircleo" ></Icon>
-                    <Text style={styles.date}>Uncomfirmed</Text>
-                  </View>
-                  <View style={styles.info}>
-                    <Icon style={styles.infoIcon} type="ant" name="enviromento" ></Icon>
-                    <Text style={styles.place}>Sylhet Medical College</Text>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.actions}>
-                <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('')}>
-                  <Text style={{ color: 'white', fontSize: 16, }}>Reschedule</Text>
-                  <Icon style={styles.buttonIcon} type="ant" name="edit" ></Icon>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate('')}>
-                  <Text style={{ color: 'white', fontSize: 16, }}>Cancel</Text>
-                  <Icon style={styles.buttonIcon} type="ant" name="closecircle" ></Icon>
-                </TouchableOpacity>
-              </View>
+                  :
+                  console.log("No other thing to show")
+                
+              })
+            }
 
-            </TouchableOpacity>
-            
           </View>
 
 
@@ -196,6 +179,9 @@ const styles = StyleSheet.create({
   h3: {
     fontSize: 17,
     fontWeight: 'bold',
+  },
+  docContents: {
+    flexDirection: 'row'
   },
   filterIcon: {
     marginRight: 5,
