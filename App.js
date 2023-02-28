@@ -55,7 +55,11 @@ import DocAppointmentInfo from './screens/PatientScreens/DocAppointmentInfo';
 import PatientProfile from './screens/PatientScreens/PatientProfile';
 import ProfileDetails from './screens/PatientScreens/ProfileDetails';
 import Settings from './screens/PatientScreens/Settings';
+import DocProfile from './screens/DoctorScreens/DocProfile';
+import DocProfileDetails from './screens/DoctorScreens/DocProfileDetails';
+import AdminHome from './screens/AdminScreens/AdminHome';
 import Adm_HealthTips from './screens/AdminScreens/Adm_healthTips';
+import AdminSignIn from './screens/AdminScreens/AdminSignIn';
 const Tab = createNativeStackNavigator();
 
 import Icon from './screens/Icon';
@@ -82,7 +86,7 @@ const App = () => {
               }, headerTintColor: '#fff'
             }}
           />
-     
+
 
           <Stack.Screen name="SignUp1" component={SignUp1} options={{
             title: 'Sign Up', headerTitleAlign: 'center', headerStyle: {
@@ -110,8 +114,16 @@ const App = () => {
               backgroundColor: '#698269',
             }, headerTintColor: '#fff'
           }} />
-
-        
+          <Stack.Screen name="DocProfile" component={DocProfile} options={{
+            title: 'Doctor Profile', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#3A98B9',
+            }, headerTintColor: '#fff'
+          }} />
+          <Stack.Screen name="DocProfileDetails" component={DocProfileDetails} options={{
+            title: 'Edit Profile', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#698269',
+            }, headerTintColor: '#fff'
+          }} />
           <Stack.Screen name="PatientHome" component={PatientHome} options={{
             title: 'Home-Patient', headerTitleAlign: 'center',
 
@@ -164,6 +176,7 @@ const App = () => {
             }, headerTintColor: '#fff'
           }} />
 
+
           <Stack.Screen name="DocHome" component={DocHome} options={{
             title: 'Home-Doctor', headerTitleAlign: 'center', headerStyle: {
               backgroundColor: '#3A98B9',
@@ -190,12 +203,23 @@ const App = () => {
               backgroundColor: '#698269',
             }, headerTintColor: '#fff'
           }} />
-
+          <Stack.Screen name="AdminSignIn" component={AdminSignIn} options={{
+            title: 'Admin Sign In', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: 'black',
+            }, headerTintColor: '#fff'
+          }} />
+          <Stack.Screen name="AdminHome" component={AdminHome} options={{
+            title: 'Admin Home', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: 'black',
+            }, headerTintColor: '#fff'
+          }} />
           <Stack.Screen name="Adm_HealthTips" component={Adm_HealthTips} options={{
             title: 'Admin HealthTips', headerTitleAlign: 'center', headerStyle: {
               backgroundColor: '#7895B2',
             }, headerTintColor: '#fff'
           }} />
+
+
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

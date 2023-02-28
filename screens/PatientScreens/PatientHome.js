@@ -8,11 +8,20 @@ import { authentication } from '../../firebase'
 import { where } from 'firebase/firestore/lite'
 import firebaseConfig from '../../firebase'
 import Icon from '../Icon'
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(["AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage"]);
 const PatientHome = ({ navigation, route }) => {
   const [doctors, setDoctors] = useState([])
   const [currentUser, setCurrentUser] = useState('')
+  const goToPrev = false;
   useEffect(() => {
-    
+    navigation.addListener("beforeRemove", (e) => {
+      if(goToPrev == true) {
+        console.log("Can't go to previos page")
+       } else {
+     e.preventDefault();
+    }
+   });
     onAuthStateChanged(authentication, (user) => {
       if (user) {
         setCurrentUser(user.uid)
@@ -105,7 +114,7 @@ const PatientHome = ({ navigation, route }) => {
                           </View>
                           <View style={styles.info}>
                             <Icon style={styles.infoIcon} type="ant" name="enviromento" ></Icon>
-                            <Text style={styles.place}>Sylhet Medical College</Text>
+                            <Text style={styles.place}>{doc.doc_location}</Text>
                           </View>
                         </View>
                       </View>

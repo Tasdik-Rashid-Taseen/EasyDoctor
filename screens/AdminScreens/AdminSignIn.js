@@ -6,49 +6,58 @@ import { db } from '../../firebase'
 
 import Icon from '../Icon'
 import { async } from '@firebase/util'
-import { collection, getDocs, getDoc, doc } from 'firebase/firestore/lite'
+import { collection, getDocs, doc } from 'firebase/firestore/lite'
 
-const PatientSignIn = ({ navigation, route }) => {
+
+const AdminSignIn = ({ navigation, route }) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    // const app = initializeApp(firebaseConfig)
+    // const auth = getAuth(app)
+
+    // const addData = async()=>{
+    //     const city = "Khulna";
+    //     // const citiesCol = collection(db, 'cities')
+    //     // const citySnapshot = await getDocs(citiesCol)
+    //     // const cityList = citySnapshot.docs.map(doc => doc.data())
+    //     // console.log(cityList)
+    //     await setDoc(doc(db, 'cities', 'Random_doc'), {
+    //         city_name: city,
+    //     })
+    // }
     const [currentUser, setCurrentUser] = useState('')
-    useEffect(()=> { 
+    useEffect(() => {
         onAuthStateChanged(authentication, (user) => {
-            if(user) {
-                setCurrentUser(user)    
-            }else {
-                // console.log("no user available")
+            if (user) {
+                setCurrentUser(user)
+                // console.log(user.uid)
+            } else {
+
             }
         })
     })
 
-    const handlePatientSignIn =  () => {
-            signInWithEmailAndPassword(authentication, email, password)
-            .then(async (result) => {
-               
-                const patientCollection = await getDoc(doc(db, 'patientList', result.user.uid))
-                
-                
-                if(patientCollection.data().role == 'Patient'){
-                    navigation.navigate('PatientHome')
-                    console.log(patientCollection.data())
-                }      
-                else{
-                    console.log("Wrong credentials")
-                }
-                console.log("Signed in")
-                // navigation.navigate('PatientHome')
-            },
-                )
-            .catch(error => {
-                Alert.alert(error.message)
-                // console.log(error)
+    const handleDocSignIn = () => {
+        if (email == "admin@gmail.com") {
+            if (password == 12345678) {
+                signInWithEmailAndPassword(authentication, email, password)
+                    .then(
+                        navigation.navigate('AdminHome')
+                    )
+                    .catch(error => {
+                        Alert.alert(error.message)
+                        console.log(error)
+                    }
+                    )
             }
+        }
+        else {
+            console.log("Wrong credentials")
+        }
 
-            )
-        
-        
+
+
     }
 
 
@@ -60,7 +69,7 @@ const PatientSignIn = ({ navigation, route }) => {
     //             const user = docCredential.user
     //             console.log(user)
     //             // setIsSignedIn(true)
-                
+
     //             navigation.navigate('DocHome')
     //         })
     //         .catch(error => {
@@ -72,33 +81,25 @@ const PatientSignIn = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.h1}>Patient Sign In</Text>
+
+            <Text style={styles.h1}>Doctor Sign In</Text>
             <View>
                 <KeyboardAvoidingView>
-                <Text style={styles.label}>Email</Text>
                     <TextInput placeholder='Email' onChangeText={(text) => setEmail(text)} style={styles.textInput} />
-                    <Text style={styles.label}>Password</Text>
                     <TextInput placeholder='Password' onChangeText={text => setPassword(text)} secureTextEntry style={styles.textInput} />
                 </KeyboardAvoidingView>
             </View>
             {/* <Button title='Get Data' onPress={addData}></Button> */}
-     
-                <TouchableOpacity style={styles.buttonBoxContainer} onPress={handlePatientSignIn}>
-                    <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
-                    <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
-                </TouchableOpacity>
 
-
-            <View style={styles.SignUpMessage}>
-                <Text style={{ color: 'blue', fontSize: 17 }}
-                    onPress={() => navigation.navigate('PatientSignUp')}>Don't have an account? Sign Up
-                </Text>
-            </View>
+            <TouchableOpacity style={styles.buttonBoxContainer} onPress={handleDocSignIn}>
+                <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
+                <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
+            </TouchableOpacity>
         </View>
     )
 }
 
-export default PatientSignIn
+export default AdminSignIn
 
 const styles = StyleSheet.create({
     container: {
@@ -132,12 +133,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: 'white'
     },
-    label:{
-        fontSize: 14,
-        
-    },
     buttonBoxContainer: {
-        backgroundColor: '#698269',
+        backgroundColor: '#7895B2',
         alignItems: 'center',
         flexDirection: 'row',
         borderWidth: 1,

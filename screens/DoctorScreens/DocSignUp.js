@@ -62,7 +62,8 @@ const DocSignUp = ({ navigation, route }) => {
             createUserWithEmailAndPassword(authentication, email, password)
             .then(async (result) => {
                 console.log('Account Created')
-                navigation.navigate('DocHome')
+                Alert.alert("Wait for the admin to approve your account")
+                navigation.navigate('DocSignIn')
                 await setDoc(doc(db, 'doctorList', result.user.uid), {          
                     doc_username: userName,
                     doc_gender: gender,
@@ -72,7 +73,8 @@ const DocSignUp = ({ navigation, route }) => {
                     doc_licenceNum: licenceNum,
                     doc_location: location,
                     doc_id: result.user.uid,
-                    role: 'Doctor'
+                    role: 'Doctor',
+                    status: 'unconfirmed',
                 })
             },
                 )
@@ -92,7 +94,7 @@ const DocSignUp = ({ navigation, route }) => {
     return (
         <View style={styles.container}>
             {/* <Text style={styles.h1}>Doctor</Text> */}
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                
 
                 <KeyboardAvoidingView>
@@ -118,24 +120,8 @@ const DocSignUp = ({ navigation, route }) => {
                     <TextInput placeholder='Password' onChangeText={text => setPassword(text)} secureTextEntry style={styles.textInput} />
                     <Text style={styles.label}>Confirm Password</Text>
                     <TextInput placeholder='Password' onChangeText={text => setConfirmPassword(text)} secureTextEntry style={styles.textInput} />
-                    <Text style={styles.label}>Gender</Text>
-                    {/* <SelectDropdown
-	data={selGender}
-    
-	onSelect={(selectedItem, index) => {
-		console.log(selectedItem, index)
-	}}
-	buttonTextAfterSelection={(selectedItem, index) => {
-		// text represented after item is selected
-		// if data array is an array of objects then return selectedItem.property to render after item is selected
-		return selectedItem
-	}}
-	rowTextForSelection={(item, index) => {
-		// text represented for each item in dropdown
-		// if data array is an array of objects then return item.property to represent item in dropdown
-		return item
-	}}
-/> */}
+                   
+        
                 </KeyboardAvoidingView>
 
 

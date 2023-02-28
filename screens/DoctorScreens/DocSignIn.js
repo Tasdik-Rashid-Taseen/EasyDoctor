@@ -6,7 +6,7 @@ import { db } from '../../firebase'
 
 import Icon from '../Icon'
 import { async } from '@firebase/util'
-import { collection, getDocs, doc } from 'firebase/firestore/lite'
+import { collection, getDoc, doc } from 'firebase/firestore/lite'
 
 
 const DocSignIn = ({ navigation, route }) => {
@@ -33,22 +33,27 @@ const DocSignIn = ({ navigation, route }) => {
                 setCurrentUser(user)
                 // console.log(user.uid)
             }else {
-                console.log("no user available")
+            
             }
         })
     })
 
     const handleDocSignIn =  () => {
-        
+            
             signInWithEmailAndPassword(authentication, email, password)
             .then(async (result) => {
-                const doctorCollection = collection(db, 'doctorList')
-                const doctorSnapshot = await getDocs(doctorCollection)
-                const doctorList = doctorSnapshot.docs.map(doc => doc.data())
-                console.log(doctorList)
+                const docData = await getDoc(doc(db, 'doctorList', result.user.uid))
+               
+                if(docData.data().status == "unconfirmed"){
+                    Alert.alert("Wait for admin to approve your account")
+                }
+                if(docData.data().status == "approved"){
+                    if(docData.data().role == 'Doctor'){
+                        navigation.navigate('DocHome')
+                        console.log(docData.data())
+                    } 
+                }
                 
-            //   console.log( result.user.role) 
-                navigation.navigate('DocHome')
                
             },
                 )

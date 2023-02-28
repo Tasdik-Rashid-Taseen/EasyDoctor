@@ -11,6 +11,10 @@ const SignUp1 = ({ navigation, route }) => {
             <Text style={{ fontSize: 20, textAlign: 'center', marginVertical: 10 }}>Or</Text>
             <Button title='A Patient' color={"#E96479"} onPress={() => navigation.navigate('PatientSignUp', {
                 paramRole: 'patient'})} />
+
+            <Text style={{ fontSize: 20, textAlign: 'center', marginVertical: 10 }}>Or</Text>
+            <Button title='An Admin' color={"#E96479"} onPress={() => navigation.navigate('AdminSignIn', {
+                paramRole: 'admin'})} />
         </View>
     )
 }

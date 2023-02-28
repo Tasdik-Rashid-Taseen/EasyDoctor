@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native'
-import { React, useState, useEffect } from 'react'
+import {React,  useState, useEffect} from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image, Alert } from 'react-native'
 import { getAuth } from 'firebase/auth'
-import { initializeApp } from 'firebase/app'
+import {initializeApp} from 'firebase/app'
 import { firebaseConfig } from '../../firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 import { authentication } from '../../firebase'
@@ -10,44 +10,47 @@ import Icon from '../Icon'
 import { db } from '../../firebase'
 import { doc, getDoc } from 'firebase/firestore/lite'
 
-const PatientProfile = ({ navigation, route }) => {
-    // console.warn = () => { };
+const DocProfile = ({ navigation, route }) => {
+    // console.warn = () => {};
     const [currentUserID, setcurrentUserID] = useState('');
-    const [patient, setPatient] = useState([])
+    const [doctor, setDoctor] = useState([])
     useEffect(() => {
         onAuthStateChanged(authentication, async (user) => {
-            if (user) {
+            if(user) {
                 // console.log(user.uid)
                 // const userID = user.uid;
-
+                
                 setcurrentUserID(user.uid)
-
-                const patientCollection = await getDoc(doc(db, 'patientList', currentUserID))
-
+                
+                const patientCollection = await getDoc(doc(db, 'doctorList', currentUserID))
+                
                 // const patientList = patientCollection.docs.map(doc => doc.data())
                 // console.log(patientCollection.data())
-                setPatient(patientCollection.data());
+                setDoctor(patientCollection.data());
 
-
-            } else {
+                
+            }else {
                 console.log("no user available")
-
+               
             }
-
+            
         })
-
-
+       
+       
     })
     function presssedOption() {
         console.log('Pressed')
-
+        
     }
-
+    
     function patientLogOut(){
         authentication
         .signOut()
+        
         .then(() => {
-            navigation.navigate('Home')
+            setcurrentUserID("")
+            navigation.navigate('SignUp1')
+
         })
 
     }
@@ -56,7 +59,7 @@ const PatientProfile = ({ navigation, route }) => {
 
 
 
-
+    
     return (
         <View style={styles.contents}>
             <View style={styles.container}>
@@ -64,40 +67,39 @@ const PatientProfile = ({ navigation, route }) => {
                 <View style={styles.pic_name}>
                     <Image style={styles.docImageS} source={require('../images/doctors/doc4.jpg')}></Image>
                     {/* <Text style={styles.h2}>Md. Tasdik Rashid</Text> */}
-                    <Text style={styles.h2}>{patient.patient_username}</Text>
+                    <Text style={styles.h2}>{doctor.doc_username}</Text>
                 </View>
                 <View style={styles.profile_opts}>
-                    <TouchableOpacity style={styles.profile_opt} onPress={() => {
-                        navigation.navigate('ProfileDetails',
-                            {
-                                userID: currentUserID,
-                            })
-
+                    <TouchableOpacity style={styles.profile_opt} onPress={() => { navigation.navigate('DocProfileDetails', 
+                    {
+                        userID: currentUserID,
+                    })
+                            
                     }
-                    }>
-                        <View style={{ flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10, }}>
+                        }>
+                        <View style={{flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10,}}>
                             <Icon style={styles.optIcon} type="ant" name="user" ></Icon>
                             <Text style={{ fontSize: 16, }}>Profile Details</Text>
                         </View>
-                        <View style={{ alignSelf: 'center' }}>
+                        <View style={{alignSelf: 'center'}}>
                             <Icon style={styles.optIcon} type="ant" name="right" ></Icon>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.profile_opt} onPress={() => navigation.navigate('Settings')}>
-                        <View style={{ flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10, }}>
+                    <TouchableOpacity style={styles.profile_opt} onPress={() => navigation.navigate('Settings') }>
+                        <View style={{flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10,}}>
                             <Icon style={styles.optIcon} type="ant" name="setting" ></Icon>
                             <Text style={{ fontSize: 16, }}>Settings</Text>
                         </View>
-                        <View style={{ alignSelf: 'center' }}>
+                        <View style={{alignSelf: 'center'}}>
                             <Icon style={styles.optIcon} type="ant" name="right" ></Icon>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.profile_opt} onPress={() => navigation.navigate('')}>
-                        <View style={{ flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10, }}>
+                        <View style={{flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10,}}>
                             <Icon style={styles.optIcon} type="ant" name="phone" ></Icon>
                             <Text style={{ fontSize: 16, }}>Contact Us</Text>
                         </View>
-                        <View style={{ alignSelf: 'center' }}>
+                        <View style={{alignSelf: 'center'}}>
                             <Icon style={styles.optIcon} type="ant" name="right" ></Icon>
                         </View>
                     </TouchableOpacity>
@@ -109,17 +111,17 @@ const PatientProfile = ({ navigation, route }) => {
             </View>
             <Pressable style={styles.footer} onPress={presssedOption}>
 
-                <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
-                <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
-                <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
-                <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('PatientProfile')}></Icon>
+            <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('DocHome')}></Icon>
+        <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
+        <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
+        <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('DocProfile')}></Icon>
 
             </Pressable>
         </View>
     )
 }
 
-export default PatientProfile
+export default DocProfile
 
 
 const styles = StyleSheet.create({
@@ -147,7 +149,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginTop: 15
-    },
+      },
     textInput: {
         borderWidth: 1,
         borderColor: "#AEBDCA",
@@ -159,7 +161,7 @@ const styles = StyleSheet.create({
     },
     pic_name: {
         alignSelf: 'center',
-
+        
     },
     docImageS: {
         width: 150,
