@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image, fontWeight } from 'react-native'
+import React, { useEffect, useState, useFocusEffect } from 'react'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image, fontWeight, RefreshControl } from 'react-native'
 import { ScrollView } from 'react-native'
 import { db } from '../../firebase'
 import { collection, getDocs, doc, setDoc, QuerySnapshot, getDoc } from 'firebase/firestore/lite'
@@ -8,20 +8,29 @@ import { authentication } from '../../firebase'
 import { where } from 'firebase/firestore/lite'
 import firebaseConfig from '../../firebase'
 import Icon from '../Icon'
+
 import { LogBox } from 'react-native';
+// import { useFocusEffect } from '@react-navigation/native'
 LogBox.ignoreLogs(["AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage"]);
 const PatientHome = ({ navigation, route }) => {
   const [doctors, setDoctors] = useState([])
   const [currentUser, setCurrentUser] = useState('')
   const goToPrev = false;
+
   useEffect(() => {
-    navigation.addListener("beforeRemove", (e) => {
-      if(goToPrev == true) {
-        console.log("Can't go to previos page")
-       } else {
-     e.preventDefault();
-    }
-   });
+    // navigation.addListener('focus', () => {
+      
+    //   console.log("focused")
+    // });
+
+    
+  //   navigation.addListener("beforeRemove", (e) => {
+  //     if(goToPrev == true) {
+  //       console.log("Can't go to previos page")
+  //      } else {
+  //    e.preventDefault();
+  //   }
+  //  });
     onAuthStateChanged(authentication, (user) => {
       if (user) {
         setCurrentUser(user.uid)
@@ -34,15 +43,17 @@ const PatientHome = ({ navigation, route }) => {
       const appointmentCollection = collection(db, 'appointmentList')
       const appointmentSnapshot = await getDocs(appointmentCollection)
       setDoctors(appointmentSnapshot.docs.map((doc) =>
+
       ({
         ...doc.data(),
         id: doc.id
       }
 
+      
+
       )
-
+      
       ))
-
 
 
 
@@ -50,6 +61,25 @@ const PatientHome = ({ navigation, route }) => {
     getDocsData();
 
   }, [])
+
+  const getDocsData = async () => {
+
+    const appointmentCollection = collection(db, 'appointmentList')
+    const appointmentSnapshot = await getDocs(appointmentCollection)
+    setDoctors(appointmentSnapshot.docs.map((doc) =>
+    ({
+      ...doc.data(),
+      id: doc.id
+    }
+
+    )
+
+    ))
+
+
+
+
+  }
   // console.log(doctors);
   function presssedCategory() {
     console.log('Pressed')
@@ -62,10 +92,22 @@ const PatientHome = ({ navigation, route }) => {
   function pressedDoctor() {
     console.log('Pressed')
   }
+
+  const [refresh, setRefresh] = useState(false)
+  const pullMe = () => {
+    getDocsData();
+    setRefresh(true)
+    setTimeout(()=>{
+      setRefresh(false)
+    }, 4000)
+  }
   return (
+    
     <View style={styles.contents}>
       <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={()=> pullMe()}/>
+        }>
           <View style={styles.searchBoxContainer}>
             <Icon style={styles.filterIcon} type="ant" name="search1" ></Icon>
             <TextInput placeholder='Search Doctors' />

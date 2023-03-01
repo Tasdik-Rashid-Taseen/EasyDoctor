@@ -13,42 +13,42 @@ const PatientSignIn = ({ navigation, route }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [currentUser, setCurrentUser] = useState('')
-    useEffect(()=> { 
+    useEffect(() => {
         onAuthStateChanged(authentication, (user) => {
-            if(user) {
-                setCurrentUser(user)    
-            }else {
+            if (user) {
+                setCurrentUser(user)
+            } else {
                 // console.log("no user available")
             }
         })
     })
 
-    const handlePatientSignIn =  () => {
-            signInWithEmailAndPassword(authentication, email, password)
+    const handlePatientSignIn = () => {
+        signInWithEmailAndPassword(authentication, email, password)
             .then(async (result) => {
-               
+
                 const patientCollection = await getDoc(doc(db, 'patientList', result.user.uid))
-                
-                
-                if(patientCollection.data().role == 'Patient'){
+
+
+                if (patientCollection.data().role == 'Patient') {
                     navigation.navigate('PatientHome')
                     console.log(patientCollection.data())
-                }      
-                else{
+                }
+                else {
                     console.log("Wrong credentials")
                 }
                 console.log("Signed in")
                 // navigation.navigate('PatientHome')
             },
-                )
+            )
             .catch(error => {
                 Alert.alert(error.message)
                 // console.log(error)
             }
 
             )
-        
-        
+
+
     }
 
 
@@ -60,7 +60,7 @@ const PatientSignIn = ({ navigation, route }) => {
     //             const user = docCredential.user
     //             console.log(user)
     //             // setIsSignedIn(true)
-                
+
     //             navigation.navigate('DocHome')
     //         })
     //         .catch(error => {
@@ -75,18 +75,18 @@ const PatientSignIn = ({ navigation, route }) => {
             <Text style={styles.h1}>Patient Sign In</Text>
             <View>
                 <KeyboardAvoidingView>
-                <Text style={styles.label}>Email</Text>
+                    <Text style={styles.label}>Email</Text>
                     <TextInput placeholder='Email' onChangeText={(text) => setEmail(text)} style={styles.textInput} />
                     <Text style={styles.label}>Password</Text>
                     <TextInput placeholder='Password' onChangeText={text => setPassword(text)} secureTextEntry style={styles.textInput} />
                 </KeyboardAvoidingView>
             </View>
             {/* <Button title='Get Data' onPress={addData}></Button> */}
-     
-                <TouchableOpacity style={styles.buttonBoxContainer} onPress={handlePatientSignIn}>
-                    <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
-                    <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
-                </TouchableOpacity>
+
+            <TouchableOpacity style={styles.buttonBoxContainer} onPress={handlePatientSignIn}>
+                <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
+                <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
+            </TouchableOpacity>
 
 
             <View style={styles.SignUpMessage}>
@@ -132,9 +132,9 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: 'white'
     },
-    label:{
+    label: {
         fontSize: 14,
-        
+
     },
     buttonBoxContainer: {
         backgroundColor: '#698269',

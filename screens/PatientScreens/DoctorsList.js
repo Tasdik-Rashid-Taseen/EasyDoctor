@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, ScrollView, Pressable, Image, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, ScrollView, Pressable, Image, FlatList, ActivityIndicator, RefreshControl } from 'react-native'
 import firebaseConfig from '../../firebase'
 import Icon from '../Icon'
 import { authentication } from '../../firebase'
@@ -22,12 +22,12 @@ const DoctorsList = ({ navigation, route }) => {
 
 
   const [users, setUsers] = useState([])
-  
+
 
 
   useEffect(() => {
-  
-   
+
+
     const getDocInfo = async () => {
       const doctorCollection = collection(db, 'doctorList')
       const doctorSnapshot = await getDocs(doctorCollection)
@@ -35,13 +35,13 @@ const DoctorsList = ({ navigation, route }) => {
         ...doc.data(),
         id: doc.id
       }
-     
+
       )))
-       
+
     }
-    
+
     getDocInfo();
-    
+
   }, [])
 
   // for(let i=0; i<users.length; i++){
@@ -49,18 +49,39 @@ const DoctorsList = ({ navigation, route }) => {
   // }
 
   // const clickedMakeApp = () => {
-    
-    
-   
+
+
+
   // }
+  const getDocInfo = async () => {
+    const doctorCollection = collection(db, 'doctorList')
+    const doctorSnapshot = await getDocs(doctorCollection)
+    setUsers(doctorSnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id
+    }
+
+    )))
+
+  }
+  const [refresh, setRefresh] = useState(false)
+  const pullMe = () => {
+    getDocsData();
+    setRefresh(true)
+    setTimeout(() => {
+      setRefresh(false)
+    }, 4000)
+  }
   return (
-  
-    
-        
+
+
+
     <View style={styles.contents}>
       <View style={styles.container}>
-    <ScrollView showsVerticalScrollIndicator={false}>
-    <View style={styles.searchBoxContainer}>
+        <ScrollView showsVerticalScrollIndicator={false} refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={() => pullMe()} />
+        }>
+          <View style={styles.searchBoxContainer}>
             <Icon style={styles.filterIcon} type="ant" name="search1" ></Icon>
             <TextInput placeholder='Search Doctors' />
           </View>
@@ -78,46 +99,56 @@ const DoctorsList = ({ navigation, route }) => {
             </Pressable>
 
           </View>
-          <Text style={styles.title}>Suggested Doctors</Text>  
-        
-          {
-      users.map((user) => {   
-        console.log(user.doc_id)  
-        return (
-          <View key={user.id} style={styles.docContents}>
-            
-{/* <Text>Name: {user.doc_username}</Text>
+
+
+          {/* Experiment */}
+          <View style={styles.doctor}>
+            <Text style={styles.title}>Suggested Doctors</Text>
+            <View style={styles.docContents}>
+
+
+              {
+                users.map((user) => {
+                  console.log(user.doc_id)
+                  return (
+                    <View key={user.id} >
+
+                      {/* <Text>Name: {user.doc_username}</Text>
             <Text>Speciality: {user.doc_speciality}</Text> */}
-            <View style={styles.doctor}>
-            <Pressable style={styles.listDoctors} >
-              <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
-                <Image style={styles.docImageS} source={require('../images/doctors/doc1.jpg')}></Image>
-                <View style={styles.docInfo} >
-                <Text style={styles.textBold}>{user.doc_username}</Text>
-                  <Text style={styles.textThin}>{user.doc_speciality}</Text>
-                  <Text style={styles.textThin}>{user.doc_location}</Text>  
-                  <Text style={styles.textThin}>{user.doc_id}</Text>  
-                </View>
-                <Text style={styles.book} onPress={()=> {
-                  navigation.navigate('MakeApp', {
-                    doc_user_id: user.doc_id,
-                  })
-                }}>Book Appontment</Text>
-              </TouchableOpacity>
-              </Pressable>
-              </View>                 
+                      <View style={styles.doctor}>
+                        <Pressable style={styles.listDoctors} >
+                          <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
+                            <View style={styles.demo}>
+                            <Image style={styles.docImageS} source={require('../images/doctors/doc1.jpg')}></Image>
+                            <View style={styles.docInfo} >
+                              <Text style={styles.textBold}>{user.doc_username}</Text>
+                              <Text style={styles.textThin}>{user.doc_speciality}</Text>
+                              <Text style={styles.textThin}>{user.doc_location}</Text>
+                            </View>
+                            </View>
+                            
+                            <Text style={styles.book} onPress={() => {
+                              navigation.navigate('MakeApp', {
+                                doc_user_id: user.doc_id,
+                              })
+                            }}>Book Appontment</Text>
+                          </TouchableOpacity>
+                        </Pressable>
+                      </View>
+                    </View>
+                  )
+                })
+              }
+            </View>
+
           </View>
-        )
-      })
-     }
-    </ScrollView>
-    
-       
-       
+
+        </ScrollView>
+
       </View>
       <Pressable style={styles.footer} onPress={presssedOption}>
 
-      <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
+        <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
         <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
         <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
         <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('PatientProfile')}></Icon>
@@ -200,17 +231,29 @@ const styles = StyleSheet.create({
 
   },
 
-  docContents:{
-    flexDirection: 'row'
+  docContents: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginVertical: 12,
+    width: '100%',
+    // backgroundColor: "red",
+    justifyContent: 'space-around'
   },
   doctor: {
     flex: 1,
 
   },
+
+  demo:{
+    flexDirection: 'row',
+    marginBottom: 10,
+    width: '80%'
+  },
+
   listDoctors: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginVertical: 12,
+    marginVertical: 2,
     width: '100%',
     // backgroundColor: "red",
     justifyContent: 'space-around'
@@ -219,32 +262,35 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginHorizontal: 0,
     marginVertical: 10,
-    width: '48%',
-    height: 250,
+    width: '100%',
+    height: 200,
     borderWidth: 1,
     borderColor: "#F2F2F2",
+    // backgroundColor: 'green',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: "#AEBDCA",
   },
   docImageS: {
     width: 150,
     height: 130,
     padding: 5,
-    
+
 
   },
   docInfo: {
     textAlign: 'left',
     padding: 5
   },
-  book:{
+  book: {
     backgroundColor: '#7895B2',
     alignItems: 'center',
     textAlign: 'center',
     width: "90%",
     padding: 6,
     color: 'white'
-   
+
     // justifyContent: 'center',
     // alignSelf: 'center'
   },

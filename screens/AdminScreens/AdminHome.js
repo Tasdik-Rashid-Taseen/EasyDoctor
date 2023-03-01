@@ -14,13 +14,13 @@ const AdminHome = ({ navigation, route }) => {
     const [currentUser, setCurrentUser] = useState('')
     const goToPrev = false;
     useEffect(() => {
-        navigation.addListener("beforeRemove", (e) => {
-            if (goToPrev == true) {
-                console.log("Can't go to previos page")
-            } else {
-                e.preventDefault();
-            }
-        });
+        // navigation.addListener("beforeRemove", (e) => {
+        //     if (goToPrev == true) {
+        //         console.log("Can't go to previos page")
+        //     } else {
+        //         e.preventDefault();
+        //     }
+        // });
         onAuthStateChanged(authentication, (user) => {
             if (user) {
                 setCurrentUser(user.uid)
@@ -57,12 +57,22 @@ const AdminHome = ({ navigation, route }) => {
     function presssedOption() {
         console.log('Pressed')
     }
+    function logOut(){
+        authentication
+        .signOut()
+        .then(() => {
+            navigation.navigate('SignUp1')
+            console.log("Loged out")
+        })
 
+    }
 
     return (
         <View style={styles.contents}>
             <View style={styles.container}>
                 <Text>Admin Panel</Text>
+                <Button title='Add Health Tips' color={"#7895B2"} onPress={()=> navigation.navigate('Adm_HealthTips')}/>
+                <Text style={styles.h2}>Requested Doctors</Text>
                 {
                     doctors.map((doctor) => {
 
@@ -71,12 +81,11 @@ const AdminHome = ({ navigation, route }) => {
                             <TouchableOpacity key={doctor.id} style={styles.appointment}>
                                 <Text style={styles.tap}>Doctor details</Text>
                                 <View style={styles.appointmentDetails}>
-                                    <Text style={styles.h2}>{doctor.doc_username}</Text>
+                                    <Text style={styles.h2}>Doctor: {doctor.doc_username}</Text>
                                     <View style={styles.date_time_status}>
                                         <View style={styles.info}>
                                             <Icon style={styles.infoIcon} type="ant" name="phone" ></Icon>
-                                            <Text style={styles.date}>Number: {doc.doc_num}</Text>
-                                            <Text id='docID'>{doctor.id}</Text>
+                                            <Text style={styles.date}>Number: {doctor.doc_num}</Text>
                                         </View>
                                         <View style={styles.info}>
                                             <Icon style={styles.infoIcon} type="ant" name="clockcircleo" ></Icon>
@@ -120,6 +129,7 @@ const AdminHome = ({ navigation, route }) => {
 
                     })
                 }
+                <Button title='Sign Out' onPress={logOut}></Button>
             </View>
         </View>
 

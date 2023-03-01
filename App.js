@@ -58,7 +58,7 @@ import Settings from './screens/PatientScreens/Settings';
 import DocProfile from './screens/DoctorScreens/DocProfile';
 import DocProfileDetails from './screens/DoctorScreens/DocProfileDetails';
 import AdminHome from './screens/AdminScreens/AdminHome';
-import Adm_HealthTips from './screens/AdminScreens/Adm_healthTips';
+import Adm_HealthTips from './screens/AdminScreens/Adm_HealthTips';
 import AdminSignIn from './screens/AdminScreens/AdminSignIn';
 const Tab = createNativeStackNavigator();
 
@@ -215,7 +215,7 @@ const App = () => {
           }} />
           <Stack.Screen name="Adm_HealthTips" component={Adm_HealthTips} options={{
             title: 'Admin HealthTips', headerTitleAlign: 'center', headerStyle: {
-              backgroundColor: '#7895B2',
+              backgroundColor: 'black',
             }, headerTintColor: '#fff'
           }} />
 

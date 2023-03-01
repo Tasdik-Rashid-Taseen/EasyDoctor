@@ -76,8 +76,9 @@ const MakeApp = ({ navigation, route }) => {
 
 
   const makeAppBtn = async () => {
-    navigation.navigate('DoctorsList')
-    await setDoc(doc(db, 'appointmentList', uuid.v4()), {
+    navigation.navigate('PatientHome')
+    const uid = uuid.v4();
+    await setDoc(doc(db, 'appointmentList', uid), {
       doc_document_id: doctorID,
       patient_document_id: currentUser,
       date: dateText,
@@ -88,7 +89,8 @@ const MakeApp = ({ navigation, route }) => {
       doc_username: doctor.doc_username,
       patient_username: patient.patient_username,
       patient_num: patient.patient_num,
-      doc_location: doctor.doc_location
+      doc_location: doctor.doc_location,
+      app_id:  uid,
     })
   }
   return (

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Alert, KeyboardAvoidingView } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Alert, KeyboardAvoidingView, Modal } from 'react-native'
 import Icon from '../Icon'
 const HealthCheck = ({ navigation, route }) => {
+  const [isModalVisible, setisModalVisible] = useState(false)
   const [age, setAge] = useState('')
   const [weight, setWeight] = useState('')
 
@@ -9,6 +10,9 @@ const HealthCheck = ({ navigation, route }) => {
   const [upperBP, setUpperBP] = useState('')
   const [lowerBP, setLowerBP] = useState('')
   const [temp, setTem] = useState('')
+  const [bmiRes, setBmiRes] = useState('Normal Weight')
+  const [bpRes, setBpRes] = useState('Normal BP')
+  const [temRes, setTemRes] = useState('Normal Temparature')
   function presssedOption() {
     console.log('Pressed')
   }
@@ -17,30 +21,35 @@ const HealthCheck = ({ navigation, route }) => {
 
 
   function onConfirm() {
-    
-    const bmi = weight / (height * height);
-    let bmiCondition = 'Normal weight';
-    
-    if (bmi < 18.5) bmiCondition = "Under weight";
-    else if (bmi > 25.5) bmiCondition = "Over weight";
-    let bpConditon;
-    if (lowerBP <= 70 || upperBP <= 110) bpConditon = 'Low blood pressure';
-    else if (lowerBP >= 90 || upperBP >= 130) bpConditon = 'High blood pressure'
-    let temCondition;
-    if(temp>98.5){
-      if(temp>=103){
-        temCondition = "High Fever"
-      }
-      else{
-        temCondition = "Fever"
-      }
-    }
-    else{
-      temCondition = "Normal"
-    }
-    Alert.alert('BMI: ' + bmiCondition + '\tBP condition: ' + bpConditon + '\tTempareture: ' + temCondition)
-  }
 
+    
+    // Alert.alert('BMI: ' + bmiCondition + '\tBP condition: ' + bpConditon + '\tTempareture: ' + temCondition)
+  }
+  const onPressItem = () => {
+    const bmi = weight / (height * height);
+
+    if (bmi < 18.5) setBmiRes("Under weight")
+    else if (bmi > 25.5) setBmiRes("Over weight")
+    
+    if (lowerBP <= 70 || upperBP <= 110) setBpRes('Low blood pressure')
+    else if (lowerBP >= 90 || upperBP >= 130) setBpRes('High blood pressure')
+    let temCondition;
+    if (temp > 98.5) {
+      if (temp >= 103) {
+        setTemRes("High Fever")
+      }
+      else {
+        setTemRes("Fever")
+      }
+    } 
+    setisModalVisible(true);
+    // setinputText(patient.patient_username)
+    console.log("pressed")
+
+  }
+  const onPressSaveEdit = () => {
+    setisModalVisible(false)
+  }
 
   function presssedOption() {
     console.log('Pressed')
@@ -58,10 +67,26 @@ const HealthCheck = ({ navigation, route }) => {
             <TextInput placeholder='BP Low ex. 80' style={styles.textInput} onChangeText={(text) => setLowerBP(text)} />
             <TextInput placeholder='Temparature in F' style={styles.textInput} onChangeText={(text) => setTem(text)} />
           </KeyboardAvoidingView>
+          <Modal
+            animationType='fade'
+            visible={isModalVisible}
+            onRequestClose={() => setisModalVisible(false)}
+          >
+            <View style={styles.modalView}>
+              <Text style={styles.h1}>Result</Text>
+              <Text style={styles.h3}>BMI: {bmiRes}</Text>
+              <Text style={styles.h3}>BP: {bpRes}</Text>
+              <Text style={styles.h3}>Temparature: {temRes}</Text>
+              <TouchableOpacity style={styles.modalBoxContainer} onPress={() => onPressSaveEdit()}>
+                                    <Text style={{ color: 'white', fontSize: 16 }} >Save</Text>
+                                    <Icon style={styles.buttonIcon} type="ant" name="save" ></Icon>
+                                </TouchableOpacity>
+            </View>
 
+          </Modal>
 
         </View>
-        <TouchableOpacity style={styles.buttonBoxContainer} onPress={onConfirm}>
+        <TouchableOpacity style={styles.buttonBoxContainer} onPress={onPressItem}>
           <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>
           <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
         </TouchableOpacity>
@@ -101,6 +126,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
 
   },
+  h3:{
+    fontSize: 20
+  },
   textInput: {
     borderWidth: 1,
     borderColor: "#AEBDCA",
@@ -110,6 +138,22 @@ const styles = StyleSheet.create({
     marginVertical: 8,
 
   },
+  modalView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+},
+modalBoxContainer: {
+  backgroundColor: 'black',
+  // alignItems: 'flex-start',
+  flexDirection: 'row',
+  width: "25%",
+  paddingVertical: 6,
+  paddingHorizontal: 20,
+  marginVertical: 8,
+  justifyContent: 'flex-start',
+  alignSelf: 'center'
+},
   buttonIcon: {
     marginLeft: 5,
     fontSize: 20,

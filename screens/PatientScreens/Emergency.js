@@ -1,60 +1,85 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, ScrollView, Modal, } from 'react-native'
 import Icon from '../Icon'
 import call from 'react-native-phone-call'
-class Emergency extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            show: false
+
+const Emergency = ({ navigation, route }) => {
+    const [isModalVisible, setisModalVisible] = useState(false)
+    // constructor() {
+    //     super();
+    //     this.state = {
+    //         show: false
+    //     }
+    // }
+
+    // render() {
+    // const [dialNum, setDialNum] = useState('')
+    function presssedOption() {
+        console.log('Pressed')
+    }
+    function triggerCall() {
+        const args = {
+            number: '922',
+            prompt: true,
         }
+        call(args).catch(console.error)
     }
 
-    render() {
-        function presssedOption() {
-            console.log('Pressed')
-        }
-        function triggerCall() {
-            const args = {
-                number: '911',
-                prompt: true,
-            }
-            call(args).catch(console.error)
-        }
-
-        return (
-            <View style={styles.contents}>
-                <View style={styles.container}>
-                    <View>
-                        <Text style={styles.h1}>What is emergency service</Text>
-                        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id auctor mauris, iscing elit. In consectetur  m ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id ur  m ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. orper. Curabitur id auctor mauris, iscing elit. In consectetur  m ipsum dolor sit amet, consectetur adipis amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. orper. Curabitur id auctor mauris, iscing elit. In consectetur  m ipsum dol</Text>
-                    </View>
-                    <Text style={styles.callBtn} onPress={() => { this.setState({ show: true }) }}>Call Emergency Service</Text>
+    return (
+        <View style={styles.contents}>
+            <View style={styles.container}>
+                <View>
+                    <Text style={styles.h1}>What is emergency service</Text>
+                    <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id auctor mauris, iscing elit. In consectetur  m ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id ur  m ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. orper. Curabitur id auctor mauris, iscing elit. In consectetur  m ipsum dolor sit amet, consectetur adipis amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. orper. Curabitur id auctor mauris, iscing elit. In consectetur  m ipsum dol</Text>
                 </View>
-                <Modal transparent={true} visible={this.state.show}>
-                    <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
-                        <View style={{ backgroundColor: "#ffffff", margin: 50, padding: 20, borderRadius: 10, flex: 1 }}>
-                            <Text style={styles.service} onPress={triggerCall}>Ambulence</Text>
-                            <Text style={styles.service} onPress={triggerCall}>Fire Service</Text>
-                            <Text style={styles.close} onPress={() => { this.setState({ show: false }) }}>Close</Text>
-                        </View>
-
-                    </View>
-                </Modal>
-                <Pressable style={styles.footer} onPress={presssedOption}>
-                    {/* Fix the navigation funciton not working */}
-                    <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('PatientProfile')}></Icon>
-
-                </Pressable>
+                <Text style={styles.callBtn} onPress={() => { setisModalVisible(true); }}>Call Emergency Service</Text>
             </View>
-        )
-    }
+            <Modal transparent={true} animationType='fade'
+                visible={isModalVisible}
+                onRequestClose={() => setisModalVisible(false)}>
+                <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
+                    <View style={{ backgroundColor: "#ffffff", margin: 50, padding: 20, borderRadius: 10, flex: 1 }}>
+                        <Text style={styles.h3}>Hospital Name</Text>
+                        <Text style={styles.service} onPress={() => {
+                            const args = {
+                                number: '911',
+                                prompt: true,
+                            }
+                            call(args).catch(console.error)
+                        }} >Ibn Sina</Text>
+                        <Text style={styles.service} onPress={() => {
+                            const args = {
+                                number: '922',
+                                prompt: true,
+                            }
+                            call(args).catch(console.error)
+                        }}>Oasis</Text>
+                        <Text style={styles.service} onPress={() => {
+                            const args = {
+                                number: '933',
+                                prompt: true,
+                            }
+                            call(args).catch(console.error)
+                        }}>Popular</Text>
+                        <Text style={styles.close} onPress={() => setisModalVisible(false) }>Close</Text>
+                    </View>
 
+                </View>
+            </Modal>
+            <Pressable style={styles.footer} onPress={presssedOption}>
+                {/* Fix the navigation funciton not working */}
+                <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
+                <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
+                <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
+                <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('PatientProfile')}></Icon>
 
+            </Pressable>
+        </View>
+    )
 }
+
+
+// }
 
 export default Emergency
 
@@ -78,6 +103,9 @@ const styles = StyleSheet.create({
         fontSize: 30,
 
     },
+    h3:{
+        fontSize: 20
+      },
     callBtn: {
         padding: 30,
         backgroundColor: '#7895B2',
@@ -94,19 +122,19 @@ const styles = StyleSheet.create({
         color: 'white',
         alignSelf: 'center',
         marginTop: 20,
-        fontWeight: 'bold', 
-        width: "80%", 
-        height: "7%", 
+        fontWeight: 'bold',
+        width: "80%",
+        height: "7%",
     },
-    close:{
+    close: {
         padding: 10,
         backgroundColor: 'red',
         textAlign: 'center',
         color: 'white',
         alignSelf: 'center',
         marginTop: 20,
-        fontWeight: 'bold', 
-        width: "80%", 
+        fontWeight: 'bold',
+        width: "80%",
         height: "7%",
     },
     optionIcon: {

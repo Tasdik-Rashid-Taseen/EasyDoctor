@@ -8,41 +8,42 @@ import Icon from '../Icon'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useRoute } from '@react-navigation/native'
 const ProfileDetails = ({ navigation, route }) => {
-   
+
     const [isModalVisible, setisModalVisible] = useState(false)
     const [patient, setPatient] = useState([])
     const [inputText, setinputText] = useState();
     const [newUsername, setnewUsername] = useState('')
     const [newGender, setnewGender] = useState('')
     const [newNumber, setnewNumber] = useState('')
+    const [patientID, setPatientID] = useState('')
     // const [editItem, seteditItem] = useState();
     useEffect(() => {
-        // onAuthStateChanged(authentication, async (user) => {
-        //     if (user) {
-        //         // console.log(user.uid)
-        //         const userID = user.uid; 
-        //         const patientCollection = await getDoc(doc(db, 'patientList', userID))
+        onAuthStateChanged(authentication, async (user) => {
+            if (user) {
+                // console.log(user.uid)
+                const userID = user.uid;
+                const patientCollection = await getDoc(doc(db, 'patientList', userID))
 
-        //         // const patientList = patientCollection.docs.map(doc => doc.data())
-        //         // console.log(patientCollection.data())
-        //         setPatient(patientCollection.data());
+                // const patientList = patientCollection.docs.map(doc => doc.data())
+                // console.log(patientCollection.data())
+                setPatient(patientCollection.data());
 
-        //     } else {
-        //         // console.log("no user available")
-        //     }
+            } else {
+                console.log("no user available")
+            }
 
-        // })
-        const getData = async () => {
-            const patientCollection = await getDoc(doc(db, 'patientList', route.params.userID))
-            setPatient(patientCollection.data());
-        }
-        getData();
+        })
+        // const getData = async () => {
+        //     const patientCollection = await getDoc(doc(db, 'patientList', patientID))
+        //     setPatient(patientCollection.data());
+        // }
+        // getData();
     })
     const onPressItem = () => {
         setisModalVisible(true);
         // setinputText(patient.patient_username)
         console.log("pressed")
-        console.log(route.params.userID)
+        console.log(patientID)
     }
 
     const onPressSaveEdit = () => {
@@ -56,11 +57,10 @@ const ProfileDetails = ({ navigation, route }) => {
                 console.log("Update")
                 await updateDoc(doc(db, 'patientList', userID), {
                     patient_username: newUsername,
-                    patient_gender: newGender,
                     patient_num: newNumber,
                 })
 
-                
+
             } else {
                 //console.log("no user available")
             }
@@ -100,11 +100,7 @@ const ProfileDetails = ({ navigation, route }) => {
                     <TouchableOpacity style={styles.profile_opt}>
                         <Text style={{ fontSize: 18, }}>Mail</Text>
                         <Text style={{ fontSize: 18, }}>{patient.patient_email}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.profile_opt} >
-                        <Text style={{ fontSize: 18, }}>Password</Text>
-                        <Text style={{ fontSize: 18, }}>**********</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>  
                     <Modal
                         animationType='fade'
                         visible={isModalVisible}
@@ -116,11 +112,7 @@ const ProfileDetails = ({ navigation, route }) => {
                             <TextInput style={styles.modalTextInput} onChangeText={(text) => {
                                 setinputText(text)
                                 setnewUsername(text)
-                            }} defaultValue={patient.patient_username} editable={true} multiline={false} maxLength={200}></TextInput>
-                            <TextInput style={styles.modalTextInput} onChangeText={(text) => {
-                                setinputText(text)
-                                setnewGender(text)
-                            }} defaultValue={patient.patient_gender} editable={true} multiline={false} maxLength={200}></TextInput>
+                            }} defaultValue={patient.patient_username} editable={true} multiline={false} maxLength={200}></TextInput>  
                             <TextInput style={styles.modalTextInput} onChangeText={(text) => {
                                 setinputText(text)
                                 setnewNumber(text)

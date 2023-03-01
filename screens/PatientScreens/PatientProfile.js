@@ -9,33 +9,12 @@ import { authentication } from '../../firebase'
 import Icon from '../Icon'
 import { db } from '../../firebase'
 import { doc, getDoc } from 'firebase/firestore/lite'
-
 const PatientProfile = ({ navigation, route }) => {
     // console.warn = () => { };
     const [currentUserID, setcurrentUserID] = useState('');
     const [patient, setPatient] = useState([])
     useEffect(() => {
-        onAuthStateChanged(authentication, async (user) => {
-            if (user) {
-                // console.log(user.uid)
-                // const userID = user.uid;
-
-                setcurrentUserID(user.uid)
-
-                const patientCollection = await getDoc(doc(db, 'patientList', currentUserID))
-
-                // const patientList = patientCollection.docs.map(doc => doc.data())
-                // console.log(patientCollection.data())
-                setPatient(patientCollection.data());
-
-
-            } else {
-                console.log("no user available")
-
-            }
-
-        })
-
+        
 
     })
     function presssedOption() {
@@ -43,11 +22,12 @@ const PatientProfile = ({ navigation, route }) => {
 
     }
 
-    function patientLogOut(){
+ function patientLogOut(){
         authentication
         .signOut()
         .then(() => {
-            navigation.navigate('Home')
+            navigation.navigate('SignUp1')
+            console.log("Loged out")
         })
 
     }
@@ -61,11 +41,7 @@ const PatientProfile = ({ navigation, route }) => {
         <View style={styles.contents}>
             <View style={styles.container}>
 
-                <View style={styles.pic_name}>
-                    <Image style={styles.docImageS} source={require('../images/doctors/doc4.jpg')}></Image>
-                    {/* <Text style={styles.h2}>Md. Tasdik Rashid</Text> */}
-                    <Text style={styles.h2}>{patient.patient_username}</Text>
-                </View>
+                
                 <View style={styles.profile_opts}>
                     <TouchableOpacity style={styles.profile_opt} onPress={() => {
                         navigation.navigate('ProfileDetails',

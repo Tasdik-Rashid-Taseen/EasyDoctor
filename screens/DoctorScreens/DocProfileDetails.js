@@ -17,32 +17,32 @@ const DocProfileDetails = ({ navigation, route }) => {
     const [newNumber, setnewNumber] = useState('')
     // const [editItem, seteditItem] = useState();
     useEffect(() => {
-        // onAuthStateChanged(authentication, async (user) => {
-        //     if (user) {
-        //         // console.log(user.uid)
-        //         const userID = user.uid; 
-        //         const patientCollection = await getDoc(doc(db, 'patientList', userID))
+        onAuthStateChanged(authentication, async (user) => {
+            if (user) {
+                // console.log(user.uid)
+                const userID = user.uid;
+                const patientCollection = await getDoc(doc(db, 'doctorList', userID))
 
-        //         // const patientList = patientCollection.docs.map(doc => doc.data())
-        //         // console.log(patientCollection.data())
-        //         setPatient(patientCollection.data());
+                // const patientList = patientCollection.docs.map(doc => doc.data())
+                // console.log(patientCollection.data())
+                setDoctor(patientCollection.data());
 
-        //     } else {
-        //         // console.log("no user available")
-        //     }
+            } else {
+                console.log("no user available")
+            }
 
-        // })
-        const getData = async () => {
-            const patientCollection = await getDoc(doc(db, 'doctorList', route.params.userID))
-            setDoctor(patientCollection.data());
-        }
-        getData();
+        })
+        // const getData = async () => {
+        //     const patientCollection = await getDoc(doc(db, 'doctorList', route.params.userID))
+        //     setDoctor(patientCollection.data());
+        // }
+        // getData();
     })
     const onPressItem = () => {
         setisModalVisible(true);
         // setinputText(patient.patient_username)
         console.log("pressed")
-        console.log(route.params.userID)
+        // console.log(route.params.userID)
     }
 
     const onPressSaveEdit = () => {

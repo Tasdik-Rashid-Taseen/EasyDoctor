@@ -15,26 +15,7 @@ const DocProfile = ({ navigation, route }) => {
     const [currentUserID, setcurrentUserID] = useState('');
     const [doctor, setDoctor] = useState([])
     useEffect(() => {
-        onAuthStateChanged(authentication, async (user) => {
-            if(user) {
-                // console.log(user.uid)
-                // const userID = user.uid;
-                
-                setcurrentUserID(user.uid)
-                
-                const patientCollection = await getDoc(doc(db, 'doctorList', currentUserID))
-                
-                // const patientList = patientCollection.docs.map(doc => doc.data())
-                // console.log(patientCollection.data())
-                setDoctor(patientCollection.data());
-
-                
-            }else {
-                console.log("no user available")
-               
-            }
-            
-        })
+       
        
        
     })
@@ -46,11 +27,9 @@ const DocProfile = ({ navigation, route }) => {
     function patientLogOut(){
         authentication
         .signOut()
-        
         .then(() => {
-            setcurrentUserID("")
             navigation.navigate('SignUp1')
-
+            console.log("Loged out")
         })
 
     }
@@ -64,16 +43,9 @@ const DocProfile = ({ navigation, route }) => {
         <View style={styles.contents}>
             <View style={styles.container}>
 
-                <View style={styles.pic_name}>
-                    <Image style={styles.docImageS} source={require('../images/doctors/doc4.jpg')}></Image>
-                    {/* <Text style={styles.h2}>Md. Tasdik Rashid</Text> */}
-                    <Text style={styles.h2}>{doctor.doc_username}</Text>
-                </View>
+                
                 <View style={styles.profile_opts}>
-                    <TouchableOpacity style={styles.profile_opt} onPress={() => { navigation.navigate('DocProfileDetails', 
-                    {
-                        userID: currentUserID,
-                    })
+                    <TouchableOpacity style={styles.profile_opt} onPress={() => { navigation.navigate('DocProfileDetails')
                             
                     }
                         }>

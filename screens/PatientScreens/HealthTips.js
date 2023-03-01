@@ -1,69 +1,85 @@
-import React from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, ScrollView } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, ScrollView, RefreshControl } from 'react-native'
+import { db } from '../../firebase'
+import { collection, getDocs, doc, setDoc, QuerySnapshot, getDoc } from 'firebase/firestore/lite'
 import Icon from '../Icon'
 
 const HealthTips = ({ navigation, route }) => {
+    const [tips, setTips] = useState([])
+    useEffect(() => {
+
+        const getDocInfo = async () => {
+            const tipsCollection = collection(db, 'healthTips')
+            const tipSnapshot = await getDocs(tipsCollection)
+            setTips(tipSnapshot.docs.map((doc) => ({
+                ...doc.data(),
+                id: doc.id
+            }
+
+            )))
+
+        }
+
+        getDocInfo();
+    })
     function presssedOption() {
         console.log('Pressed')
+    }
+
+    const getDocInfo = async () => {
+        const tipsCollection = collection(db, 'healthTips')
+        const tipSnapshot = await getDocs(tipsCollection)
+        setTips(tipSnapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id
+        }
+
+        )))
+
+    }
+
+    const [refresh, setRefresh] = useState(false)
+    const pullMe = () => {
+        getDocInfo();
+        setRefresh(true)
+        setTimeout(() => {
+            setRefresh(false)
+        }, 4000)
     }
     return (
         <View style={styles.contents}>
             <View style={styles.container}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView showsVerticalScrollIndicator={false} refreshControl={
+                    <RefreshControl refreshing={refresh} onRefresh={() => pullMe()} />
+                }>
                     <View style={styles.searchBoxContainer}>
                         <Icon style={styles.filterIcon} type="ant" name="search1" ></Icon>
                         <TextInput placeholder='Search' />
                     </View>
-                    <View style={styles.tip}>
-                        <Text style={styles.h3}>Corona Virus</Text>
-                        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id auctor mauris, iscing elit. In consectetur  <Text style={{ color: 'blue' }} onPress={() => navigation.navigate('')}>... More</Text></Text>
-                    </View>
-                    <View style={styles.tip}>
-                        <Text style={styles.h3}>Various Disease</Text>
-                        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id auctor mauris, iscing elit. In consectetur  <Text style={{ color: 'blue' }} onPress={() => navigation.navigate('')}>... More</Text></Text>
-                    </View>
-                    <View style={styles.tip}>
-                        <Text style={styles.h3}>Fever</Text>
-                        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id auctor mauris, iscing elit. In consectetur  <Text style={{ color: 'blue' }} onPress={() => navigation.navigate('')}>... More</Text></Text>
-                    </View>
-                    <View style={styles.tip}>
-                        <Text style={styles.h3}>Diabetics</Text>
-                        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id auctor mauris, iscing elit. In consectetur  <Text style={{ color: 'blue' }} onPress={() => navigation.navigate('')}>... More</Text></Text>
-                    </View>
-                    <View style={styles.tip}>
-                        <Text style={styles.h3}>Blood pressure</Text>
-                        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id auctor mauris, iscing elit. In consectetur  <Text style={{ color: 'blue' }} onPress={() => navigation.navigate('')}>... More</Text></Text>
-                    </View>
-                    <View style={styles.tip}>
-                        <Text style={styles.h3}>Corona Virus</Text>
-                        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id auctor mauris, iscing elit. In consectetur  <Text style={{ color: 'blue' }} onPress={() => navigation.navigate('')}>... More</Text></Text>
-                    </View>
-                    <View style={styles.tip}>
-                        <Text style={styles.h3}>Various Disease</Text>
-                        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id auctor mauris, iscing elit. In consectetur  <Text style={{ color: 'blue' }} onPress={() => navigation.navigate('')}>... More</Text></Text>
-                    </View>
-                    <View style={styles.tip}>
-                        <Text style={styles.h3}>Fever</Text>
-                        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id auctor mauris, iscing elit. In consectetur  <Text style={{ color: 'blue' }} onPress={() => navigation.navigate('')}>... More</Text></Text>
-                    </View>
-                    <View style={styles.tip}>
-                        <Text style={styles.h3}>Diabetics</Text>
-                        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id auctor mauris, iscing elit. In consectetur  <Text style={{ color: 'blue' }} onPress={() => navigation.navigate('')}>... More</Text></Text>
-                    </View>
-                    <View style={styles.tip}>
-                        <Text style={styles.h3}>Blood pressure</Text>
-                        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id auctor mauris, iscing elit. In consectetur  <Text style={{ color: 'blue' }} onPress={() => navigation.navigate('')}>... More</Text></Text>
-                    </View>
+                    {
+                        tips.map((tip) => {
+
+                            return (
+                                <View key={tip.id} style={styles.docContents}>
+                                    <View style={styles.tip}>
+                                        <Text style={styles.h3}>{tip.title}</Text>
+                                        <Text>{tip.details}</Text>
+                                    </View>
+                                </View>
+                            )
+                        })
+                    }
+
                 </ScrollView>
 
 
             </View>
             <Pressable style={styles.footer} onPress={presssedOption}>
 
-            <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('PatientProfile')}></Icon>
+                <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
+                <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
+                <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
+                <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('PatientProfile')}></Icon>
 
             </Pressable>
         </View>
