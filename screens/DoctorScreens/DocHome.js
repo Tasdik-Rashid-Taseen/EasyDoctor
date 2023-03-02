@@ -14,8 +14,8 @@ const DocHome = ({ navigation, route }) => {
   const [patients, setPatients] = useState([])
   const [currentUser, setCurrentUser] = useState('')
   const [newTime, setNewTime] = useState('')
-  const [docID, setDocID] = useState('')
   const goToPrev = false;
+  let docID;
   useEffect(() => {
 
     onAuthStateChanged(authentication, (user) => {
@@ -51,7 +51,7 @@ const DocHome = ({ navigation, route }) => {
 
     setisModalVisible(false)
     await updateDoc(doc(db, 'appointmentList', docID), {
-      time: newTime
+      time: newTime,
     })
 
   }
@@ -161,18 +161,20 @@ const DocHome = ({ navigation, route }) => {
                           setNewTime(text)
                         }} defaultValue={doc.time} editable={true} multiline={false} maxLength={200}></TextInput>
 
-                        <TouchableOpacity>
-                          <TouchableOpacity style={styles.modalBoxContainer} onPress={() => {
-                            setDocID(doc.id)
-                            console.log(docID)
-                            updateInfo();
-                          }
 
-                          }>
-                            <Text style={{ color: 'white', fontSize: 16 }} >Save</Text>
-                            <Icon style={styles.buttonIcon} type="ant" name="save" ></Icon>
-                          </TouchableOpacity>
+                        <TouchableOpacity style={styles.modalBoxContainer} onPress={async() => {
+                          console.log('Updated')
+                          // const thisId = doc.id
+                          console.log(doc.id)
+                          docID = doc.id
+                          updateInfo()
+                        }
+
+                        }>
+                          <Text style={{ color: 'white', fontSize: 16 }} >Save</Text>
+                          <Icon style={styles.buttonIcon} type="ant" name="save" ></Icon>
                         </TouchableOpacity>
+
                       </View>
                     </Modal>
 

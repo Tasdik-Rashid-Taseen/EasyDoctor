@@ -27,7 +27,7 @@ const PatientProfile = ({ navigation, route }) => {
         .signOut()
         .then(() => {
             navigation.navigate('SignUp1')
-            console.log("Loged out")
+            console.log("Logged out")
         })
 
     }

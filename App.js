@@ -50,8 +50,6 @@ import HealthTips from './screens/PatientScreens/HealthTips';
 import Emergency from './screens/PatientScreens/Emergency';
 import DocDetails from './screens/PatientScreens/DocDetails';
 import DocHome from './screens/DoctorScreens/DocHome';
-import PatientAppointmentInfo from './screens/DoctorScreens/PatientAppointmentInfo';
-import DocAppointmentInfo from './screens/PatientScreens/DocAppointmentInfo';
 import PatientProfile from './screens/PatientScreens/PatientProfile';
 import ProfileDetails from './screens/PatientScreens/ProfileDetails';
 import Settings from './screens/PatientScreens/Settings';
@@ -60,6 +58,10 @@ import DocProfileDetails from './screens/DoctorScreens/DocProfileDetails';
 import AdminHome from './screens/AdminScreens/AdminHome';
 import Adm_HealthTips from './screens/AdminScreens/Adm_HealthTips';
 import AdminSignIn from './screens/AdminScreens/AdminSignIn';
+
+
+
+
 const Tab = createNativeStackNavigator();
 
 import Icon from './screens/Icon';
@@ -182,17 +184,8 @@ const App = () => {
               backgroundColor: '#3A98B9',
             }, headerTintColor: '#fff'
           }} />
-          <Stack.Screen name="PatientAppointmentInfo" component={PatientAppointmentInfo} options={{
-            title: 'Patient Appointment Info', headerTitleAlign: 'center', headerStyle: {
-              backgroundColor: '#3A98B9',
-            }, headerTintColor: '#fff'
-          }} />
-          <Stack.Screen name="DocAppointmentInfo" component={DocAppointmentInfo} options={{
-            title: 'Doctor Appointment Info', headerTitleAlign: 'center', headerStyle: {
-              backgroundColor: '#698269',
-            }, headerTintColor: '#fff'
-          }} />
-
+         
+        
           <Stack.Screen name="ProfileDetails" component={ProfileDetails} options={{
             title: 'Edit Profile', headerTitleAlign: 'center', headerStyle: {
               backgroundColor: '#698269',
@@ -219,7 +212,7 @@ const App = () => {
             }, headerTintColor: '#fff'
           }} />
 
-
+      
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

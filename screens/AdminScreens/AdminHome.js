@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image, fontWeight } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image, fontWeight, RefreshControl } from 'react-native'
 import { ScrollView } from 'react-native'
 import { db } from '../../firebase'
 import { collection, getDocs, doc, setDoc, QuerySnapshot, getDoc, updateDoc, deleteDoc } from 'firebase/firestore/lite'
@@ -57,79 +57,116 @@ const AdminHome = ({ navigation, route }) => {
     function presssedOption() {
         console.log('Pressed')
     }
-    function logOut(){
+    function logOut() {
         authentication
-        .signOut()
-        .then(() => {
-            navigation.navigate('SignUp1')
-            console.log("Loged out")
-        })
+            .signOut()
+            .then(() => {
+                navigation.navigate('SignUp1')
+                console.log("Loged out")
+            })
 
     }
 
+    const getDocsData = async () => {
+
+        const appointmentCollection = collection(db, 'doctorList')
+        const appointmentSnapshot = await getDocs(appointmentCollection)
+        setDoctors(appointmentSnapshot.docs.map((doc) =>
+        // console.log(doc.data())
+        ({
+            ...doc.data(),
+            id: doc.id
+        }
+
+        )
+
+        ))
+
+
+
+
+    }
+    const [refresh, setRefresh] = useState(false)
+    const pullMe = () => {
+        getDocsData();
+        setRefresh(true)
+        setTimeout(() => {
+            setRefresh(false)
+        }, 4000)
+    }
     return (
         <View style={styles.contents}>
             <View style={styles.container}>
-                <Text>Admin Panel</Text>
-                <Button title='Add Health Tips' color={"#7895B2"} onPress={()=> navigation.navigate('Adm_HealthTips')}/>
-                <Text style={styles.h2}>Requested Doctors</Text>
-                {
-                    doctors.map((doctor) => {
+                <ScrollView showsVerticalScrollIndicator={false} refreshControl={
+                    <RefreshControl refreshing={refresh} onRefresh={() => pullMe()} />
+                }>
+                    <View style={styles.addTip}>
+                        <Button title='Add Health Tips' color={"#7895B2"} onPress={() => navigation.navigate('Adm_HealthTips')} />
+                    </View>
 
-                        return doctor.status == "unconfirmed" ?
+                    <Text style={styles.h2}>Requested Doctors</Text>
+                    {
+                        doctors.map((doctor) => {
 
-                            <TouchableOpacity key={doctor.id} style={styles.appointment}>
-                                <Text style={styles.tap}>Doctor details</Text>
-                                <View style={styles.appointmentDetails}>
-                                    <Text style={styles.h2}>Doctor: {doctor.doc_username}</Text>
-                                    <View style={styles.date_time_status}>
-                                        <View style={styles.info}>
-                                            <Icon style={styles.infoIcon} type="ant" name="phone" ></Icon>
-                                            <Text style={styles.date}>Number: {doctor.doc_num}</Text>
-                                        </View>
-                                        <View style={styles.info}>
-                                            <Icon style={styles.infoIcon} type="ant" name="clockcircleo" ></Icon>
-                                            <Text style={styles.date}>Specialist: {doctor.doc_speciality}</Text>
-                                        </View>
-                                        <View style={styles.info}>
+                            return doctor.status == "unconfirmed" ?
 
-                                            <Icon style={styles.infoIcon} type="ant" name="infocirlce" ></Icon>
-                                            <Text style={styles.date}>L Number: {doctor.doc_licenceNum}</Text>
-                                        </View>
-                                        <View style={styles.info}>
-                                            <Icon style={styles.infoIcon} type="ant" name="enviromento" ></Icon>
-                                            <Text style={styles.place}>{doctor.doc_location}</Text>
+                                <TouchableOpacity key={doctor.id} style={styles.appointment}>
+                                    <Text style={styles.tap}>Doctor details</Text>
+                                    <View style={styles.appointmentDetails}>
+                                        <Text style={styles.h2}>Doctor: {doctor.doc_username}</Text>
+                                        <View style={styles.date_time_status}>
+                                            <View style={styles.info}>
+                                                <Icon style={styles.infoIcon} type="ant" name="phone" ></Icon>
+                                                <Text style={styles.date}>Number: {doctor.doc_num}</Text>
+                                            </View>
+                                            <View style={styles.info}>
+                                                <Icon style={styles.infoIcon} type="ant" name="clockcircleo" ></Icon>
+                                                <Text style={styles.date}>Specialist: {doctor.doc_speciality}</Text>
+                                            </View>
+                                            <View style={styles.info}>
+
+                                                <Icon style={styles.infoIcon} type="ant" name="infocirlce" ></Icon>
+                                                <Text style={styles.date}>L Number: {doctor.doc_licenceNum}</Text>
+                                            </View>
+                                            <View style={styles.info}>
+                                                <Icon style={styles.infoIcon} type="ant" name="enviromento" ></Icon>
+                                                <Text style={styles.place}>{doctor.doc_location}</Text>
+                                            </View>
                                         </View>
                                     </View>
-                                </View>
-                                <View style={styles.actions}>
-                                    <TouchableOpacity style={styles.confirmButton} onPress={async() => {
-                                        navigation.navigate('AdminHome')
-                                        await updateDoc(doc(db, 'doctorList', doctor.id), {
-                                            status: "approved",
-                                        })
-                                       
-                                    }}>
-                                        <Text style={{ color: 'white', fontSize: 16, }}>Confirm</Text>
-                                        <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.cancelButton} onPress={async() => {
-                                    
-                                        await deleteDoc(doc(db, 'doctorList', doctor.id));
-                                        console.log("Deleted")
-                                    }}>
-                                        <Text style={{ color: 'white', fontSize: 16, }}>Cancel</Text>
-                                        <Icon style={styles.buttonIcon} type="ant" name="closecircle" ></Icon>
-                                    </TouchableOpacity>
-                                </View>
+                                    <View style={styles.actions}>
+                                        <TouchableOpacity style={styles.confirmButton} onPress={async () => {
+                                            navigation.navigate('AdminHome')
+                                            await updateDoc(doc(db, 'doctorList', doctor.id), {
+                                                status: "approved",
+                                            })
 
-                            </TouchableOpacity>
-                            :
-                            console.log("No other thing to show")
+                                        }}>
+                                            <Text style={{ color: 'white', fontSize: 16, }}>Confirm</Text>
+                                            <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={styles.cancelButton} onPress={async () => {
 
-                    })
-                }
-                <Button title='Sign Out' onPress={logOut}></Button>
+                                            await deleteDoc(doc(db, 'doctorList', doctor.id));
+                                            console.log("Deleted")
+                                        }}>
+                                            <Text style={{ color: 'white', fontSize: 16, }}>Cancel</Text>
+                                            <Icon style={styles.buttonIcon} type="ant" name="closecircle" ></Icon>
+                                        </TouchableOpacity>
+                                    </View>
+
+                                </TouchableOpacity>
+                                :
+                                console.log("No other thing to show")
+
+                        })
+                    }
+                    <View >
+                        <Button title='Sign Out' onPress={logOut}></Button>
+                    </View>
+
+                </ScrollView>
+
             </View>
         </View>
 
@@ -164,10 +201,14 @@ const styles = StyleSheet.create({
     h2: {
         fontSize: 20,
         fontWeight: 'bold',
+        marginVertical: 10
     },
     h3: {
         fontSize: 17,
         fontWeight: 'bold',
+    },
+    addTip: {
+        marginVertical: 10
     },
     docContents: {
         flexDirection: 'row'

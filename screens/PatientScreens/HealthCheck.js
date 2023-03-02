@@ -22,7 +22,7 @@ const HealthCheck = ({ navigation, route }) => {
 
   function onConfirm() {
 
-    
+
     // Alert.alert('BMI: ' + bmiCondition + '\tBP condition: ' + bpConditon + '\tTempareture: ' + temCondition)
   }
   const onPressItem = () => {
@@ -30,7 +30,7 @@ const HealthCheck = ({ navigation, route }) => {
 
     if (bmi < 18.5) setBmiRes("Under weight")
     else if (bmi > 25.5) setBmiRes("Over weight")
-    
+
     if (lowerBP <= 70 || upperBP <= 110) setBpRes('Low blood pressure')
     else if (lowerBP >= 90 || upperBP >= 130) setBpRes('High blood pressure')
     let temCondition;
@@ -41,7 +41,7 @@ const HealthCheck = ({ navigation, route }) => {
       else {
         setTemRes("Fever")
       }
-    } 
+    }
     setisModalVisible(true);
     // setinputText(patient.patient_username)
     console.log("pressed")
@@ -78,9 +78,9 @@ const HealthCheck = ({ navigation, route }) => {
               <Text style={styles.h3}>BP: {bpRes}</Text>
               <Text style={styles.h3}>Temparature: {temRes}</Text>
               <TouchableOpacity style={styles.modalBoxContainer} onPress={() => onPressSaveEdit()}>
-                                    <Text style={{ color: 'white', fontSize: 16 }} >Save</Text>
-                                    <Icon style={styles.buttonIcon} type="ant" name="save" ></Icon>
-                                </TouchableOpacity>
+                <Text style={{ color: 'white', fontSize: 16 }} >Close</Text>
+                <Icon style={styles.buttonIcon} type="ant" name="closecircle" ></Icon>
+              </TouchableOpacity>
             </View>
 
           </Modal>
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
 
   },
-  h3:{
+  h3: {
     fontSize: 20
   },
   textInput: {
@@ -142,18 +142,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-},
-modalBoxContainer: {
-  backgroundColor: 'black',
-  // alignItems: 'flex-start',
-  flexDirection: 'row',
-  width: "25%",
-  paddingVertical: 6,
-  paddingHorizontal: 20,
-  marginVertical: 8,
-  justifyContent: 'flex-start',
-  alignSelf: 'center'
-},
+  },
+  modalBoxContainer: {
+    backgroundColor: 'black',
+    // alignItems: 'flex-start',
+    flexDirection: 'row',
+    width: "25%",
+    paddingVertical: 6,
+    paddingHorizontal: 20,
+    marginVertical: 8,
+    justifyContent: 'flex-start',
+    alignSelf: 'center'
+  },
   buttonIcon: {
     marginLeft: 5,
     fontSize: 20,

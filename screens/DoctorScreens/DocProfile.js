@@ -45,8 +45,7 @@ const DocProfile = ({ navigation, route }) => {
 
                 
                 <View style={styles.profile_opts}>
-                    <TouchableOpacity style={styles.profile_opt} onPress={() => { navigation.navigate('DocProfileDetails')
-                            
+                    <TouchableOpacity style={styles.profile_opt} onPress={() => { navigation.navigate('DocProfileDetails')        
                     }
                         }>
                         <View style={{flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10,}}>

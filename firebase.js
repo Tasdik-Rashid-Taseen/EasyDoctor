@@ -10,12 +10,12 @@ import { getAuth} from 'firebase/auth'
 import {getFirestore} from 'firebase/firestore/lite'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDUxhrbGr3o2vZVVeBEih6X5mh4pgicUN4",
-  authDomain: "easydoctor-firebase.firebaseapp.com",
-  projectId: "easydoctor-firebase",
-  storageBucket: "easydoctor-firebase.appspot.com",
-  messagingSenderId: "617677809718",
-  appId: "1:617677809718:web:cfa0c62387defbf89e9097",
+  apiKey: "AIzaSyD0eznFGBlOd0bsjelqadS_TiB5PxvW44A",
+  authDomain: "easy-doc-v1.firebaseapp.com",
+  projectId: "easy-doc-v1",
+  storageBucket: "easy-doc-v1.appspot.com",
+  messagingSenderId: "591372472935",
+  appId: "1:591372472935:web:697eec5a6cd648b027bac2"
 
 };
 

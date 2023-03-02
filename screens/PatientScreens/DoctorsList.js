@@ -66,7 +66,7 @@ const DoctorsList = ({ navigation, route }) => {
   }
   const [refresh, setRefresh] = useState(false)
   const pullMe = () => {
-    getDocsData();
+    getDocInfo();
     setRefresh(true)
     setTimeout(() => {
       setRefresh(false)
@@ -110,7 +110,7 @@ const DoctorsList = ({ navigation, route }) => {
               {
                 users.map((user) => {
                   console.log(user.doc_id)
-                  return (
+                  return user.status == "approved" ?(
                     <View key={user.id} >
 
                       {/* <Text>Name: {user.doc_username}</Text>
@@ -137,6 +137,8 @@ const DoctorsList = ({ navigation, route }) => {
                       </View>
                     </View>
                   )
+                  :
+                  console.log("No other thing to show")
                 })
               }
             </View>

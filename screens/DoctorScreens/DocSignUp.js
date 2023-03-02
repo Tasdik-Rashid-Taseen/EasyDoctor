@@ -52,7 +52,7 @@ const DocSignUp = ({ navigation, route }) => {
                 setCurrentUser(user.uid)
                 // console.log(user.uid)
             }else {
-                console.log("no user available")
+                // console.log("no user available")
             }
         })
     })
@@ -63,7 +63,7 @@ const DocSignUp = ({ navigation, route }) => {
             .then(async (result) => {
                 console.log('Account Created')
                 Alert.alert("Wait for the admin to approve your account")
-                navigation.navigate('DocSignIn')
+                navigation.navigate('SignUp1')
                 await setDoc(doc(db, 'doctorList', result.user.uid), {          
                     doc_username: userName,
                     doc_gender: gender,
