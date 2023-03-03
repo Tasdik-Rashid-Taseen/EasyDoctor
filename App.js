@@ -45,23 +45,18 @@ import PatientHome from './screens/PatientScreens/PatientHome';
 import DoctorsList from './screens/PatientScreens/DoctorsList';
 import MakeApp from './screens/PatientScreens/MakeApp';
 import HealthCheck from './screens/PatientScreens/HealthCheck';
-import Reminder from './screens/PatientScreens/Reminder';
 import HealthTips from './screens/PatientScreens/HealthTips';
 import Emergency from './screens/PatientScreens/Emergency';
-import DocDetails from './screens/PatientScreens/DocDetails';
 import DocHome from './screens/DoctorScreens/DocHome';
 import PatientProfile from './screens/PatientScreens/PatientProfile';
 import ProfileDetails from './screens/PatientScreens/ProfileDetails';
-import Settings from './screens/PatientScreens/Settings';
 import DocProfile from './screens/DoctorScreens/DocProfile';
 import DocProfileDetails from './screens/DoctorScreens/DocProfileDetails';
 import AdminHome from './screens/AdminScreens/AdminHome';
 import Adm_HealthTips from './screens/AdminScreens/Adm_HealthTips';
 import AdminSignIn from './screens/AdminScreens/AdminSignIn';
-
-
-
-
+import DevSup from './screens/CommonScreens/DevSup';
+import AboutApp from './screens/CommonScreens/AboutApp';
 const Tab = createNativeStackNavigator();
 
 import Icon from './screens/Icon';
@@ -123,7 +118,7 @@ const App = () => {
           }} />
           <Stack.Screen name="DocProfileDetails" component={DocProfileDetails} options={{
             title: 'Edit Profile', headerTitleAlign: 'center', headerStyle: {
-              backgroundColor: '#698269',
+              backgroundColor: '#3A98B9',
             }, headerTintColor: '#fff'
           }} />
           <Stack.Screen name="PatientHome" component={PatientHome} options={{
@@ -157,11 +152,7 @@ const App = () => {
               backgroundColor: '#698269',
             }, headerTintColor: '#fff',
           }} />
-          <Stack.Screen name="Reminder" component={Reminder} options={{
-            title: 'Reminder', headerTitleAlign: 'center', headerStyle: {
-              backgroundColor: '#698269',
-            }, headerTintColor: '#fff'
-          }} />
+
           <Stack.Screen name="HealthTips" component={HealthTips} options={{
             title: 'Health Tips', headerTitleAlign: 'center', headerStyle: {
               backgroundColor: '#698269',
@@ -172,11 +163,7 @@ const App = () => {
               backgroundColor: '#698269',
             }, headerTintColor: '#fff'
           }} />
-          <Stack.Screen name="DocDetails" component={DocDetails} options={{
-            title: 'Doctor Details', headerTitleAlign: 'center', headerStyle: {
-              backgroundColor: '#698269',
-            }, headerTintColor: '#fff'
-          }} />
+
 
 
           <Stack.Screen name="DocHome" component={DocHome} options={{
@@ -184,15 +171,10 @@ const App = () => {
               backgroundColor: '#3A98B9',
             }, headerTintColor: '#fff'
           }} />
-         
-        
+
+
           <Stack.Screen name="ProfileDetails" component={ProfileDetails} options={{
             title: 'Edit Profile', headerTitleAlign: 'center', headerStyle: {
-              backgroundColor: '#698269',
-            }, headerTintColor: '#fff'
-          }} />
-          <Stack.Screen name="Settings" component={Settings} options={{
-            title: 'Settings', headerTitleAlign: 'center', headerStyle: {
               backgroundColor: '#698269',
             }, headerTintColor: '#fff'
           }} />
@@ -212,7 +194,18 @@ const App = () => {
             }, headerTintColor: '#fff'
           }} />
 
-      
+          <Stack.Screen name="AboutApp" component={AboutApp} options={{
+            title: 'About App', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: 'black',
+            }, headerTintColor: '#fff'
+          }} />
+    
+          <Stack.Screen name="DevSup" component={DevSup} options={{
+            title: 'About Developers & Supervisors', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: 'black',
+            }, headerTintColor: '#fff'
+          }} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

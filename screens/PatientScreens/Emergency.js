@@ -29,8 +29,8 @@ const Emergency = ({ navigation, route }) => {
         <View style={styles.contents}>
             <View style={styles.container}>
                 <View>
-                    <Text style={styles.h1}>What is emergency service</Text>
-                    <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id auctor mauris, iscing elit. In consectetur  m ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. Curabitur id ur  m ipsum dolor sit amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. orper. Curabitur id auctor mauris, iscing elit. In consectetur  m ipsum dolor sit amet, consectetur adipis amet, consectetur adipiscing elit. In consectetur justo sed efficitur ullamcorper. orper. Curabitur id auctor mauris, iscing elit. In consectetur  m ipsum dol</Text>
+                    <Text style={styles.h1}>Here are the list of hospitals with their numbers so you can call them when you are in emergency</Text>
+                    
                 </View>
                 <Text style={styles.callBtn} onPress={() => { setisModalVisible(true); }}>Call Emergency Service</Text>
             </View>
@@ -69,8 +69,6 @@ const Emergency = ({ navigation, route }) => {
             <Pressable style={styles.footer} onPress={presssedOption}>
                 {/* Fix the navigation funciton not working */}
                 <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
-                <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
-                <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
                 <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('PatientProfile')}></Icon>
 
             </Pressable>
@@ -100,7 +98,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 30,
     },
     h1: {
-        fontSize: 30,
+        fontSize: 24,
 
     },
     h3:{

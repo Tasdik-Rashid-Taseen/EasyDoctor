@@ -7,7 +7,7 @@ import SignUp1 from '../CommonScreens/SignUp1'
 import { db } from '../../firebase'
 import { collection, getDocs, doc, setDoc, QuerySnapshot, getDoc } from 'firebase/firestore/lite'
 import { async } from '@firebase/util';
-import Doctor from './Doctor'
+
 
 const DoctorsList = ({ navigation, route }) => {
   function presssedCategory() {
@@ -85,20 +85,7 @@ const DoctorsList = ({ navigation, route }) => {
             <Icon style={styles.filterIcon} type="ant" name="search1" ></Icon>
             <TextInput placeholder='Search Doctors' />
           </View>
-          <View style={styles.category}>
-            <Text style={styles.title}>Category</Text>
-            <Pressable onPress={presssedCategory}>
-              <View style={styles.listCategories}>
-                <Text style={styles.listCategory}>All</Text>
-                <Text style={styles.listCategory}>Neuro & Spine Surgery</Text>
-                <Text style={styles.listCategory}>Medicine & Cardiology</Text>
-                <Text style={styles.listCategory}>ENT</Text>
-                <Text style={styles.listCategory}>General Surgery</Text>
-                <Text style={styles.listCategory}>Medicine</Text>
-              </View>
-            </Pressable>
-
-          </View>
+          
 
 
           {/* Experiment */}
@@ -117,9 +104,9 @@ const DoctorsList = ({ navigation, route }) => {
             <Text>Speciality: {user.doc_speciality}</Text> */}
                       <View style={styles.doctor}>
                         <Pressable style={styles.listDoctors} >
-                          <TouchableOpacity style={styles.listDoctor} onPress={() => navigation.navigate('DocDetails')}>
+                          <TouchableOpacity style={styles.listDoctor}>
                             <View style={styles.demo}>
-                            <Image style={styles.docImageS} source={require('../images/doctors/doc1.jpg')}></Image>
+                            <Image style={styles.docImageS} source={require('../images/doctors/user-avatar.png')}></Image>
                             <View style={styles.docInfo} >
                               <Text style={styles.textBold}>{user.doc_username}</Text>
                               <Text style={styles.textThin}>{user.doc_speciality}</Text>
@@ -151,8 +138,6 @@ const DoctorsList = ({ navigation, route }) => {
       <Pressable style={styles.footer} onPress={presssedOption}>
 
         <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
         <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('PatientProfile')}></Icon>
 
       </Pressable>

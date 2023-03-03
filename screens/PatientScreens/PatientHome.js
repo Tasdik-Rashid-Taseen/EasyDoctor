@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useFocusEffect } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image, fontWeight, RefreshControl } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image, fontWeight, RefreshControl, Modal } from 'react-native'
 import { ScrollView } from 'react-native'
 import { db } from '../../firebase'
-import { collection, getDocs, doc, setDoc, QuerySnapshot, getDoc } from 'firebase/firestore/lite'
+import { collection, getDocs, doc, setDoc, QuerySnapshot, getDoc, updateDoc, deleteDoc } from 'firebase/firestore/lite'
 import { onAuthStateChanged } from 'firebase/auth'
 import { authentication } from '../../firebase'
 import { where } from 'firebase/firestore/lite'
@@ -13,24 +13,32 @@ import { LogBox } from 'react-native';
 // import { useFocusEffect } from '@react-navigation/native'
 LogBox.ignoreLogs(["AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage"]);
 const PatientHome = ({ navigation, route }) => {
+
+
   const [doctors, setDoctors] = useState([])
   const [currentUser, setCurrentUser] = useState('')
+
+  const [isModalVisible, setisModalVisible] = useState(false)
+  const [inputText, setinputText] = useState();
+
+  const [newTime, setNewTime] = useState('')
   const goToPrev = false;
+  let docID;
 
   useEffect(() => {
     // navigation.addListener('focus', () => {
-      
+
     //   console.log("focused")
     // });
 
-    
-  //   navigation.addListener("beforeRemove", (e) => {
-  //     if(goToPrev == true) {
-  //       console.log("Can't go to previos page")
-  //      } else {
-  //    e.preventDefault();
-  //   }
-  //  });
+
+    //   navigation.addListener("beforeRemove", (e) => {
+    //     if(goToPrev == true) {
+    //       console.log("Can't go to previos page")
+    //      } else {
+    //    e.preventDefault();
+    //   }
+    //  });
     onAuthStateChanged(authentication, (user) => {
       if (user) {
         setCurrentUser(user.uid)
@@ -49,10 +57,10 @@ const PatientHome = ({ navigation, route }) => {
         id: doc.id
       }
 
-      
+
 
       )
-      
+
       ))
 
 
@@ -80,6 +88,16 @@ const PatientHome = ({ navigation, route }) => {
 
 
   }
+
+
+  const updateInfo = async () => {
+
+    setisModalVisible(false)
+    await updateDoc(doc(db, 'appointmentList', docID), {
+      time: newTime,
+    })
+
+  }
   // console.log(doctors);
   function presssedCategory() {
     console.log('Pressed')
@@ -93,34 +111,34 @@ const PatientHome = ({ navigation, route }) => {
     console.log('Pressed')
   }
 
+  const reschedule = () => {
+    setisModalVisible(true);
+    // setinputText(patient.patient_username)
+    console.log("pressed")
+  }
   const [refresh, setRefresh] = useState(false)
   const pullMe = () => {
     getDocsData();
     setRefresh(true)
-    setTimeout(()=>{
+    setTimeout(() => {
       setRefresh(false)
     }, 4000)
   }
   return (
-    
+
     <View style={styles.contents}>
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false} refreshControl={
-          <RefreshControl refreshing={refresh} onRefresh={()=> pullMe()}/>
+          <RefreshControl refreshing={refresh} onRefresh={() => pullMe()} />
         }>
-          <View style={styles.searchBoxContainer}>
-            <Icon style={styles.filterIcon} type="ant" name="search1" ></Icon>
-            <TextInput placeholder='Search Doctors' />
-          </View>
+      
 
           <View style={styles.category}>
             <Text style={styles.title}>Category</Text>
             <Pressable onPress={presssedCategory}>
               <View style={styles.listCategories}>
                 <Text style={styles.listCategory} onPress={() => navigation.navigate('DoctorsList')}>Doctors List</Text>
-                <Text style={styles.listCategory} onPress={() => navigation.navigate('DoctorsList')}>Make Appointment</Text>
                 <Text style={styles.listCategory} onPress={() => navigation.navigate('HealthCheck')}>Health Checkup</Text>
-                <Text style={styles.listCategory} onPress={() => navigation.navigate('Reminder')}>Reminder</Text>
                 <Text style={styles.listCategory} onPress={() => navigation.navigate('HealthTips')}>Health Tips</Text>
                 <Text style={styles.listCategory} onPress={() => navigation.navigate('Emergency')}>Emergency</Text>
               </View>
@@ -129,55 +147,130 @@ const PatientHome = ({ navigation, route }) => {
           </View>
           <View style={styles.appointments}>
 
-            <Text style={styles.title}>Upcomming Appointments</Text>
+            <Text style={styles.title}>Unconfirmed Appointments</Text>
 
             {
-              doctors.map((doc) => {
+              doctors.map((document) => {
                 // console.log(doctor.doc_document_id)  
-                return doc.patient_document_id == currentUser ?
-                  <View key={doc.id} style={styles.docContents}>
- 
-                    <TouchableOpacity style={styles.appointment} onPress={() => navigation.navigate('DocAppointmentInfo')}>
-                      <Text style={styles.tap}>Tap the card to see more details</Text>
+                return document.patient_document_id == currentUser && document.status == 'Unconfirmed' ?
+                  <View key={document.id} style={styles.docContents}>
+
+                    <TouchableOpacity style={styles.appointment}>
+                      <Text style={styles.tap}>Appointments details</Text>
                       <View style={styles.appointmentDetails}>
-                        <Text style={styles.h2}>{doc.doc_username}</Text>
+                        <Text style={styles.h2}>{document.doc_username}</Text>
                         <View style={styles.date_time_status}>
                           <View style={styles.info}>
                             <Icon style={styles.infoIcon} type="ant" name="calendar" ></Icon>
-                            <Text style={styles.date}>{doc.date}</Text>
+                            <Text style={styles.date}>{document.date}</Text>
                           </View>
                           <View style={styles.info}>
                             <Icon style={styles.infoIcon} type="ant" name="clockcircleo" ></Icon>
-                            <Text style={styles.date}>{doc.time}</Text>
+                            <Text style={styles.date}>{document.time}</Text>
                           </View>
                           <View style={styles.info}>
                             <Icon style={styles.infoIcon} type="ant" name="exclamationcircleo" ></Icon>
-                            <Text style={styles.date}>{doc.status}</Text>
+                            <Text style={styles.date}>{document.status}</Text>
                           </View>
                           <View style={styles.info}>
                             <Icon style={styles.infoIcon} type="ant" name="enviromento" ></Icon>
-                            <Text style={styles.place}>{doc.doc_location}</Text>
+                            <Text style={styles.place}>{document.doc_location}</Text>
                           </View>
                         </View>
                       </View>
                       <View style={styles.actions}>
-                        <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('')}>
+                        <TouchableOpacity style={styles.editButton} onPress={reschedule}>
                           <Text style={{ color: 'white', fontSize: 16, }}>Reschedule</Text>
                           <Icon style={styles.buttonIcon} type="ant" name="edit" ></Icon>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate('')}>
+                        <TouchableOpacity style={styles.cancelButton} onPress={async () => {
+
+                          await deleteDoc(doc(db, 'appointmentList', document.id));
+                          console.log("Deleted")
+                        }}>
                           <Text style={{ color: 'white', fontSize: 16, }}>Cancel</Text>
                           <Icon style={styles.buttonIcon} type="ant" name="closecircle" ></Icon>
                         </TouchableOpacity>
                       </View>
 
                     </TouchableOpacity>
+                    <Modal
+                      animationType='fade'
+                      visible={isModalVisible}
+                      onRequestClose={() => setisModalVisible(false)}
+                    >
+                      <View style={styles.modalView}>
+                        <Text style={{ fontSize: 18 }}>Change Time</Text>
+
+                        <TextInput style={styles.modalTextInput} onChangeText={(text) => {
+                          setinputText(text)
+                          setNewTime(text)
+                        }} defaultValue={document.time} editable={true} multiline={false} maxLength={200}></TextInput>
+
+
+                        <TouchableOpacity style={styles.modalBoxContainer} onPress={async () => {
+                          console.log('Updated')
+                          // const thisId = doc.id
+                          console.log(document.id)
+                          docID = document.id
+                          updateInfo()
+                        }
+
+                        }>
+                          <Text style={{ color: 'white', fontSize: 16 }} >Save</Text>
+                          <Icon style={styles.buttonIcon} type="ant" name="save" ></Icon>
+                        </TouchableOpacity>
+
+                      </View>
+                    </Modal>
                   </View>
                   :
                   console.log("No other thing to show")
-                
+
               })
             }
+            <Text style={styles.secondTitle}>Appointments</Text>
+            {
+              doctors.map((document) => {
+                // console.log(doctor.doc_document_id)  
+                return document.patient_document_id == currentUser && document.status == 'approved' ?
+                  <View key={document.id} style={styles.docContents}>
+
+                    <TouchableOpacity style={styles.appointment}>
+                      <Text style={styles.tap}>Appointments details</Text>
+                      <View style={styles.appointmentDetails}>
+                        <Text style={styles.h2}>{document.doc_username}</Text>
+                        <View style={styles.date_time_status}>
+                          <View style={styles.info}>
+                            <Icon style={styles.infoIcon} type="ant" name="calendar" ></Icon>
+                            <Text style={styles.date}>{document.date}</Text>
+                          </View>
+                          <View style={styles.info}>
+                            <Icon style={styles.infoIcon} type="ant" name="clockcircleo" ></Icon>
+                            <Text style={styles.date}>{document.time}</Text>
+                          </View>
+                          <View style={styles.info}>
+                            <Icon style={styles.infoIcon} type="ant" name="exclamationcircleo" ></Icon>
+                            <Text style={styles.date}>{document.status}</Text>
+                          </View>
+                          <View style={styles.info}>
+                            <Icon style={styles.infoIcon} type="ant" name="enviromento" ></Icon>
+                            <Text style={styles.place}>{document.doc_location}</Text>
+                          </View>
+                        </View>
+                      </View>
+                      <View style={styles.actions}>
+                        
+                      </View>
+
+                    </TouchableOpacity>
+                  </View>
+                  :
+                  console.log("No other thing to show")
+
+              })
+            }
+
 
           </View>
 
@@ -188,8 +281,6 @@ const PatientHome = ({ navigation, route }) => {
       <Pressable style={styles.footer} onPress={presssedOption}>
 
         <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
         <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('PatientProfile')}></Icon>
 
       </Pressable>
@@ -254,6 +345,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20
   },
+  secondTitle: {
+    fontSize: 20,
+    marginTop: 20
+  },
   category: {
     flex: 1,
     marginVertical: 5
@@ -282,6 +377,31 @@ const styles = StyleSheet.create({
     color: 'white'
   },
 
+  modalView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  modalTextInput: {
+    borderWidth: 1,
+    borderColor: "#AEBDCA",
+    width: "80%",
+    padding: 6,
+    paddingLeft: 16,
+    marginVertical: 8,
+
+  },
+  modalBoxContainer: {
+    backgroundColor: 'black',
+    // alignItems: 'flex-start',
+    flexDirection: 'row',
+    width: "25%",
+    paddingVertical: 6,
+    paddingHorizontal: 20,
+    marginVertical: 8,
+    justifyContent: 'flex-start',
+    alignSelf: 'center'
+  },
   appointments: {
 
   },

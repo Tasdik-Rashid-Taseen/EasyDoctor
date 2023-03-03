@@ -109,14 +109,14 @@ const MakeApp = ({ navigation, route }) => {
           <KeyboardAvoidingView style={styles.picker}>
             <Text style={styles.displayedText}>{dateText}</Text>
             <Pressable >
-              <Text style={styles.pickButton} onPress={() => showMode('date')}>Date</Text>
+              <Text style={styles.pickButton} onPress={() => showMode('date')}>Select</Text>
             </Pressable>
           </KeyboardAvoidingView>
           <Text style={styles.label}>Time</Text>
           <KeyboardAvoidingView style={styles.picker}>
             <Text style={styles.displayedText}>{timeText}</Text>
             <Pressable >
-              <Text style={styles.pickButton} onPress={() => showMode('time')}>Time</Text>
+              <Text style={styles.pickButton} onPress={() => showMode('time')}>Select</Text>
             </Pressable>
           </KeyboardAvoidingView>
           <Text style={styles.label}>Payment Method</Text>
@@ -158,8 +158,6 @@ const MakeApp = ({ navigation, route }) => {
 
 
         <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
         <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('PatientProfile')}></Icon>
 
 

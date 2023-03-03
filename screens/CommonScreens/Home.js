@@ -5,7 +5,7 @@ const Home = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={require('../images/app_icon/AppIconS.png')} style={{}}/>
+      <Image source={require('../images/app_icon/easyIcon.png')} style={{}}/>
       <Text style={styles.moto}>Your Health, Our Responsibility</Text>
       <TouchableOpacity style={styles.buttonBoxContainer} onPress={() => navigation.navigate('SignUp1')}>
         <Text style={{ color: 'white', fontSize: 18 }} >Get Started</Text>

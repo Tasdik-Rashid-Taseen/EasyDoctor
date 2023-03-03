@@ -84,7 +84,7 @@ const DocHome = ({ navigation, route }) => {
 
 
   }
-  const onPressItem = () => {
+  const reschedule = () => {
     setisModalVisible(true);
     // setinputText(patient.patient_username)
     console.log("pressed")
@@ -105,43 +105,50 @@ const DocHome = ({ navigation, route }) => {
         }>
 
           <View style={styles.appointments}>
-            <Text style={styles.title}>Upcomming Appointments</Text>
+            <Text style={styles.title}>Manage Appointments</Text>
 
             {
-              patients.map((doc) => {
+              patients.map((document) => {
                 // console.log(doctor.doc_document_id)  
-                return doc.doc_document_id == currentUser ?
-                  <View key={doc.id} style={styles.docContents}>
+                return document.doc_document_id == currentUser  && document.status == 'Unconfirmed' ?
+                  <View key={document.id} style={styles.docContents}>
 
-                    <TouchableOpacity style={styles.appointment} onPress={() => navigation.navigate('DocAppointmentInfo')}>
-                      <Text style={styles.tap}>Tap the card to see more details</Text>
+                    <TouchableOpacity style={styles.appointment} >
+                      <Text style={styles.tap}>Appointments details</Text>
                       <View style={styles.appointmentDetails}>
-                        <Text style={styles.h2}>{doc.patient_username}</Text>
+                        <Text style={styles.h2}>{document.patient_username}</Text>
                         <View style={styles.date_time_status}>
                           <View style={styles.info}>
                             <Icon style={styles.infoIcon} type="ant" name="calendar" ></Icon>
-                            <Text style={styles.date}>{doc.date}</Text>
+                            <Text style={styles.date}>{document.date}</Text>
                           </View>
                           <View style={styles.info}>
                             <Icon style={styles.infoIcon} type="ant" name="clockcircleo" ></Icon>
-                            <Text style={styles.date}>{doc.time}</Text>
+                            <Text style={styles.date}>{document.time}</Text>
                           </View>
                           <View style={styles.info}>
                             <Icon style={styles.infoIcon} type="ant" name="exclamationcircleo" ></Icon>
-                            <Text style={styles.date}>{doc.status}</Text>
+                            <Text style={styles.date}>{document.status}</Text>
                           </View>
                           <View style={styles.info}>
                             <Icon style={styles.infoIcon} type="ant" name="enviromento" ></Icon>
-                            <Text style={styles.place}>{doc.doc_location}</Text>
+                            <Text style={styles.place}>{document.doc_location}</Text>
                           </View>
                         </View>
                       </View>
                       <View style={styles.actions}>
-                        <TouchableOpacity style={styles.confirmButton} onPress={() => navigation.navigate('')}>
+                        <TouchableOpacity style={styles.confirmButton} onPress={async () => {
+                          navigation.navigate('DocHome')
+                          // console.log(doc.id)
+                          await updateDoc(doc(db, 'appointmentList', document.id), {
+                            status: "approved",
+                          })
+
+                        }}>
                           <Text style={{ color: 'white', fontSize: 16, }}>Confirm</Text>
                           <Icon style={styles.buttonIcon} type="ant" name="checkcircle" ></Icon>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.rescheduleButton} onPress={onPressItem}>
+                        <TouchableOpacity style={styles.rescheduleButton} onPress={reschedule}>
                           <Text style={{ color: 'white', fontSize: 16, }}>Reschedule</Text>
                           <Icon style={styles.buttonIcon} type="ant" name="closecircle" ></Icon>
                         </TouchableOpacity>
@@ -159,14 +166,14 @@ const DocHome = ({ navigation, route }) => {
                         <TextInput style={styles.modalTextInput} onChangeText={(text) => {
                           setinputText(text)
                           setNewTime(text)
-                        }} defaultValue={doc.time} editable={true} multiline={false} maxLength={200}></TextInput>
+                        }} defaultValue={document.time} editable={true} multiline={false} maxLength={200}></TextInput>
 
 
-                        <TouchableOpacity style={styles.modalBoxContainer} onPress={async() => {
+                        <TouchableOpacity style={styles.modalBoxContainer} onPress={async () => {
                           console.log('Updated')
                           // const thisId = doc.id
-                          console.log(doc.id)
-                          docID = doc.id
+                          console.log(document.id)
+                          docID = document.id
                           updateInfo()
                         }
 
@@ -180,6 +187,48 @@ const DocHome = ({ navigation, route }) => {
 
 
 
+
+                  </View>
+
+                  :
+                  console.log("No other thing to show")
+                        
+              })
+            }
+            <Text style={styles.secondTitle}>Appointments</Text>
+            {
+              patients.map((document) => {
+                // console.log(doctor.doc_document_id)  
+                return document.doc_document_id == currentUser && document.status == 'approved' ?
+                  <View key={document.id} style={styles.docContents}>
+
+                    <TouchableOpacity style={styles.appointment} >
+                      <Text style={styles.tap}>Appointments details</Text>
+                      <View style={styles.appointmentDetails}>
+                        <Text style={styles.h2}>{document.patient_username}</Text>
+                        <View style={styles.date_time_status}>
+                          <View style={styles.info}>
+                            <Icon style={styles.infoIcon} type="ant" name="calendar" ></Icon>
+                            <Text style={styles.date}>{document.date}</Text>
+                          </View>
+                          <View style={styles.info}>
+                            <Icon style={styles.infoIcon} type="ant" name="clockcircleo" ></Icon>
+                            <Text style={styles.date}>{document.time}</Text>
+                          </View>
+                          <View style={styles.info}>
+                            <Icon style={styles.infoIcon} type="ant" name="exclamationcircleo" ></Icon>
+                            <Text style={styles.date}>{document.status}</Text>
+                          </View>
+                          <View style={styles.info}>
+                            <Icon style={styles.infoIcon} type="ant" name="enviromento" ></Icon>
+                            <Text style={styles.place}>{document.doc_location}</Text>
+                          </View>
+                        </View>
+                      </View>
+
+
+                    </TouchableOpacity>
+                    
 
                   </View>
 
@@ -199,8 +248,6 @@ const DocHome = ({ navigation, route }) => {
       <Pressable style={styles.footer} onPress={presssedOption}>
 
         <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('DocHome')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
         <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('DocProfile')}></Icon>
 
       </Pressable>
@@ -243,7 +290,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   docContents: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+
   },
   modalView: {
     flex: 1,
@@ -263,7 +311,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     // alignItems: 'flex-start',
     flexDirection: 'row',
-    width: "100%",
+    width: "25%",
     paddingVertical: 6,
     paddingHorizontal: 20,
     marginVertical: 8,
@@ -290,6 +338,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20
   },
+  secondTitle:{
+    fontSize: 20,
+    marginTop: 20
+  }, 
   category: {
     flex: 1,
     marginVertical: 5

@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native'
-import {React,  useState, useEffect} from 'react'
+import { React, useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image, Alert } from 'react-native'
 import { getAuth } from 'firebase/auth'
-import {initializeApp} from 'firebase/app'
+import { initializeApp } from 'firebase/app'
 import { firebaseConfig } from '../../firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 import { authentication } from '../../firebase'
@@ -15,22 +15,22 @@ const DocProfile = ({ navigation, route }) => {
     const [currentUserID, setcurrentUserID] = useState('');
     const [doctor, setDoctor] = useState([])
     useEffect(() => {
-       
-       
-       
+
+
+
     })
     function presssedOption() {
         console.log('Pressed')
-        
+
     }
-    
-    function patientLogOut(){
+
+    function patientLogOut() {
         authentication
-        .signOut()
-        .then(() => {
-            navigation.navigate('SignUp1')
-            console.log("Loged out")
-        })
+            .signOut()
+            .then(() => {
+                navigation.navigate('SignUp1')
+                console.log("Loged out")
+            })
 
     }
 
@@ -38,39 +38,40 @@ const DocProfile = ({ navigation, route }) => {
 
 
 
-    
+
     return (
         <View style={styles.contents}>
             <View style={styles.container}>
 
-                
+
                 <View style={styles.profile_opts}>
-                    <TouchableOpacity style={styles.profile_opt} onPress={() => { navigation.navigate('DocProfileDetails')        
+                    <TouchableOpacity style={styles.profile_opt} onPress={() => {
+                        navigation.navigate('DocProfileDetails')
                     }
-                        }>
-                        <View style={{flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10,}}>
+                    }>
+                        <View style={{ flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10, }}>
                             <Icon style={styles.optIcon} type="ant" name="user" ></Icon>
                             <Text style={{ fontSize: 16, }}>Profile Details</Text>
                         </View>
-                        <View style={{alignSelf: 'center'}}>
+                        <View style={{ alignSelf: 'center' }}>
                             <Icon style={styles.optIcon} type="ant" name="right" ></Icon>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.profile_opt} onPress={() => navigation.navigate('Settings') }>
-                        <View style={{flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10,}}>
-                            <Icon style={styles.optIcon} type="ant" name="setting" ></Icon>
-                            <Text style={{ fontSize: 16, }}>Settings</Text>
+                    <TouchableOpacity style={styles.profile_opt} onPress={() => navigation.navigate('AboutApp')}>
+                        <View style={{ flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10, }}>
+                            <Icon style={styles.optIcon} type="ant" name="infocirlceo" ></Icon>
+                            <Text style={{ fontSize: 16, }}>About App</Text>
                         </View>
-                        <View style={{alignSelf: 'center'}}>
+                        <View style={{ alignSelf: 'center' }}>
                             <Icon style={styles.optIcon} type="ant" name="right" ></Icon>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.profile_opt} onPress={() => navigation.navigate('')}>
-                        <View style={{flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10,}}>
-                            <Icon style={styles.optIcon} type="ant" name="phone" ></Icon>
-                            <Text style={{ fontSize: 16, }}>Contact Us</Text>
+                    <TouchableOpacity style={styles.profile_opt} onPress={() => navigation.navigate('DevSup')}>
+                        <View style={{ flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10, }}>
+                            <Icon style={styles.optIcon} type="ant" name="android" ></Icon>
+                            <Text style={{ fontSize: 16, }}>About Developers & Supervisor</Text>
                         </View>
-                        <View style={{alignSelf: 'center'}}>
+                        <View style={{ alignSelf: 'center' }}>
                             <Icon style={styles.optIcon} type="ant" name="right" ></Icon>
                         </View>
                     </TouchableOpacity>
@@ -82,10 +83,8 @@ const DocProfile = ({ navigation, route }) => {
             </View>
             <Pressable style={styles.footer} onPress={presssedOption}>
 
-            <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('DocHome')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('DocProfile')}></Icon>
+                <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('DocHome')}></Icon>
+                <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('DocProfile')}></Icon>
 
             </Pressable>
         </View>
@@ -106,7 +105,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         marginVertical: 23,
         marginHorizontal: 30,
         height: '100%',
@@ -120,7 +119,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginTop: 15
-      },
+    },
     textInput: {
         borderWidth: 1,
         borderColor: "#AEBDCA",
@@ -132,7 +131,7 @@ const styles = StyleSheet.create({
     },
     pic_name: {
         alignSelf: 'center',
-        
+
     },
     docImageS: {
         width: 150,
@@ -154,6 +153,9 @@ const styles = StyleSheet.create({
 
         width: "100%",
 
+    },
+    profile_opts: {
+        marginVertical: 20
     },
     optIcon: {
         marginRight: 5,

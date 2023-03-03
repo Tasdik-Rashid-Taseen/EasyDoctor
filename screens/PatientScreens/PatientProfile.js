@@ -59,19 +59,19 @@ const PatientProfile = ({ navigation, route }) => {
                             <Icon style={styles.optIcon} type="ant" name="right" ></Icon>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.profile_opt} onPress={() => navigation.navigate('Settings')}>
+                    <TouchableOpacity style={styles.profile_opt} onPress={() => navigation.navigate('AboutApp')}>
                         <View style={{ flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10, }}>
-                            <Icon style={styles.optIcon} type="ant" name="setting" ></Icon>
-                            <Text style={{ fontSize: 16, }}>Settings</Text>
+                            <Icon style={styles.optIcon} type="ant" name="infocirlceo" ></Icon>
+                            <Text style={{ fontSize: 16, }}>About App</Text>
                         </View>
                         <View style={{ alignSelf: 'center' }}>
                             <Icon style={styles.optIcon} type="ant" name="right" ></Icon>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.profile_opt} onPress={() => navigation.navigate('')}>
+                    <TouchableOpacity style={styles.profile_opt} onPress={() => navigation.navigate('DevSup')}>
                         <View style={{ flexDirection: 'row', paddingVertical: 6, paddingHorizontal: 10, }}>
-                            <Icon style={styles.optIcon} type="ant" name="phone" ></Icon>
-                            <Text style={{ fontSize: 16, }}>Contact Us</Text>
+                            <Icon style={styles.optIcon} type="ant" name="android" ></Icon>
+                            <Text style={{ fontSize: 16, }}>About Developers & Supervisor</Text>
                         </View>
                         <View style={{ alignSelf: 'center' }}>
                             <Icon style={styles.optIcon} type="ant" name="right" ></Icon>
@@ -86,8 +86,6 @@ const PatientProfile = ({ navigation, route }) => {
             <Pressable style={styles.footer} onPress={presssedOption}>
 
                 <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('PatientHome')}></Icon>
-                <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
-                <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
                 <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('PatientProfile')}></Icon>
 
             </Pressable>
@@ -109,7 +107,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         marginVertical: 23,
         marginHorizontal: 30,
         height: '100%',
@@ -157,6 +155,9 @@ const styles = StyleSheet.create({
 
         width: "100%",
 
+    },
+    profile_opts: {
+        marginVertical: 20
     },
     optIcon: {
         marginRight: 5,

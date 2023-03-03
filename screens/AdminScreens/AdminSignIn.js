@@ -5,27 +5,14 @@ import { authentication } from '../../firebase'
 import { db } from '../../firebase'
 
 import Icon from '../Icon'
-import { async } from '@firebase/util'
-import { collection, getDocs, doc } from 'firebase/firestore/lite'
+
 
 
 const AdminSignIn = ({ navigation, route }) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    // const app = initializeApp(firebaseConfig)
-    // const auth = getAuth(app)
 
-    // const addData = async()=>{
-    //     const city = "Khulna";
-    //     // const citiesCol = collection(db, 'cities')
-    //     // const citySnapshot = await getDocs(citiesCol)
-    //     // const cityList = citySnapshot.docs.map(doc => doc.data())
-    //     // console.log(cityList)
-    //     await setDoc(doc(db, 'cities', 'Random_doc'), {
-    //         city_name: city,
-    //     })
-    // }
     const [currentUser, setCurrentUser] = useState('')
     useEffect(() => {
         onAuthStateChanged(authentication, (user) => {
@@ -41,15 +28,16 @@ const AdminSignIn = ({ navigation, route }) => {
     const handleDocSignIn = () => {
         if (email == "admin@gmail.com") {
             if (password == 12345678) {
-                signInWithEmailAndPassword(authentication, email, password)
-                    .then(
-                        navigation.navigate('AdminHome')
-                    )
-                    .catch(error => {
-                        Alert.alert(error.message)
-                        console.log(error)
-                    }
-                    )
+                // signInWithEmailAndPassword(authentication, email, password)
+                //     .then(
+                //         navigation.navigate('AdminHome')
+                //     )
+                //     .catch(error => {
+                //         Alert.alert(error.message)
+                //         console.log(error)
+                //     }
+                //     )
+                navigation.navigate('AdminHome')
             }
         }
         else {
@@ -62,22 +50,6 @@ const AdminSignIn = ({ navigation, route }) => {
 
 
 
-    // const handleDocSignIn = async() => {
-    //     signInWithEmailAndPassword(authentication, email, password)
-    //         .then((docCredential) => {
-    //             console.log('Signed In')
-    //             const user = docCredential.user
-    //             console.log(user)
-    //             // setIsSignedIn(true)
-
-    //             navigation.navigate('DocHome')
-    //         })
-    //         .catch(error => {
-    //             Alert.alert(error.message)
-    //             console.log(error)
-    //         }
-    //         )
-    // }
 
     return (
         <View style={styles.container}>

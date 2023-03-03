@@ -38,12 +38,7 @@ const Adm_HealthTips = ({ navigation, route }) => {
         </TouchableOpacity>
       </View>
       <Pressable style={styles.footer} >
-
-        <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('AdminHome')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="setting" onPress={() => navigation.navigate('Settings')}></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="calendar" ></Icon>
-        <Icon style={styles.optionIcon} type="ant" name="user" onPress={() => navigation.navigate('DocProfile')}></Icon>
-
+        <Icon style={styles.optionIcon} type="ant" name="home" onPress={() => navigation.navigate('AdminHome')}></Icon>   
       </Pressable>
     </View>
 
