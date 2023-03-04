@@ -109,13 +109,13 @@ const DocSignUp = ({ navigation, route }) => {
                     <Text style={styles.label}>Email</Text>
                     <TextInput placeholder='Email' onChangeText={(text) => setEmail(text)} style={styles.textInput} />
                     <Text style={styles.label}>Number</Text>
-                    <TextInput placeholder='Number' onChangeText={(text) => setNumber(text)} style={styles.textInput} />
+                    <TextInput placeholder='Number' keyboardType='numeric' onChangeText={(text) => setNumber(text)} style={styles.textInput} />
                     <Text style={styles.label}>Speciality</Text>
                     <TextInput placeholder='Speciality' onChangeText={(text) => setSpeciality(text)} style={styles.textInput} />
                     <Text style={styles.label}>Location</Text>
                     <TextInput placeholder='Location' onChangeText={(text) => setLocation(text)} style={styles.textInput} />
                     <Text style={styles.label}>Licence Number</Text>
-                    <TextInput placeholder='Licence Number' onChangeText={(text) => setLicenceNum(text)} style={styles.textInput} />
+                    <TextInput placeholder='Licence Number' keyboardType='numeric' onChangeText={(text) => setLicenceNum(text)} style={styles.textInput} />
                     <Text style={styles.label}>Password</Text>
                     <TextInput placeholder='Password' onChangeText={text => setPassword(text)} secureTextEntry style={styles.textInput} />
                     <Text style={styles.label}>Confirm Password</Text>

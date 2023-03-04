@@ -38,7 +38,7 @@ const DevSup = ({ navigation }) => {
             <Image style={styles.docImageS} source={require('../images/DevSup/Md-Fazla-Rabbi-Tuhin.jpg')}></Image>
             <View style={styles.docInfo} >
               <Text style={styles.textBold}>Md. Fazla Rabbi Tuhin</Text>
-              <Text style={styles.textThin}>CSE-52rd, A</Text>
+              <Text style={styles.textThin}>CSE-52nd, A</Text>
               <Text style={styles.textThin}>1932020005</Text>
             </View>
           </View>
@@ -49,7 +49,7 @@ const DevSup = ({ navigation }) => {
             <Image style={styles.docImageS} source={require('../images/DevSup/Fahmida-Parvin.jpg')}></Image>
             <View style={styles.docInfo} >
               <Text style={styles.textBold}>Fahmida Parvin</Text>
-              <Text style={styles.textThin}>CSE-52rd, A</Text>
+              <Text style={styles.textThin}>CSE-52nd, A</Text>
               <Text style={styles.textThin}>1932020025</Text>
             </View>
           </View>

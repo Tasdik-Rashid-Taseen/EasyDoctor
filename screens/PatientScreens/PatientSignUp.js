@@ -86,9 +86,9 @@ const PatientSignUp = ({ navigation, route }) => {
                     <Text style={styles.label}>Email</Text>
                     <TextInput placeholder='Email' onChangeText={(text) => setEmail(text)} style={styles.textInput} />
                     <Text style={styles.label}>Number</Text>
-                    <TextInput placeholder='Number' onChangeText={(text) => setNumber(text)} style={styles.textInput} />
+                    <TextInput placeholder='Number' keyboardType='numeric' onChangeText={(text) => setNumber(text)} style={styles.textInput} />
                     <Text style={styles.label}>NID Number</Text>
-                    <TextInput placeholder='NID Number' onChangeText={(text) => setNidNum(text)} style={styles.textInput} />
+                    <TextInput placeholder='NID Number' keyboardType='numeric' onChangeText={(text) => setNidNum(text)} style={styles.textInput} />
                     <Text style={styles.label}>Password</Text>
                     <TextInput placeholder='Password' onChangeText={text => setPassword(text)} secureTextEntry style={styles.textInput} />
                     <Text style={styles.label}>Confirm Password</Text>

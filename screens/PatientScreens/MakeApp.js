@@ -42,7 +42,9 @@ const MakeApp = ({ navigation, route }) => {
     getDocData();
 
   })
- 
+  function addDays(n1,n2){
+    return n1+n2;
+  }
   function presssedOption() {
     console.log('Pressed')
   }
@@ -141,6 +143,9 @@ const MakeApp = ({ navigation, route }) => {
         is24Hour={false}
         display='default'
         onChange={onChange}
+        minimumDate={new Date()}
+        
+        
         />
       )}
 
