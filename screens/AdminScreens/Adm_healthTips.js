@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image, fontWeight, RefreshControl, KeyboardAvoidingView } from 'react-native'
-import { ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet,  Pressable, KeyboardAvoidingView } from 'react-native'
 import { db } from '../../firebase'
-import { collection, getDocs, doc, setDoc, QuerySnapshot, getDoc } from 'firebase/firestore/lite'
-import { onAuthStateChanged } from 'firebase/auth'
-import { authentication } from '../../firebase'
-import { where } from 'firebase/firestore/lite'
-import firebaseConfig from '../../firebase'
+import {  doc, setDoc } from 'firebase/firestore/lite'
 import Icon from '../Icon'
 import uuid from 'react-native-uuid';
 const Adm_HealthTips = ({ navigation, route }) => {
@@ -14,7 +9,7 @@ const Adm_HealthTips = ({ navigation, route }) => {
   const [tipDetails, setTipDetails] = useState('')
   useEffect(() => {
 
-
+   
   }, [])
   const createTips = async () => {
     navigation.navigate('AdminHome')
@@ -30,7 +25,7 @@ const Adm_HealthTips = ({ navigation, route }) => {
           <Text style={styles.label}>Title</Text>
           <TextInput placeholder='Title' onChangeText={(text) => setTipTitle(text)} style={styles.textInput} />
           <Text style={styles.label}>Details</Text>
-          <TextInput multiline numberOfLines={8} maxLength={400}placeholder='Details' onChangeText={text => setTipDetails(text)} secureTextEntry style={styles.textInput} />
+          <TextInput multiline numberOfLines={8} maxLength={400}placeholder='Details' onChangeText={text => setTipDetails(text)} style={styles.textInput} />
         </KeyboardAvoidingView>
         <TouchableOpacity style={styles.buttonBoxContainer} onPress={createTips}>
           <Text style={{ color: 'white', fontSize: 16 }} >CONFIRM</Text>

@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Pressable, Image, fontWeight, RefreshControl } from 'react-native'
 import { ScrollView } from 'react-native'
 import { db } from '../../firebase'
-import { collection, getDocs, doc, setDoc, QuerySnapshot, getDoc, updateDoc, deleteDoc } from 'firebase/firestore/lite'
+import { collection, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore/lite'
 import { onAuthStateChanged } from 'firebase/auth'
 import { authentication } from '../../firebase'
-import { where } from 'firebase/firestore/lite'
-import firebaseConfig from '../../firebase'
 
 import Icon from '../Icon'
 const AdminHome = ({ navigation, route }) => {
@@ -14,13 +12,7 @@ const AdminHome = ({ navigation, route }) => {
     const [currentUser, setCurrentUser] = useState('')
     const goToPrev = false;
     useEffect(() => {
-        // navigation.addListener("beforeRemove", (e) => {
-        //     if (goToPrev == true) {
-        //         console.log("Can't go to previos page")
-        //     } else {
-        //         e.preventDefault();
-        //     }
-        // });
+       
         onAuthStateChanged(authentication, (user) => {
             if (user) {
                 setCurrentUser(user.uid)
@@ -33,7 +25,7 @@ const AdminHome = ({ navigation, route }) => {
             const appointmentCollection = collection(db, 'doctorList')
             const appointmentSnapshot = await getDocs(appointmentCollection)
             setDoctors(appointmentSnapshot.docs.map((doc) =>
-            // console.log(doc.data())
+    
             ({
                 ...doc.data(),
                 id: doc.id
@@ -51,12 +43,8 @@ const AdminHome = ({ navigation, route }) => {
 
     }, [])
 
-    function confirmBtn() {
-        console.log("Confirm")
-    }
-    function presssedOption() {
-        console.log('Pressed')
-    }
+    
+    
     function logOut() {
         authentication
             .signOut()
@@ -374,30 +362,6 @@ const styles = StyleSheet.create({
     textBold: {
         fontWeight
     },
-    optionIcon: {
-        // marginLeft: 5,
-        fontSize: 25,
-        color: '#7895B2',
-        // backgroundColor: 'red',
-        paddingHorizontal: 30,
-        paddingVertical: 6,
-        alignSelf: 'center'
-    },
-    footer: {
-        position: 'absolute',
-        // left: '45%',
-        bottom: 0,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        // marginVertical: 12,
-        width: '100%',
-        backgroundColor: "white",
-        justifyContent: 'space-evenly',
-        padding: 5,
-        height: '7%',
-        borderTopColor: "#AEBDCA",
-        borderTopWidth: 2,
-        // backgroundColor: 'green'
-
-    },
+   
+   
 })

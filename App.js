@@ -123,7 +123,6 @@ const App = () => {
           }} />
           <Stack.Screen name="PatientHome" component={PatientHome} options={{
             title: 'Home-Patient', headerTitleAlign: 'center',
-
             headerBackVisible: false,
             headerStyle: {
               backgroundColor: '#698269',
@@ -167,7 +166,7 @@ const App = () => {
 
 
           <Stack.Screen name="DocHome" component={DocHome} options={{
-            title: 'Home-Doctor', headerTitleAlign: 'center', headerStyle: {
+            title: 'Home-Doctor', headerTitleAlign: 'center', headerBackVisible: false,  headerStyle: {
               backgroundColor: '#3A98B9',
             }, headerTintColor: '#fff'
           }} />
@@ -184,7 +183,7 @@ const App = () => {
             }, headerTintColor: '#fff'
           }} />
           <Stack.Screen name="AdminHome" component={AdminHome} options={{
-            title: 'Admin Home', headerTitleAlign: 'center', headerStyle: {
+            title: 'Admin Home', headerTitleAlign: 'center', headerBackVisible: false, headerStyle: {
               backgroundColor: 'black',
             }, headerTintColor: '#fff'
           }} />

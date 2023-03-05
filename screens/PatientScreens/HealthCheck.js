@@ -34,7 +34,7 @@ const HealthCheck = ({ navigation, route }) => {
     if (lowerBP <= 70 || upperBP <= 110) setBpRes('Low blood pressure')
     else if (lowerBP >= 90 || upperBP >= 130) setBpRes('High blood pressure')
     let temCondition;
-    if (temp > 98.5) {
+    if (temp > 98) {
       if (temp >= 103) {
         setTemRes("High Fever")
       }

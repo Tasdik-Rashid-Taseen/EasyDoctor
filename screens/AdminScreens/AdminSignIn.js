@@ -1,8 +1,7 @@
 import { React, useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, KeyboardAvoidingView, Alert } from 'react-native'
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
+import { onAuthStateChanged } from 'firebase/auth'
 import { authentication } from '../../firebase'
-import { db } from '../../firebase'
 
 import Icon from '../Icon'
 
@@ -28,15 +27,7 @@ const AdminSignIn = ({ navigation, route }) => {
     const handleDocSignIn = () => {
         if (email == "admin@gmail.com") {
             if (password == 12345678) {
-                // signInWithEmailAndPassword(authentication, email, password)
-                //     .then(
-                //         navigation.navigate('AdminHome')
-                //     )
-                //     .catch(error => {
-                //         Alert.alert(error.message)
-                //         console.log(error)
-                //     }
-                //     )
+               
                 navigation.navigate('AdminHome')
             }
         }

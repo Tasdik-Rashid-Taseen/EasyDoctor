@@ -5,8 +5,7 @@ import { db } from '../../firebase'
 import { collection, getDocs, doc, setDoc, QuerySnapshot, getDoc, updateDoc } from 'firebase/firestore/lite'
 import { onAuthStateChanged } from 'firebase/auth'
 import { authentication } from '../../firebase'
-import { where } from 'firebase/firestore/lite'
-import firebaseConfig from '../../firebase'
+
 import Icon from '../Icon'
 const DocHome = ({ navigation, route }) => {
   const [isModalVisible, setisModalVisible] = useState(false)

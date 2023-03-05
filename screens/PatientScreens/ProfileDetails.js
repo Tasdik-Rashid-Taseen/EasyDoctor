@@ -17,11 +17,12 @@ const ProfileDetails = ({ navigation, route }) => {
     const [newNumber, setnewNumber] = useState('')
     const [patientID, setPatientID] = useState('')
     // const [editItem, seteditItem] = useState();
+    let userID;
     useEffect(() => {
         onAuthStateChanged(authentication, async (user) => {
             if (user) {
                 // console.log(user.uid)
-                const userID = user.uid;
+                userID = user.uid;
                 const patientCollection = await getDoc(doc(db, 'patientList', userID))
 
                 // const patientList = patientCollection.docs.map(doc => doc.data())
@@ -46,26 +47,17 @@ const ProfileDetails = ({ navigation, route }) => {
         console.log(patientID)
     }
 
-    const onPressSaveEdit = () => {
+    const onPressSaveEdit = async () => {
         setisModalVisible(false)
-        onAuthStateChanged(authentication, async (user) => {
-            if (user) {
-                // console.log(user.uid)
-                const userID = user.uid;
+       
 
 
-                console.log("Update")
-                await updateDoc(doc(db, 'patientList', userID), {
-                    patient_username: newUsername,
-                    patient_num: newNumber,
-                })
-
-
-            } else {
-                //console.log("no user available")
-            }
-
+        console.log("Update")
+        await updateDoc(doc(db, 'patientList', userID), {
+            patient_username: newUsername,
+            patient_num: newNumber,
         })
+        
     }
 
     function profileOptChg(event) {
