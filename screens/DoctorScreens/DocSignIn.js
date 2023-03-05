@@ -13,19 +13,6 @@ const DocSignIn = ({ navigation, route }) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    // const app = initializeApp(firebaseConfig)
-    // const auth = getAuth(app)
-
-    // const addData = async()=>{
-    //     const city = "Khulna";
-    //     // const citiesCol = collection(db, 'cities')
-    //     // const citySnapshot = await getDocs(citiesCol)
-    //     // const cityList = citySnapshot.docs.map(doc => doc.data())
-    //     // console.log(cityList)
-    //     await setDoc(doc(db, 'cities', 'Random_doc'), {
-    //         city_name: city,
-    //     })
-    // }
     const [currentUser, setCurrentUser] = useState('')
     useEffect(()=> {
         onAuthStateChanged(authentication, (user) => {
