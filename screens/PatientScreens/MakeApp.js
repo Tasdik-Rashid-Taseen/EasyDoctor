@@ -9,6 +9,7 @@ import { getDoc } from 'firebase/firestore/lite'
 import RNDateTimePicker from '@react-native-community/datetimepicker'
 import Icon from '../Icon'
 import uuid from 'react-native-uuid';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { async } from '@firebase/util'
 const MakeApp = ({ navigation, route }) => {
   const doctorID = route.params.doc_user_id
@@ -23,10 +24,10 @@ const MakeApp = ({ navigation, route }) => {
         setCurrentUser(user.uid)
         // console.log(currentUser)
         const patientCollection = await getDoc(doc(db, 'patientList', user.uid))
-                
-                // const patientList = patientCollection.docs.map(doc => doc.data())
-                // console.log(patientCollection.data())
-                setPatient(patientCollection.data());
+
+        // const patientList = patientCollection.docs.map(doc => doc.data())
+        // console.log(patientCollection.data())
+        setPatient(patientCollection.data());
 
 
       } else {
@@ -35,19 +36,15 @@ const MakeApp = ({ navigation, route }) => {
     })
     const getDocData = async () => {
       const docData = await getDoc(doc(db, 'doctorList', doctorID))
-     
+
       setDoctor(docData.data())
-      
+
     }
     getDocData();
 
   })
-  function addDays(n1,n2){
-    return n1+n2;
-  }
-  function presssedOption() {
-    console.log('Pressed')
-  }
+
+
   // const doc_username = route.params?.doc_username
   const [date, setDate] = useState(new Date())
   const [mode, setMode] = useState('date')
@@ -55,24 +52,49 @@ const MakeApp = ({ navigation, route }) => {
   const [text, setText] = useState('Empty')
   const [dateText, setDateText] = useState('Day/Month/Year')
   const [timeText, setTimeText] = useState('24 Hours Format')
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(false)
-    setDate(currentDate)
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    // console.log("A date has been picked: ", date.toLocaleDateString());
+    // console.log(date.getHours()+ ':' + date.getMinutes());
+    const pickDate = date.getDate() + ' - ' + parseInt(date.getMonth()+1) + ' - ' + date.getFullYear();
+    setDateText(pickDate)
+    // console.log(pickDate)
+    const pickTime = date.getHours() + ' : ' + date.getMinutes();
+    setTimeText(pickTime)
+    // console.log(timeText)
+    hideDatePicker();
+    // console.log(timeText)
+  };
+  function presssedOption() {
+    console.log('Pressed')
+  }
+  // const onChange = (event, selectedDate) => {
+  //   const currentDate = selectedDate || date;
+  //   setShow(false)
+  //   setDate(currentDate)
 
 
-    let temDate = new Date(currentDate)
-    let fDate = temDate.getDate() + '/' + (temDate.getMonth() + 1) + '/' + temDate.getFullYear();
-    let fTime = 'Hours ' + temDate.getHours() + ' | Minutes ' + temDate.getMinutes();
-    setText(fDate + '\n' + fTime)
-    setDateText(fDate)
-    setTimeText(fTime)
-    console.log(fDate + '\n' + fTime)
-  }
-  const showMode = (currentMode) => {
-    setShow(true)
-    setMode(currentMode)
-  }
+  //   let temDate = new Date(currentDate)
+  //   let fDate = temDate.getDate() + '/' + (temDate.getMonth() + 1) + '/' + temDate.getFullYear();
+  //   let fTime = 'Hours ' + temDate.getHours() + ' | Minutes ' + temDate.getMinutes();
+  //   setText(fDate + '\n' + fTime)
+  //   setDateText(fDate)
+  //   setTimeText(fTime)
+  //   console.log(fDate + '\n' + fTime)
+  // }
+  // const showMode = (currentMode) => {
+  //   setShow(true)
+  //   setMode(currentMode)
+  // }
 
 
 
@@ -87,48 +109,56 @@ const MakeApp = ({ navigation, route }) => {
       time: timeText,
       payment_method: payment,
       problem: problem,
-      status: 'Unconfirmed', 
+      status: 'Unconfirmed',
       doc_username: doctor.doc_username,
       patient_username: patient.patient_username,
       patient_num: patient.patient_num,
       doc_location: doctor.doc_location,
-      app_id:  uid,
+      app_id: uid,
     })
+    console.log('created app')
   }
   return (
     <View style={styles.contents}>
       <View style={styles.container}>
-        
+
         <KeyboardAvoidingView>
           {/* <Text style={styles.label}>Speciality</Text>
           <TextInput placeholder='Catergory' style={styles.textInput} value={doctor.doc_speciality} editable={false}/> */}
           <Text style={styles.label}>Doctor Name</Text>
-          <TextInput placeholder='Doctor' style={styles.textInput} value={doctor.doc_username} editable={false}/>
+          <TextInput placeholder='Doctor' style={styles.textInput} value={doctor.doc_username} editable={false} />
           {/* <Text style={styles.label}>Hospital Name</Text>
           <TextInput placeholder='Hospital' style={styles.textInput} value={doctor.doc_location} editable={false}/> */}
           {/* <Text>{doctor.doc_username}</Text> */}
-          <Text style={styles.label}>Date</Text>
-          <KeyboardAvoidingView style={styles.picker}>
-            <Text style={styles.displayedText}>{dateText}</Text>
-            <Pressable >
-              <Text style={styles.pickButton} onPress={() => showMode('date')}>Select</Text>
-            </Pressable>
-          </KeyboardAvoidingView>
+          
+          <Button title="Show Date & Time Picker" onPress={showDatePicker} />
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode={"datetime"}
+
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+          />
           <Text style={styles.label}>Time</Text>
           <KeyboardAvoidingView style={styles.picker}>
             <Text style={styles.displayedText}>{timeText}</Text>
-            <Pressable >
-              <Text style={styles.pickButton} onPress={() => showMode('time')}>Select</Text>
-            </Pressable>
+
+          </KeyboardAvoidingView>
+          <Text style={styles.label}>Date</Text>
+          <KeyboardAvoidingView style={styles.picker}>
+            <Text style={styles.displayedText}>{dateText}</Text>
+
           </KeyboardAvoidingView>
           <Text style={styles.label}>Payment Method</Text>
-          <TextInput placeholder='Ex: Cash' style={styles.textInput} onChangeText={(text) => setPayment(text)}/>
+          <TextInput placeholder='Ex: Cash' style={styles.textInput} onChangeText={(text) => setPayment(text)} />
           <Text style={styles.label}>Your illness</Text>
-          <TextInput multiline numberOfLines={4} maxLength={40} placeholder='Ex: Fever' style={styles.textInput} onChangeText={(text) => setProblem(text)}/>
+          <TextInput multiline numberOfLines={4} maxLength={40} placeholder='Ex: Fever' style={styles.textInput} onChangeText={(text) => setProblem(text)} />
+
+
         </KeyboardAvoidingView>
-      
+
         {/* <Text style={styles.h1}>Doctor</Text> */}
-        
+
 
 
 
@@ -136,18 +166,18 @@ const MakeApp = ({ navigation, route }) => {
 
 
         {show && (
-        <RNDateTimePicker
-        testID='dateTimePicker'
-        value={date}
-         mode={mode}
-        is24Hour={false}
-        display='default'
-        onChange={onChange}
-        minimumDate={new Date()}
-        
-        
-        />
-      )}
+          <RNDateTimePicker
+            testID='dateTimePicker'
+            value={date}
+            mode={mode}
+            is24Hour={false}
+            display='default'
+            onChange={onChange}
+            minimumDate={new Date()}
+
+
+          />
+        )}
 
 
 
@@ -242,10 +272,10 @@ const styles = StyleSheet.create({
 
 
   },
-  label:{
+  label: {
     fontSize: 14,
-    
-},
+
+  },
   picker: {
     flexDirection: 'row',
     justifyContent: 'space-between',
